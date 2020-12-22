@@ -192,4 +192,4 @@ async def on_message(message):
             print('----------')
             
 #Login to discord   
-client.run(TOKEN)
+client.run(os.getenv(TOKEN))
