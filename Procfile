@@ -1,1 +1,1 @@
-worker: node ScuffedBot.py
+worker: python3 ScuffedBot.py
