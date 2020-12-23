@@ -63,18 +63,21 @@ class User(commands.Cog):
             #Get Username
             sent = await ctx.send('How would you like to be called?')
             try:
-                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                 username = msg
+                print(1)
                 if msg:
                     sent = await ctx.send('What is your scoresaber link?')
                     try:
-                        msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                        msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                         scoresaber = msg
+                        print(2)
                         if msg:
                             sent = await ctx.send('When is your birthday? [DD/MM/YYYY]')
                             try:
-                                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                                 birthday = msg
+                                print(3)
                                 if msg:
                                     doc_ref = dab.collection(user).document('data')
                                     doc_ref.set({
