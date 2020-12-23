@@ -113,7 +113,7 @@ async def on_message(message):
             print(authorid)
             if(user == authorid):
                 #add username
-                await message.send('How would you liek to be called?')
+                await message.channel.send('How would you like to be called?')
                 def check(m):
                     return m.content == username and m.channel == channel
 
@@ -124,7 +124,7 @@ async def on_message(message):
                     'scoresaber':'NONE',
                     'birthday':'NONE'})
                 #add scoresaber
-                await message.send('What is your scoresaber link?')
+                await message.channel.send('What is your scoresaber link?')
                 def check(m):
                     return m.content == scoresaber and m.channel == channel
                 
@@ -133,7 +133,7 @@ async def on_message(message):
                 doc_ref.update({
                         'scoresaber':scoresaber})
                 #add birthday
-                await message.send('When is your birtday? [DD/MM/YYYY]')
+                await message.channel.send('When is your birtday? [DD/MM/YYYY]')
                 def check(m):
                     return m.content == birthday and m.channel == channel
                 
