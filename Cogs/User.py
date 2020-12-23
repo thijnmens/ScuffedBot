@@ -47,13 +47,15 @@ class User(commands.Cog):
         
     #User Add
     @user.command()
-    async def add (self, ctx, argument1, argument2, argument3, argument4):
-        user = argument1
-        username = argument2
-        scoresaber = argument3
-        birthday = argument4
+    async def add (self, ctx, argument1=None, argument2=None, argument3=None):
+        user = ctx.author.name
+        username = argument1
+        scoresaber = argument2
+        birthday = argument3
         print(f'Recieved: >user add {user}')
-        authorid = ("!<@"+ctx.author.id+">")
+        a = ctx.author.id
+        print (user, username, scoresaber, birthday, a)
+        authorid = ("!<@"+a+">")
         print(authorid)
         if(user == authorid):
             doc_ref = dab.collection(user).document('data')
