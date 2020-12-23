@@ -15,7 +15,7 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 client = discord.Client()
-cred = credentials.Certificate({
+certificate = {
   "type": os.getenv("TYPE"),
   "project_id": os.getenv("PROJECT_ID"),
   "private_key_id": os.getenv("PRIVATE_KEY_ID"),
@@ -26,7 +26,8 @@ cred = credentials.Certificate({
   "token_uri": os.getenv("TOKEN_URI"),
   "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
   "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
-})
+}
+cred = credentials.Certificate(certificate)
 default_app = firebase_admin.initialize_app(cred)
 dab = firestore.client()
 
