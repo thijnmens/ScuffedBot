@@ -31,9 +31,7 @@ class User(commands.Cog):
     #User
     @commands.group(invoke_without_command=True)
     async def user(self, ctx, argument=None):
-        if argument is not None:
-            user = str(argument)
-        else:
+        if argument is None:
             user = str(f"<@!{ctx.author.id}>")
             ID = argument[3:]
             ID = ID[:-1]
