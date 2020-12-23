@@ -117,7 +117,6 @@ async def on_message(message):
                 def check(m):
                     return m.content == username and m.channel == channel
                 
-                username = username
                 msg = await client.wait_for('message', check=check)
                 doc_ref = dab.collection(user).document('data')
                 doc_ref.set({
@@ -142,7 +141,7 @@ async def on_message(message):
                 doc_ref = dab.collection(user).document('data')
                 doc_ref.update({
                         'birthday':birthday})
-                final = username + ' has sucessfully been added to the database'
+                final = user + ' has sucessfully been added to the database'
                 await message.channel.send(final)
                 print('Response: ', user, ' has sucessfully been added to the database')
                 print('----------')
