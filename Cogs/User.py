@@ -61,41 +61,38 @@ class User(commands.Cog):
         print(authorid)
         if(user == authorid):
             #Get Username
-            await ctx.send('How would you like to be called?')
-            def check(msg):
-                return msg.author == ctx.author and msg.channel == ctx.channel
+            sent = await ctx.send('How would you like to be called?')
             try:
-                msg = await client.wait_for("message", check=check, timeout=30)
+                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                 username = msg
+                if msg:
+                    sent = await ctx.send('What is your scoresaber link?')
+                    try:
+                        msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                        scoresaber = msg
+                        if msg:
+                            sent = await ctx.send('When is your birthday? [DD/MM/YYYY]')
+                            try:
+                                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                                birthday = msg
+                                if msg:
+                                    doc_ref = dab.collection(user).document('data')
+                                    doc_ref.set({
+                                        'username':username,
+                                        'scoresaber':scoresaber,
+                                        'birthday':birthday})
+                                    await ctx.send(f'{username} has sucessfully been added to the database')
+                                    print(f'Response: {username} has sucessfully been added to the database')
+                                    print('----------')
+                            except asyncio.TimeoutError:
+                                await sent.delete()
+                                await ctx.send('You did not reply in time, please restart the process')
+                    except asyncio.TimeoutError:
+                        await sent.delete()
+                        await ctx.send('You did not reply in time, please restart the process')
             except asyncio.TimeoutError:
-                await ctx.send("Sorry, you didn't reply in time!")
-            #Get Scoresaber
-            await ctx.send('What is your scoresaber link?')
-            def check(msg):
-                return msg.author == ctx.author and msg.channel == ctx.channel
-            try:
-                msg = await client.wait_for("message", check=check, timeout=30)
-                scoresaber = msg
-            except asyncio.TimeoutError:
-                await ctx.send("Sorry, you didn't reply in time!")
-            #Get Birthday
-            await ctx.send('When is your birthday? [DD/MM/YYYY]')
-            def check(msg):
-                return msg.author == ctx.author and msg.channel == ctx.channel
-            try:
-                msg = await client.wait_for("message", check=check, timeout=30)
-                birthday = msg
-            except asyncio.TimeoutError:
-                await ctx.send("Sorry, you didn't reply in time!")
-            doc_ref = dab.collection(user).document('data')
-            doc_ref.set({
-                'username':username,
-                'scoresaber':scoresaber,
-                'birthday':birthday})
-            final = f'{user} has sucessfully been added to the database'
-            await ctx.send(final)
-            print(f'Response: {user} has sucessfully been added to the database')
-            print('----------')
+                await sent.delete()
+                await ctx.send('You did not reply in time, please restart the process')
         else:
             await ctx.send('You can\'t add someone else to the database')
             print('You can\'t add someone else to the database')
