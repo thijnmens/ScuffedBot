@@ -31,11 +31,14 @@ class User(commands.Cog):
     #User
     @commands.group(invoke_without_command=True)
     async def user(self, ctx, argument=None):
-        if argument is None:
-            user = str(f"<@!{ctx.author.id}>")
+        print (ctx.author.id)
+        if argument is not None:
+            user = str(argument)
             ID = argument[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
+        else: 
+            user = str(f"<@!{ctx.author.id}>")
         print(f'Recieved: >user {user}')
         ref = dab.collection(user).document('data').get()
         username = ref.get('username')
