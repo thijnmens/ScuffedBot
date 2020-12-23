@@ -10,6 +10,7 @@ from discord.ext import commands
 from discord.utils import get
 
 intents = discord.Intents.default()
+intents.members = True
 client = commands.Bot(command_prefix=">", intents=intents, case_insensitive=True)
 client.remove_command('help')
 cwd = os.getcwd()

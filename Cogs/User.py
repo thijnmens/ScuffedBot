@@ -26,7 +26,7 @@ class User(commands.Cog):
     
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Text cog loaded")
+        print("User cog loaded")
     
     #User
     @commands.group(invoke_without_command=True)
@@ -35,7 +35,6 @@ class User(commands.Cog):
             user = str(argument)
         else:
             user = ctx.author.name
-        user = str(argument)
         print(f'Recieved: >user {user}')
         ref = dab.collection(user).document('data').get()
         username = ref.get('username')
@@ -57,11 +56,10 @@ class User(commands.Cog):
         scoresaber = argument2
         birthday = argument3
         print(f'Recieved: >user add {user}')
-        a = ctx.author.id
-        print (user, username, scoresaber, birthday, a)
-        authorid = str(f"!<@{a}>")
+        print (user, username, scoresaber, birthday, ctx.author.id)
+        authorid = str(f"<!@{ctx.author.id}>")
         print(authorid)
-        if(user == authorid):
+        if(username == authorid):
             doc_ref = dab.collection(user).document('data')
             doc_ref.set({
                 'username':username,
@@ -79,7 +77,7 @@ class User(commands.Cog):
     #User Remove
     async def remove(self, ctx, argument1):
         user = argument1
-        authorid = ("!<@"+ctx.author.id+">")
+        authorid = str(f"<@!{ctx.author.id}>")
         print(f'Recieved: >user remove {user}')
         if(user == authorid):
             dab.collection(user).document('data').delete()
@@ -96,7 +94,7 @@ class User(commands.Cog):
     async def update(self, ctx, argument1, argument2, argument3):
         user = argument1
         typec = argument2
-        authorid = ("!<@"+ctx.author.id+">")
+        authorid = str(f"<@!{ctx.author.id}>")
         if(typec == 'username'):
             print(f'Recieved: >user update username {user}')
             username = argument3

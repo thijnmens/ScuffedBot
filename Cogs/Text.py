@@ -60,7 +60,7 @@ class Text(commands.Cog):
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
         embed.add_field(name=">help", value="this fancy page", inline=False)
         embed.add_field(name=">user <mention>", value="get the info of a user", inline=False)
-        embed.add_field(name=">user add <mention> <username> <scoresaber> <b-day>", value="add yourself to the userbase, if you don't want to fill something in, pls use NONE", inline=False)
+        embed.add_field(name=">user add <mention> <username> <scoresaber> <b-day>", value="add yourself to the userbase, if you don't want to fill something in, pls use ``None``", inline=False)
         embed.add_field(name=">user update <mention> <field> <new value>", value="Update your info", inline=False)
         embed.add_field(name=">quote", value="idk, a random quote?", inline=False)
         embed.add_field(name=">hello", value="just... don't", inline=False)
