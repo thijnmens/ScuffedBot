@@ -25,7 +25,7 @@ print({
   "auth_uri": os.getenv("AUTH_URI"),
   "token_uri": os.getenv("TOKEN_URI"),
   "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-u399f%40scuffed-bot.iam.gserviceaccount.com"
+  "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL")
 })
 cred = credentials.Certificate({
   "type": "service_account",
