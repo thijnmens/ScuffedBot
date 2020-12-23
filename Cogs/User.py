@@ -34,7 +34,7 @@ class User(commands.Cog):
         if argument is not None:
             user = str(argument)
         else:
-            user = ctx.author.name
+            user = str(f"<@!{ctx.author.id}>")
         print(f'Recieved: >user {user}')
         ref = dab.collection(user).document('data').get()
         username = ref.get('username')
@@ -50,7 +50,7 @@ class User(commands.Cog):
         
     #User Add
     @user.command()
-    async def add (self, ctx, argument= None, argument1=None, argument2=None, argument3=None):
+    async def add (self, ctx, argument=None, argument1=None, argument2=None, argument3=None):
         user = argument
         username = argument1
         scoresaber = argument2
