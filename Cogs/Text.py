@@ -1,4 +1,4 @@
-import discord, os, json
+import discord, os, json, requests
 from discord.ext import commands
 from discord.utils import get
 

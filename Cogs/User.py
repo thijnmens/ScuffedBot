@@ -24,6 +24,10 @@ class User(commands.Cog):
     def __init__(self, client):
         self.client = client
     
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("Text cog loaded")
+    
     #User
     @commands.group(invoke_without_command=True)
     async def user(self, ctx, argument=None):
@@ -55,7 +59,7 @@ class User(commands.Cog):
         print(f'Recieved: >user add {user}')
         a = ctx.author.id
         print (user, username, scoresaber, birthday, a)
-        authorid = ("!<@"+a+">")
+        authorid = str(f"!<@{a}>")
         print(authorid)
         if(user == authorid):
             doc_ref = dab.collection(user).document('data')
