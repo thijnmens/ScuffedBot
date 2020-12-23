@@ -57,7 +57,7 @@ class User(commands.Cog):
         birthday = argument3
         print(f'Recieved: >user add {user}')
         print (user, username, scoresaber, birthday, ctx.author.id)
-        authorid = str(f"<!@{ctx.author.id}>")
+        authorid = str(f"<@!{ctx.author.id}>")
         print(authorid)
         if(username == authorid):
             doc_ref = dab.collection(user).document('data')
