@@ -17,7 +17,7 @@ from firebase_admin import db
 client = discord.Client()
 cred = credentials.Certificate({
   "type": "service_account",
-  "project_id": "scuffed-bot",
+  "project_id": os.getenv("PROJECT_ID").replace('\\n', '\n'),
   "private_key_id": os.getenv("PRIVATE_KEY_ID").replace('\\n', '\n'),
   "private_key": os.getenv("PRIVATE_KEY").replace('\\n', '\n'),
   "client_email": os.getenv("CLIENT_EMAIL").replace('\\n', '\n'),
