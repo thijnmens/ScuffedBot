@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin
+import discord, os, requests, json, firebase_admin, asyncio
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -60,6 +60,33 @@ class User(commands.Cog):
         authorid = str(f"<@!{ctx.author.id}>")
         print(authorid)
         if(user == authorid):
+            #Get Username
+            await ctx.send('How would you like to be called?')
+            def check(msg):
+                return msg.author == ctx.author and msg.channel == ctx.channel
+            try:
+                msg = await client.wait_for("message", check=check, timeout=30)
+                username = msg
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you didn't reply in time!")
+            #Get Scoresaber
+            await ctx.send('What is your scoresaber link?')
+            def check(msg):
+                return msg.author == ctx.author and msg.channel == ctx.channel
+            try:
+                msg = await client.wait_for("message", check=check, timeout=30)
+                scoresaber = msg
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you didn't reply in time!")
+            #Get Birthday
+            await ctx.send('When is your birthday? [DD/MM/YYYY]')
+            def check(msg):
+                return msg.author == ctx.author and msg.channel == ctx.channel
+            try:
+                msg = await client.wait_for("message", check=check, timeout=30)
+                birthday = msg
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you didn't reply in time!")
             doc_ref = dab.collection(user).document('data')
             doc_ref.set({
                 'username':username,
