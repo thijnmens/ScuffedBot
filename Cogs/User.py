@@ -35,6 +35,9 @@ class User(commands.Cog):
             user = str(argument)
         else:
             user = str(f"<@!{ctx.author.id}>")
+            ID = argument[3:]
+            ID = ID[:-1]
+            ctx.author = self.client.get_user(int(ID))
         print(f'Recieved: >user {user}')
         ref = dab.collection(user).document('data').get()
         username = ref.get('username')
@@ -44,6 +47,7 @@ class User(commands.Cog):
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
+        embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: embed')
         print('----------')
