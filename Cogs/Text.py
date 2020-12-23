@@ -1,4 +1,4 @@
-import discord, logging, os, json
+import discord, os, json
 from discord.ext import commands
 from discord.utils import get
 
@@ -15,7 +15,7 @@ class Text(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logging.info("Text cog loaded")
+        print("Text cog loaded")
 
     #Commands List
     @commands.Cog.listener('on_message')
@@ -26,35 +26,35 @@ class Text(commands.Cog):
     #Test
     @commands.command()
     async def test(self, ctx):
-        logging.info('Recieved: >test')
-        logging.info(ctx.message.author)
-        logging.info(ctx.message.content)
-        logging.info(ctx.message.author.id)
+        print('Recieved: >test')
+        print(ctx.message.author)
+        print(ctx.message.content)
+        print(ctx.message.author.id)
         await ctx.send('testing complete')
-        logging.info('Response: testing complete')
-        logging.info('----------')
+        print('Response: testing complete')
+        print('----------')
 
     #Hello
     @commands.command()
     async def hello(self, ctx):
-        logging.info('Recieved: >hello')
+        print('Recieved: >hello')
         await ctx.send('Owo')
-        logging.info('Response: Owo')
-        logging.info('----------')
+        print('Response: Owo')
+        print('----------')
 
     #Quote
     @commands.command()
     async def quote(self, ctx):
-        logging.info('Recieved: >quote')
+        print('Recieved: >quote')
         final = get_quote()
         await ctx.send(final)
-        logging.info(f'Response: {final}')
-        logging.info('----------')
+        print(f'Response: {final}')
+        print('----------')
     
     #Help
     @commands.command()
     async def help(self, ctx):
-        logging.info('Recieved: >help ')
+        print('Recieved: >help ')
         embed=discord.Embed(title="Help", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ", description="You can find all kinds of commands here, most of them are probably broken", color=0xff0000)
         embed.set_author(name="Thijnmens", url="https://github.com/thijnmens/", icon_url="https://cdn.discordapp.com/avatars/490534335884165121/eaeff60636ebf53040d8d5c0761c6c67.png?size=256")
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
@@ -66,8 +66,8 @@ class Text(commands.Cog):
         embed.add_field(name=">hello", value="just... don't", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         await ctx.send(embed=embed)
-        logging.info('Response: embed')
-        logging.info('----------')
+        print('Response: embed')
+        print('----------')
 
 def setup(client):    
     client.add_cog(Text(client))

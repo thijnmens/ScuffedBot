@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin, logging
+import discord, os, requests, json, firebase_admin
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -32,7 +32,7 @@ class User(commands.Cog):
         else:
             user = ctx.author.name
         user = str(argument)
-        logging.info(f'Recieved: >user {user}')
+        print(f'Recieved: >user {user}')
         ref = dab.collection(user).document('data').get()
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
@@ -42,8 +42,8 @@ class User(commands.Cog):
         embed.add_field(name="Birthday", value=birthday, inline=True)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         await ctx.send(embed=embed)
-        logging.info('Response: embed')
-        logging.info('----------')
+        print('Response: embed')
+        print('----------')
         
     #User Add
     @user.command()
@@ -52,7 +52,7 @@ class User(commands.Cog):
         username = argument2
         scoresaber = argument3
         birthday = argument4
-        logging.info(f'Recieved: >user add {user}')
+        print(f'Recieved: >user add {user}')
         authorid = ("!<@"+ctx.author.id+">")
         print(authorid)
         if(user == authorid):
@@ -63,28 +63,28 @@ class User(commands.Cog):
                 'birthday':birthday})
             final = f'{user} has sucessfully been added to the database'
             await ctx.send(final)
-            logging.info(f'Response: {user} has sucessfully been added to the database')
-            logging.info('----------')
+            print(f'Response: {user} has sucessfully been added to the database')
+            print('----------')
         else:
             await ctx.send('You can\'t add someone else to the database')
-            logging.info('You can\'t add someone else to the database')
-            logging.info('----------')
+            print('You can\'t add someone else to the database')
+            print('----------')
                 
     #User Remove
     async def remove(self, ctx, argument1):
         user = argument1
         authorid = ("!<@"+ctx.author.id+">")
-        logging.info(f'Recieved: >user remove {user}')
+        print(f'Recieved: >user remove {user}')
         if(user == authorid):
             dab.collection(user).document('data').delete()
             final = user + ' has sucessfully been removed to the database'
             await ctx.send(final)
-            logging.info(f'Response: {user} has sucessfully been removed to the database')
-            logging.info('----------')
+            print(f'Response: {user} has sucessfully been removed to the database')
+            print('----------')
         else:
             await ctx.send('You can\'t remove someone else to the database')
-            logging.info('You can\'t remove someone else to the database')
-            logging.info('----------')
+            print('You can\'t remove someone else to the database')
+            print('----------')
                 
     #User update
     async def update(self, ctx, argument1, argument2, argument3):
@@ -92,7 +92,7 @@ class User(commands.Cog):
         typec = argument2
         authorid = ("!<@"+ctx.author.id+">")
         if(typec == 'username'):
-            logging.info(f'Recieved: >user update username {user}')
+            print(f'Recieved: >user update username {user}')
             username = argument3
             if(user == authorid):
                 doc_ref = dab.collection(user).document('data')
@@ -100,10 +100,10 @@ class User(commands.Cog):
                     'username':username})
                 final = 'username has been updated'
                 await ctx.send(final)
-                logging.info(f'Response: {user}\'s username has sucessfully been updated')
-                logging.info('----------')
+                print(f'Response: {user}\'s username has sucessfully been updated')
+                print('----------')
         if(typec == 'scoresaber'):
-            logging.info(f'Recieved: >user update scoresaber {user}')
+            print(f'Recieved: >user update scoresaber {user}')
             scoresaber = argument3
             if(user == authorid):
                 doc_ref = dab.collection(user).document('data')
@@ -111,10 +111,10 @@ class User(commands.Cog):
                     'scoresaber':scoresaber})
                 final = 'Scoresaber has been updated'
                 await ctx.send(final)
-                logging.info(f'Response: {user}\'s scoresaber has sucessfully been updated')
-                logging.info('----------')
+                print(f'Response: {user}\'s scoresaber has sucessfully been updated')
+                print('----------')
         if(typec == 'birthday'):
-            logging.info(f'Recieved: >user update birthday {user}')
+            print(f'Recieved: >user update birthday {user}')
             birthday = argument3
             if(user == authorid):
                 doc_ref = dab.collection(user).document('data')
@@ -122,12 +122,12 @@ class User(commands.Cog):
                     'birthday':birthday})
                 final = 'birthday has been updated'
                 await ctx.send(final)
-                logging.info(f'Response: {user}\'s birtday has sucessfully been updated')
-                logging.info('----------')
+                print(f'Response: {user}\'s birtday has sucessfully been updated')
+                print('----------')
         if(typec != 'birtday' or 'scoresaber' or 'username'):
             await ctx.send('You can\'t update someone elses database')
-            logging.info('You can\'t update someone elses database')
-            logging.info('----------')
+            print('You can\'t update someone elses database')
+            print('----------')
 
 def setup(client):    
     client.add_cog(User(client))

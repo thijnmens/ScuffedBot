@@ -1,4 +1,4 @@
-import sys, discord, math, asyncio, logging
+import sys, discord, math, asyncio
 from discord.ext import commands
 
 class ErrorHandler(commands.Cog):
@@ -21,13 +21,13 @@ class ErrorHandler(commands.Cog):
             return
 
         elif isinstance(error, commands.BadArgument):
-            logging.info("BadArgument ran")
+            print("BadArgument ran")
             return await ctx.send("Bad argument")
         elif isinstance(error, commands.CommandNotFound):
-            logging.info("CommandNotFound ran")
+            print("CommandNotFound ran")
             return await ctx.send("Command not found")
         elif isinstance(error, commands.BotMissingPermissions):
-            logging.info(f"BotMissingPermissions ran - {error.missing_perms[0]}")
+            print(f"BotMissingPermissions ran - {error.missing_perms[0]}")
             return await ctx.send(f"Bot missing the following permissions: {error.missing_perms[0]}")
         elif isinstance(error, commands.NotOwner):
                 return await ctx.send('Only the bot owner can run this command')
@@ -38,7 +38,7 @@ class ErrorHandler(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logging.info("ErrorHandler cog loaded")
+        print("ErrorHandler cog loaded")
 
 def setup(client):
     client.add_cog(ErrorHandler(client))
