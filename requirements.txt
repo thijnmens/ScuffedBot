@@ -1,3 +1,6 @@
 requests
 discord.py
 firebase-admin
+discord-ext-alternatives
+DiscordUtils
+asyncio
