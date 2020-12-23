@@ -2,52 +2,30 @@
 #      Scuffed Bot      #
 #########################
 # Created by: Thijnmens #
-#    Version: 1.0.0     #
+#    Version: 1.1.0     #
 #########################
 
-import discord
-import os
-import requests
-import json
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-from firebase_admin import db
+import discord, os, logging
+from discord.ext import commands
+from discord.utils import get
 
-client = discord.Client()
-cred = credentials.Certificate({
-  "type": "service_account",
-  "project_id": os.getenv("PROJECT_ID").replace('\\n', '\n'),
-  "private_key_id": os.getenv("PRIVATE_KEY_ID").replace('\\n', '\n'),
-  "private_key": os.getenv("PRIVATE_KEY").replace('\\n', '\n'),
-  "client_email": os.getenv("CLIENT_EMAIL").replace('\\n', '\n'),
-  "client_id": os.getenv("CLIENT_ID").replace('\\n', '\n'),
-  "auth_uri": os.getenv("AUTH_URI").replace('\\n', '\n'),
-  "token_uri": os.getenv("TOKEN_URI").replace('\\n', '\n'),
-  "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL").replace('\\n', '\n'),
-  "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL").replace('\\n', '\n')
-})
-default_app = firebase_admin.initialize_app(cred)
-dab = firestore.client()
+intents = discord.Intents.default()
+client = commands.Bot(command_prefix=">", intents=intents, case_insensitive=True)
+client.remove_command('help')
+logging.basicConfig(format='%(asctime)s:%(levelname)s:%(name)s: %(message)s',level=logging.INFO)
+cwd = os.getcwd()
+            
+try: #literally copy and pasted this from one of my discord bots lol
+    for filename in os.listdir(f'{cwd}/Cogs/'): #Heroku weird
+        if filename.endswith(".py"):
+           client.load_extension(f"Cogs.{filename[:-3]}")
+except Exception as e:
+    logging.critical(f"Possible fatal error:\n{e}\nThis means that the cogs have not started correctly!")
 
 #Bot Startup
 @client.event
 async def on_ready():
-    print('Bot has successfully launched as {0.user}'.format(client))
-
-#Get Random Quote
-def get_quote():
-    responce = requests.get('https://zenquotes.io/api/random')
-    json_data = json.loads(responce.text)
-    quote = json_data[0]['q'] + ' -' + json_data[0]['a']
-    return(quote)
-
-
-#Commands List
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+    logging.info('Bot has successfully launched as {0.user}'.format(client))
 
     msg = message.content
     author = str(message.author)
