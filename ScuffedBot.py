@@ -27,6 +27,7 @@ certificate = {
   "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-u399f%40scuffed-bot.iam.gserviceaccount.com"
 }
+print(certificate)
 cred = credentials.Certificate(certificate)
 default_app = firebase_admin.initialize_app(cred)
 dab = firestore.client()
