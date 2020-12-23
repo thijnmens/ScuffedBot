@@ -105,21 +105,43 @@ async def on_message(message):
         
         #User Add
         if(command[1] == 'add'):
+            channel = message.channel
             user = command[2]
-            username = command[3]
-            scoresaber = command[4]
-            birthday = command [5]
             print('Recieved: >user add ', user)
             userh = author.split('#')
             print(user)
             print(authorid)
             if(user == authorid):
+                #add username
+                await message.send('How would you liek to be called?')
+                def check(m):
+                    return m.content == username and m.channel == channel
+
+                msg = await client.wait_for('message', check=check)
                 doc_ref = dab.collection(user).document('data')
                 doc_ref.set({
                     'username':username,
-                    'scoresaber':scoresaber,
-                    'birthday':birthday})
-                final = user + ' has sucessfully been added to the database'
+                    'scoresaber':'NONE',
+                    'birthday':'NONE'})
+                #add scoresaber
+                await message.send('What is your scoresaber link?')
+                def check(m):
+                    return m.content == scoresaber and m.channel == channel
+                
+                msg = await client.wait_for('message', check=check)
+                doc_ref = dab.collection(user).document('data')
+                doc_ref.update({
+                        'scoresaber':scoresaber})
+                #add birthday
+                await message.send('When is your birtday? [DD/MM/YYYY]')
+                def check(m):
+                    return m.content == birthday and m.channel == channel
+                
+                msg = await client.wait_for('message', check=check)
+                doc_ref = dab.collection(user).document('data')
+                doc_ref.update({
+                        'birthday':birthday})
+                final = username + ' has sucessfully been added to the database'
                 await message.channel.send(final)
                 print('Response: ', user, ' has sucessfully been added to the database')
                 print('----------')
