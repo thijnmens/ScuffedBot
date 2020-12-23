@@ -15,7 +15,7 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 client = discord.Client()
-certificate = {
+print({
   "type": "service_account",
   "project_id": "scuffed-bot",
   "private_key_id": os.getenv("PRIVATE_KEY_ID"),
@@ -26,9 +26,19 @@ certificate = {
   "token_uri": os.getenv("TOKEN_URI"),
   "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-u399f%40scuffed-bot.iam.gserviceaccount.com"
-}
-print(certificate)
-cred = credentials.Certificate(certificate)
+})
+cred = credentials.Certificate({
+  "type": "service_account",
+  "project_id": "scuffed-bot",
+  "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+  "private_key": os.getenv("PRIVATE_KEY"),
+  "client_email": os.getenv("CLIENT_EMAIL"),
+  "client_id": os.getenv("CLIENT_ID"),
+  "auth_uri": os.getenv("AUTH_URI"),
+  "token_uri": os.getenv("TOKEN_URI"),
+  "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-u399f%40scuffed-bot.iam.gserviceaccount.com"
+})
 default_app = firebase_admin.initialize_app(cred)
 dab = firestore.client()
 
