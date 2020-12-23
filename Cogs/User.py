@@ -78,15 +78,17 @@ class User(commands.Cog):
                                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                                 birthday = msg
                                 print(3)
-                                if msg:
-                                    doc_ref = dab.collection(user).document('data')
-                                    doc_ref.set({
-                                        'username':username,
-                                        'scoresaber':scoresaber,
-                                        'birthday':birthday})
-                                    await ctx.send(f'{username} has sucessfully been added to the database')
-                                    print(f'Response: {username} has sucessfully been added to the database')
-                                    print('----------')
+                                print(username)
+                                print(scoresaber)
+                                print(birthday)
+                                doc_ref = dab.collection(user).document('data')
+                                doc_ref.set({
+                                    'username':username,
+                                    'scoresaber':scoresaber,
+                                    'birthday':birthday})
+                                await ctx.send(f'{username} has sucessfully been added to the database')
+                                print(f'Response: {username} has sucessfully been added to the database')
+                                print('----------')
                             except asyncio.TimeoutError:
                                 await sent.delete()
                                 await ctx.send('You did not reply in time, please restart the process')
