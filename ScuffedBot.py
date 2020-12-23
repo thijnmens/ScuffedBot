@@ -116,7 +116,8 @@ async def on_message(message):
                 await message.channel.send('How would you like to be called?')
                 def check(m):
                     return m.content == username and m.channel == channel
-
+                
+                username = username
                 msg = await client.wait_for('message', check=check)
                 doc_ref = dab.collection(user).document('data')
                 doc_ref.set({
