@@ -50,8 +50,8 @@ class User(commands.Cog):
         
     #User Add
     @user.command()
-    async def add (self, ctx, argument1=None, argument2=None, argument3=None):
-        user = ctx.author.name
+    async def add (self, ctx, argument= None, argument1=None, argument2=None, argument3=None):
+        user = argument
         username = argument1
         scoresaber = argument2
         birthday = argument3
@@ -59,7 +59,7 @@ class User(commands.Cog):
         print (user, username, scoresaber, birthday, ctx.author.id)
         authorid = str(f"<@!{ctx.author.id}>")
         print(authorid)
-        if(username == authorid):
+        if(user == authorid):
             doc_ref = dab.collection(user).document('data')
             doc_ref.set({
                 'username':username,
