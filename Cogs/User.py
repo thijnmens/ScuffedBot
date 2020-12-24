@@ -67,19 +67,19 @@ class User(commands.Cog):
             sent = await ctx.send('How would you like to be called?')
             try:
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                username = msg
+                username = msg.content
                 print(1)
                 if msg:
                     sent = await ctx.send('What is your scoresaber link?')
                     try:
                         msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                        scoresaber = msg
+                        scoresaber = msg.content
                         print(2)
                         if msg:
                             sent = await ctx.send('When is your birthday? [DD/MM/YYYY]')
                             try:
                                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                                birthday = msg
+                                birthday = msg.content
                                 print(3)
                                 print(username)
                                 print(scoresaber)
