@@ -62,6 +62,7 @@ class Text(commands.Cog):
         embed.add_field(name=">user <mention>", value="get the info of a user", inline=False)
         embed.add_field(name=">user add <mention> <username> <scoresaber> <b-day>", value="add yourself to the userbase, if you don't want to fill something in, pls use ``None``", inline=False)
         embed.add_field(name=">user update <mention> <field> <new value>", value="Update your info", inline=False)
+        embed.add_field(name=">user remove <mention>", value="Removes your info from the database", inline=False)
         embed.add_field(name=">quote", value="idk, a random quote?", inline=False)
         embed.add_field(name=">hello", value="just... don't", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")

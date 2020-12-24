@@ -31,7 +31,6 @@ class User(commands.Cog):
     #User
     @commands.group(invoke_without_command=True)
     async def user(self, ctx, argument=None):
-        print (ctx.author.id)
         if argument is not None:
             user = str(argument)
             ID = argument[3:]
@@ -61,7 +60,6 @@ class User(commands.Cog):
         scoresaber = argument2
         birthday = argument3
         print(f'Recieved: >user add {user}')
-        print (user, username, scoresaber, birthday, ctx.author.id)
         authorid = str(f"<@!{ctx.author.id}>")
         print(authorid)
         if(user == authorid):
@@ -109,6 +107,7 @@ class User(commands.Cog):
             print('----------')
                 
     #User Remove
+    @user.command()
     async def remove(self, ctx, argument1):
         user = argument1
         authorid = str(f"<@!{ctx.author.id}>")
@@ -125,6 +124,7 @@ class User(commands.Cog):
             print('----------')
                 
     #User update
+    @user.command()
     async def update(self, ctx, argument1, argument2, argument3):
         user = argument1
         typec = argument2
