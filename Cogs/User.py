@@ -30,9 +30,9 @@ def get_birthdays():
 
 schedule.every().day.at("12:00").do(get_birthdays)
 
-while 1:
+while True:
     schedule.run_pending()
-    time.sleep(1)
+    continue
 
 class User(commands.Cog):
     def __init__(self, client):
