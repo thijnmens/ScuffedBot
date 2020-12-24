@@ -28,9 +28,9 @@ class Text(commands.Cog):
 
     #Hello
     @commands.command()
-    async def hello(self, ctx):
-        print('Recieved: >hello')
-        await ctx.send('Owo')
+    async def ping(self, ctx):
+        print('Recieved: >ping')
+        await ctx.send(f'uwu *notices your ping* Owo ``{round(self.client.latency * 1000)}ms``')
         print('Response: Owo')
         print('----------')
 
@@ -53,10 +53,10 @@ class Text(commands.Cog):
         embed.add_field(name=">help", value="this fancy page", inline=False)
         embed.add_field(name=">user [mention]", value="get the info of a user", inline=False)
         embed.add_field(name=">user add", value="add yourself to the userbase, if you don't want to fill something in, pls use ``None``", inline=False)
-        embed.add_field(name=">user update <mention> <field> <new value>", value="Update your info", inline=False)
-        embed.add_field(name=">user remove <mention>", value="Removes your info from the database", inline=False)
-        embed.add_field(name=">quote", value="idk, a random quote?", inline=False)
-        embed.add_field(name=">hello", value="just... don't", inline=False)
+        embed.add_field(name=">user update <field> <new value>", value="Update your info", inline=False)
+        embed.add_field(name=">user remove", value="Removes your info from the database", inline=False)
+        embed.add_field(name=">quote", value="Posts a random quote", inline=False)
+        embed.add_field(name=">ping", value="Pings Scuffed Bot", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         await ctx.send(embed=embed)
         print('Response: embed')

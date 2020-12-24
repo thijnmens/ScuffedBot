@@ -155,7 +155,7 @@ class User(commands.Cog):
             await ctx.send("Your birthday has been updated")
             print(f"{ctx.author.name} has updated their birthday to {argument2}")
             print('----------')
-        if(argument1 == 'None'):
+        if(argument1 is None):
             await ctx.send('Please include an option to change (username, scoresaber, birthday)')
             print('no argument1 given')
             print('----------')
