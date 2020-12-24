@@ -1,11 +1,9 @@
-import discord, os, json, requests, schedule, time, firebase_admin, asyncio
+import discord, os, json, requests
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import db
-
-dab = firestore.client()
 
 #Get Random Quote
 def get_quote():
@@ -13,20 +11,6 @@ def get_quote():
     json_data = json.loads(responce.text)
     quote = json_data[0]['q'] + ' -' + json_data[0]['a']
     return(quote)
-
-#Check for birthdays
-def get_birthdays():
-    collectionlist = dab.collection_group()
-    print(collectionlist)
-    ref = dab.collection(collectionlist).document('data').get()
-    username = ref.get('username')
-    scoresaber = ref.get('scoresaber')
-    birthday = ref.get('birthday')
-schedule.every().day.at('12:00').do(get_birthdays)
-
-while 1:
-    schedule.run_pending()
-    time.sleep(1)
 
 class Text(commands.Cog):
     def __init__(self, client):
@@ -41,15 +25,6 @@ class Text(commands.Cog):
     async def on_message(self, message):
         if message.author == self.client.user:
             return
-
-    #Test
-    @commands.command()
-    async def test(self, ctx):
-        print('Recieved: >test')
-        get_birthdays()
-        await ctx.send('testing complete')
-        print('Response: testing complete')
-        print('----------')
 
     #Hello
     @commands.command()
