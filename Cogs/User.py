@@ -24,7 +24,7 @@ dab = firestore.client()
 try:
     def get_birthdays():
         try:
-            collectionlist = dab.collection_group()
+            collectionlist = dab.collections('top')
         except Exception as a:
             print(a)
         print(collectionlist)
