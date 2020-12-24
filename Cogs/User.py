@@ -21,18 +21,17 @@ default_app = firebase_admin.initialize_app(cred)
 dab = firestore.client()
 
 #Check for birthdays
-def get_birthdays():
-    collectionlist = dab.collection_group()
-    print(collectionlist)
-    ref = dab.collection(collectionlist).document('data').get()
-    username = ref.get('username')
-    scoresaber = ref.get('scoresaber')
-    birthday = ref.get('birthday')
-    schedule.every().day.at("12:00").do(get_birthdays)
-
-while 1:
-    schedule.run_pending()
-    time.sleep(1)
+try:
+    def get_birthdays():
+        collectionlist = dab.collection_group()
+        print(collectionlist)
+        ref = dab.collection(collectionlist).document('data').get()
+        username = ref.get('username')
+        scoresaber = ref.get('scoresaber')
+        birthday = ref.get('birthday')
+        schedule.every().day.at("12:00").do(get_birthdays)
+except Exception as e:
+    print(e)
 
 class User(commands.Cog):
     def __init__(self, client):
@@ -41,7 +40,7 @@ class User(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("User cog loaded")
-    
+
     #Test
     @commands.command()
     async def test(self, ctx):
