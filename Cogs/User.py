@@ -32,21 +32,17 @@ class User(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def user(self, ctx, argument=None):
         if argument is not None:
-            user = str(argument)
             ID = argument[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-        else: 
-            user = str(f"<@!{ctx.author.id}>")
-        print(f'Recieved: >user {user}')
-        ref = dab.collection(user).document('data').get()
+        print(f'Recieved: >user {ctx.author.id}')
+        ref = dab.collection(ctx.author.id).document('data').get()
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
         embed=discord.Embed(title=username, color=0xff0000)
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
-        embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: embed')
@@ -54,117 +50,82 @@ class User(commands.Cog):
         
     #User Add
     @user.command()
-    async def add (self, ctx, argument=None, argument1=None, argument2=None, argument3=None):
-        user = argument
-        username = argument1
-        scoresaber = argument2
-        birthday = argument3
-        print(f'Recieved: >user add {user}')
-        authorid = str(f"<@!{ctx.author.id}>")
-        print(authorid)
-        if(user == authorid):
-            #Get Username
-            sent = await ctx.send('How would you like to be called?')
-            try:
-                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                username = msg.content
-                print(1)
-                if msg:
-                    sent = await ctx.send('What is your scoresaber link?')
-                    try:
-                        msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                        scoresaber = msg.content
-                        print(2)
-                        if msg:
-                            sent = await ctx.send('When is your birthday? [DD/MM/YYYY]')
-                            try:
-                                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                                birthday = msg.content
-                                print(3)
-                                print(username)
-                                print(scoresaber)
-                                print(birthday)
-                                doc_ref = dab.collection(user).document('data')
-                                doc_ref.set({
-                                    'username':username,
-                                    'scoresaber':scoresaber,
-                                    'birthday':birthday})
-                                await ctx.send(f'{username} has sucessfully been added to the database')
-                                print(f'Response: {username} has sucessfully been added to the database')
-                                print('----------')
-                            except asyncio.TimeoutError:
-                                await sent.delete()
-                                await ctx.send('You did not reply in time, please restart the process')
-                    except asyncio.TimeoutError:
-                        await sent.delete()
-                        await ctx.send('You did not reply in time, please restart the process')
-            except asyncio.TimeoutError:
-                await sent.delete()
-                await ctx.send('You did not reply in time, please restart the process')
-        else:
-            await ctx.send('You can\'t add someone else to the database')
-            print('You can\'t add someone else to the database')
-            print('----------')
+    async def add (self, ctx):
+        print(f'Recieved: >user add {ctx.author.name}')
+        sent = await ctx.send('How would you like to be called?')
+        try:
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+            username = msg.content
+            print(username)
+            if msg:
+                sent = await ctx.send('What is your scoresaber link?')
+                try:
+                    msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                    scoresaber = msg.content
+                    print(scoresaber)
+                    if msg:
+                        sent = await ctx.send('When is your birthday? [DD/MM/YYYY]')
+                        try:
+                            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                            birthday = msg.content
+                            print(birthday)
+                            doc_ref = dab.collection(ctx.author.id).document('data')
+                            doc_ref.set({
+                                'username':username,
+                                'scoresaber':scoresaber,
+                                'birthday':birthday})
+                            await ctx.send(f'{ctx.author.name} has sucessfully been added to the database')
+                            print(f'Response: {ctx.author.name} has sucessfully been added to the database')
+                            print('----------')
+                        except asyncio.TimeoutError:
+                            await sent.delete()
+                            await ctx.send('You did not reply in time, please restart the process')
+                except asyncio.TimeoutError:
+                    await sent.delete()
+                    await ctx.send('You did not reply in time, please restart the process')
+        except asyncio.TimeoutError:
+            await sent.delete()
+            await ctx.send('You did not reply in time, please restart the process')
+
                 
     #User Remove
     @user.command()
-    async def remove(self, ctx, argument1):
-        user = argument1
-        authorid = str(f"<@!{ctx.author.id}>")
-        print(f'Recieved: >user remove {user}')
-        if(user == authorid):
-            dab.collection(user).document('data').delete()
-            final = user + ' has sucessfully been removed to the database'
-            await ctx.send(final)
-            print(f'Response: {user} has sucessfully been removed to the database')
-            print('----------')
-        else:
-            await ctx.send('You can\'t remove someone else to the database')
-            print('You can\'t remove someone else to the database')
-            print('----------')
+    async def remove(self, ctx):
+        dab.collection(ctx.author.id).document('data').delete()
+        await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
+        print(f"Response: {ctx.author.id} has been successfully removed to the database")
+        print('----------')
                 
     #User update
     @user.command()
-    async def update(self, ctx, argument1, argument2, argument3):
-        user = argument1
-        typec = argument2
-        authorid = str(f"<@!{ctx.author.id}>")
-        if(typec == 'username'):
-            print(f'Recieved: >user update username {user}')
-            username = argument3
-            if(user == authorid):
-                doc_ref = dab.collection(user).document('data')
-                doc_ref.update({
-                    'username':username})
-                final = 'username has been updated'
-                await ctx.send(final)
-                print(f'Response: {user}\'s username has sucessfully been updated')
-                print('----------')
-        if(typec == 'scoresaber'):
-            print(f'Recieved: >user update scoresaber {user}')
-            scoresaber = argument3
-            if(user == authorid):
-                doc_ref = dab.collection(user).document('data')
-                doc_ref.update({
-                    'scoresaber':scoresaber})
-                final = 'Scoresaber has been updated'
-                await ctx.send(final)
-                print(f'Response: {user}\'s scoresaber has sucessfully been updated')
-                print('----------')
-        if(typec == 'birthday'):
-            print(f'Recieved: >user update birthday {user}')
-            birthday = argument3
-            if(user == authorid):
-                doc_ref = dab.collection(user).document('data')
-                doc_ref.update({
-                    'birthday':birthday})
-                final = 'birthday has been updated'
-                await ctx.send(final)
-                print(f'Response: {user}\'s birtday has sucessfully been updated')
-                print('----------')
-        if(typec != 'birtday' or 'scoresaber' or 'username'):
-            await ctx.send('You can\'t update someone elses database')
-            print('You can\'t update someone elses database')
+    async def update(self, ctx, argument1=None, argument2=None):
+        if(argument1 == 'username'):
+            print(f'Recieved: >user update username {ctx.author.name}')
+            doc_ref = dab.collection(ctx.author.id).document('data')
+            doc_ref.update({
+                'username':argument2})
+            await ctx.send("Your username has been updated")
+            print(f"{ctx.author.name} has updated their username to {argument2}")
+            print('----------')
+        if(argument1 == 'scoresaber'):
+            print(f'Recieved: >user update scoresaber {ctx.author.name}')
+            doc_ref = dab.collection(ctx.author.id).document('data')
+            doc_ref.update({
+                'scoresaber':argument2})
+            await ctx.send("Your scoresaber has been updated")
+            print(f"{ctx.author.name} has updated their scoresaber to {argument2}")
+            print('----------')
+        if(argument1 == 'birthday'):
+            print(f'Recieved: >user update birthday {ctx.author.name}')
+            doc_ref = dab.collection(ctx.author.id).document('data')
+            doc_ref.update({
+                'birthday':argument2})
+            await ctx.send("Your birthday has been updated")
+            print(f"{ctx.author.name} has updated their birthday to {argument2}")
+            print('----------')
+        if(argument1 == 'None'):
+            await ctx.send('Please include an option to change (username, scoresaber, birthday)')
+            print('no argument1 given')
             print('----------')
 
 def setup(client):    
