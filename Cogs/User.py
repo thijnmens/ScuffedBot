@@ -21,13 +21,16 @@ default_app = firebase_admin.initialize_app(cred)
 dab = firestore.client()
 
 #Check for birthdays
-try:
-    def get_birthdays():
-        ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-        print(ref)
-        schedule.every().day.at("12:00").do(get_birthdays)
-except Exception as e:
-    print(e)
+def get_birthdays():
+    ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+    amount = len(ref) - 1
+
+
+schedule.every().day.at("12:00").do(get_birthdays)
+
+while 1:
+    schedule.run_pending()
+    time.sleep(1)
 
 class User(commands.Cog):
     def __init__(self, client):
@@ -93,6 +96,13 @@ class User(commands.Cog):
                                 'username':username,
                                 'scoresaber':scoresaber,
                                 'birthday':birthday})
+                            try:
+                                col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+                                col_ref.append(str(ctx.author.id))
+                                col_ref.update({
+                                    'collectionarray':col_ref})
+                            except Exception as e:
+                                print(e)
                             await ctx.send(f'{ctx.author.name} has sucessfully been added to the database')
                             print(f'Response: {ctx.author.name} has sucessfully been added to the database')
                             print('----------')
