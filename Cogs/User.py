@@ -36,18 +36,14 @@ class User(commands.Cog):
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
         print(f'Recieved: >user {ctx.author.id}')
-        user = str(ctx.author.id)
-        ref = dab.collection(user).document('data').get()
-        print ("collection")
+        ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
-        print ("ref get")
         embed=discord.Embed(title=username, color=0xff0000)
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
         embed.set_thumbnail(url=ctx.author.avatar_url)
-        print ("embed")
         await ctx.send(embed=embed)
         print('Response: embed')
         print('----------')
@@ -73,7 +69,7 @@ class User(commands.Cog):
                             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                             birthday = msg.content
                             print(birthday)
-                            doc_ref = dab.collection(ctx.author.id).document('data')
+                            doc_ref = dab.collection(str(ctx.author.id)).document('data')
                             doc_ref.set({
                                 'username':username,
                                 'scoresaber':scoresaber,
@@ -95,7 +91,7 @@ class User(commands.Cog):
     #User Remove
     @user.command()
     async def remove(self, ctx):
-        dab.collection(ctx.author.id).document('data').delete()
+        dab.collection(str(ctx.author.id)).document('data').delete()
         await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
         print(f"Response: {ctx.author.id} has been successfully removed to the database")
         print('----------')
@@ -105,7 +101,7 @@ class User(commands.Cog):
     async def update(self, ctx, argument1=None, argument2=None):
         if(argument1 == 'username'):
             print(f'Recieved: >user update username {ctx.author.name}')
-            doc_ref = dab.collection(ctx.author.id).document('data')
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'username':argument2})
             await ctx.send("Your username has been updated")
@@ -113,7 +109,7 @@ class User(commands.Cog):
             print('----------')
         if(argument1 == 'scoresaber'):
             print(f'Recieved: >user update scoresaber {ctx.author.name}')
-            doc_ref = dab.collection(ctx.author.id).document('data')
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'scoresaber':argument2})
             await ctx.send("Your scoresaber has been updated")
@@ -121,7 +117,7 @@ class User(commands.Cog):
             print('----------')
         if(argument1 == 'birthday'):
             print(f'Recieved: >user update birthday {ctx.author.name}')
-            doc_ref = dab.collection(ctx.author.id).document('data')
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'birthday':argument2})
             await ctx.send("Your birthday has been updated")
