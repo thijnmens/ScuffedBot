@@ -23,15 +23,8 @@ dab = firestore.client()
 #Check for birthdays
 try:
     def get_birthdays():
-        try:
-            collectionlist = dab.collections('top')
-        except Exception as a:
-            print(a)
-        print(collectionlist)
-        ref = dab.collection(collectionlist).document('data').get()
-        username = ref.get('username')
-        scoresaber = ref.get('scoresaber')
-        birthday = ref.get('birthday')
+        ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+        print(ref)
         schedule.every().day.at("12:00").do(get_birthdays)
 except Exception as e:
     print(e)
