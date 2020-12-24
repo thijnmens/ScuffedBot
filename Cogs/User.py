@@ -22,9 +22,11 @@ dab = firestore.client()
 
 #Check for birthdays
 def get_birthdays():
-    ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-    amount = len(ref) - 1
-
+    try:
+        ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+        amount = len(ref) - 1
+    except Exception as e:
+        print(e)
 
 schedule.every().day.at("12:00").do(get_birthdays)
 
@@ -48,7 +50,6 @@ class User(commands.Cog):
         await ctx.send('testing complete')
         print('Response: testing complete')
         print('----------')
-
 
     #User
     @commands.group(invoke_without_command=True)
