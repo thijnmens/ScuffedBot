@@ -19,6 +19,7 @@ cred = credentials.Certificate({
 })
 default_app = firebase_admin.initialize_app(cred)
 dab = firestore.client()
+check = False
 
 #Check for birthdays
 def get_birthdays():
@@ -30,9 +31,10 @@ def get_birthdays():
 
 schedule.every().day.at("12:00").do(get_birthdays)
 
-while True:
+while check == False:
     schedule.run_pending()
-    continue
+    check = True
+    break
 
 class User(commands.Cog):
     def __init__(self, client):
