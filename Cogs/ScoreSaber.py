@@ -44,7 +44,7 @@ class ScoreSaber(commands.Cog):
         scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
         playerName = playerInfo["playerName"]
-        playerCountryFlag = (emoji.emojize(f":{playerCountry}:", use_aliases=True, variant="emoji_type"))
+        playerCountryFlag = (emoji.emojize(f":{playerCountry.lower()}:", use_aliases=True, variant="emoji_type"))
         print (playerCountryFlag)
         embed=discord.Embed(
             title = f"{playerName}'s ScoreSaber Stats",
