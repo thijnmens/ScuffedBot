@@ -46,7 +46,7 @@ class BirthdayCheck(commands.Cog):
         except Exception as e:
             print(e)
 
-    schedule.every().day.at("16:50").do(countdown)
+    schedule.every().day.at("16:55").do(countdown)
 
     #Test
     @commands.command()
@@ -58,7 +58,7 @@ class BirthdayCheck(commands.Cog):
         print('----------')
 
     #Infinite Loop
-    @tasks.loop(minute=1)
+    @tasks.loop(minutes=1)
     async def checker(self, ctx):
         print('something')
         schedule.run_pending()
