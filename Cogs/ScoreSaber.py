@@ -9,12 +9,12 @@ dab = firestore.client()
 
 SS_id = None
 page = int(0)
-URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full") #Get UserData
 #https://new.scoresaber.com/api/player/76561198091128855/full
-URL2 = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{page}") #Get Top Songs
-URL3 = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent/{page}") #Get Recent Songs
-URL4 = (f"https://new.scoresaber.com/api/players/{page}") #Get Global Rankings
-URL5 = (f"https://new.scoresaber.com/api/players/pages") #Get Global Ranking Pages
+#URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full") - Get UserData
+#URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{page}") - #Get Top Songs
+#URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent/{page}") - #Get Recent Songs
+#URL = (f"https://new.scoresaber.com/api/players/{page}") - #Get Global Rankings
+#URL = (f"https://new.scoresaber.com/api/players/pages") - #Get Global Ranking Pages
 
 class ScoreSaber(commands.Cog):
     def __init__(self, client):
@@ -35,8 +35,9 @@ class ScoreSaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             print (SS_id)
-        print (URL1)
-        response = requests.get(URL1)
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
+        print (URL)
+        response = requests.get(URL)
         print (response)
         json_data = json.loads(response.text)
         print (json_data[0]["playerName"]) #I'm too lazy to see what the value is for
