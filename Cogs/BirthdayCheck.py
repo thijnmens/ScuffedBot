@@ -1,4 +1,5 @@
-import discord, os, requests, json, firebase_admin, asyncio, datetime
+import discord, os, requests, json, firebase_admin, asyncio
+from datetime import datetime
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
