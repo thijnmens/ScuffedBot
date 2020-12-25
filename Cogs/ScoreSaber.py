@@ -38,19 +38,23 @@ class ScoreSaber(commands.Cog):
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
         print (URL)
         response = requests.get(URL)
-        print (response)
         print (response.text)
         json_data = json.loads(response.text)
         playerInfo = json_data["playerInfo"]
         playerCountry = playerInfo["country"]
         embed=discord.Embed(
-            title = f"{ctx.author.name}'s ScoreSaber Stats"
+            title = f"{ctx.author.name}'s ScoreSaber Stats",
+            colour = 0xffdc1b
         )
         embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=False)
         embed.add_field(name=f"Country Rank ({playerCountry})", value=playerInfo["countryRank"], inline=False)
         embed.add_field(name="Performance Points", value=playerInfo["pp"], inline=True)
-        embed.set_thumbnail(url="https://new.scoresaber.com/"+playerInfo["avatar"])
+        templol = ("https://new.scoresaber.com/"+playerInfo["avatar"])
+        embed.set_thumbnail(url=templol)
+        print (templol)
         await ctx.send(embed=embed)
+        print ("Response: ScoreSaber UserData embed")
+        print('----------')
 
 def setup(client):    
     client.add_cog(ScoreSaber(client))

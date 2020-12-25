@@ -57,7 +57,7 @@ class User(commands.Cog):
         embed.add_field(name="Birthday", value=birthday, inline=True)
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
-        print('Response: embed')
+        print('Response: user embed')
         print('----------')
         
     #User Add
