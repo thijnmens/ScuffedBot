@@ -6,8 +6,6 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 dab = firestore.client()
-check = False
-schedule.every().day.at("12:00").do(get_birthdays) #Not too sure how this works or where it's supposed to go
 
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
@@ -21,6 +19,8 @@ class BirthdayCheck(commands.Cog):
         except Exception as e:
             print(e)
     
+    schedule.every().day.at("12:00").do(get_birthdays)
+
     #Test
     @commands.command()
     async def test(self, ctx):
@@ -31,11 +31,9 @@ class BirthdayCheck(commands.Cog):
         print('----------')
 
 
-while check == False:
-    asyncio.sleep(3600) #Will pause only this while loop for 1 hour
+while True:
+    asyncio.sleep(43200)
     schedule.run_pending()
-    check = True
-    break
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
