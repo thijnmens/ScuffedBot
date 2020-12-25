@@ -14,6 +14,7 @@ check = False
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
+        client.loop.create_task(infinite_loop())
     
     def cog_unload(self):
         self.loop.cancel()
@@ -46,21 +47,19 @@ class BirthdayCheck(commands.Cog):
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d-%H-%M-%S")
             try:
-                if current_time == '2020-12-25-17-20-00':
+                if current_time == '2020-12-25-17-25-00':
                     channel = client.get_channel(754627439413690469)
                     await channel.send('Countdown has initialized <a:Loading:792062970599178251>')
                     await channel.send('3 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
-                if current_time == '2020-12-26-17-20-00':
+                if current_time == '2020-12-26-17-25-00':
                     channel = client.get_channel(754627439413690469)
                     await channel.send('2 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
-                if current_time == '2020-12-27-17-20-00':
+                if current_time == '2020-12-27-17-25-00':
                     channel = client.get_channel(754627439413690469)
                     await channel.send('1 More Day till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
             except Exception as e:
                 print(e)
             await asyncio.sleep(60)
-
-    client.loop.create_task(infinite_loop())
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
