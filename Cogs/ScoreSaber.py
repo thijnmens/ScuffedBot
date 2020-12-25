@@ -56,7 +56,7 @@ class ScoreSaber(commands.Cog):
         print ("2")
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
         print ("3")
-        embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2)+"%", inline=True)
+        embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
         print ("4")
         embed.add_field(name="Total Play Count", value=scoreStats["totalPlayCount"], inline=True)
         print ("5")
