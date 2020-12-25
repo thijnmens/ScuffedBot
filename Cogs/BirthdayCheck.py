@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin, asyncio
+import discord, os, requests, json, firebase_admin, asyncio, schedule
 from datetime import datetime
 from discord.ext import commands, tasks
 from discord.utils import get
@@ -18,6 +18,8 @@ class BirthdayCheck(commands.Cog):
     def cog_unload(self):
         self.loop.cancel()
 
+    schedule.every().day.at("16:45").do(countdown)
+
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
@@ -31,11 +33,18 @@ class BirthdayCheck(commands.Cog):
             print(e)
 
     async def countdown(self, ctx):
+        now = datetime.now()
+        current_time = now.strftime("%Y-%m-%d-%H")
         try:
             if current_time == '2020-12-25-16':
                 channel = client.get_channel(754627439413690469)
                 await channel.send('3 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
-                check = True
+            if current_time == '2020-12-26-16':
+                channel = client.get_channel(754627439413690469)
+                await channel.send('2 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
+            if current_time == '2020-12-27-16':
+                channel = client.get_channel(754627439413690469)
+                await channel.send('1 More Day till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
         except Exception as e:
             print(e)
 
@@ -44,19 +53,16 @@ class BirthdayCheck(commands.Cog):
     async def test(self, ctx):
         print('Recieved: >test')
         print(current_time)
-        countdown()
         await ctx.send('testing complete')
         print('Response: testing complete')
         print('----------')
 
     #Infinite Loop
-    @tasks.loop(seconds=1)
+    @tasks.loop(minute=1)
     async def checker(self, ctx):
         print('something')
-        now = datetime.now()
-        current_time = now.strftime("%Y-%m-%d-%H")
-        countdown()
-
+        schedule.run_pending()
+        
     checker.start()
 
 def setup(client):
