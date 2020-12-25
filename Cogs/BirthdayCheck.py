@@ -31,6 +31,8 @@ class BirthdayCheck(commands.Cog):
             if now == '12:00:00':
                 channel = client.get_channel(754627439413690469)
                 await channel.send('3 More Days')
+        except Exception as e:
+            print(e)
 
     #Test
     @commands.command()
@@ -42,10 +44,10 @@ class BirthdayCheck(commands.Cog):
         print('Response: testing complete')
         print('----------')
 
-while True:
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    break
+    while True:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        break
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
