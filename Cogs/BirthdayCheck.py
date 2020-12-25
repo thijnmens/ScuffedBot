@@ -7,7 +7,7 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 now = datetime.now()
-current_time = now.strftime("%H:%M:%S")
+current_time = now.strftime("%Y-%m-%d %H:%M:%S")
 dab = firestore.client()
 
 class BirthdayCheck(commands.Cog):
@@ -28,9 +28,9 @@ class BirthdayCheck(commands.Cog):
 
     async def countdown(self, ctx):
         try:
-            if now == '12:00:00':
+            if current_time == '2020-12-25 16:10:00':
                 channel = client.get_channel(754627439413690469)
-                await channel.send('3 More Days')
+                await channel.send('3 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
         except Exception as e:
             print(e)
 
