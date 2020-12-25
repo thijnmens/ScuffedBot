@@ -19,21 +19,33 @@ class BirthdayCheck(commands.Cog):
         print("BirthdayCheck cog loaded")
     
     #Check for birthdays
-    def get_birthdays(self, ctx):
+    async def get_birthdays(self, ctx):
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             amount = len(ref) - 1
         except Exception as e:
             print(e)
 
+    async def countdown(self, ctx):
+        try:
+            if now == '12:00:00':
+                channel = client.get_channel(754627439413690469)
+                await channel.send('3 More Days')
+
     #Test
     @commands.command()
     async def test(self, ctx):
         print('Recieved: >test')
-        print(current_time)
+        print(now)
+        get_birthdays()
         await ctx.send('testing complete')
         print('Response: testing complete')
         print('----------')
+
+while True:
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    break
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
