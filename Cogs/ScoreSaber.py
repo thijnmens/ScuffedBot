@@ -28,6 +28,8 @@ class ScoreSaber(commands.Cog):
     async def scoresaber(self, ctx, argument1=None):
         print (f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
+            ref = dab.collection(str(argument1)).document('data').get()
+            scoresaber = ref.get('scoresaber')
             SS_id = argument1[25:]
             print (SS_id)
         else: 
@@ -42,16 +44,15 @@ class ScoreSaber(commands.Cog):
         json_data = json.loads(response.text)
         playerInfo = json_data["playerInfo"]
         playerCountry = playerInfo["country"]
+        playerName = playerInfo["playerName"]
         embed=discord.Embed(
-            title = f"{ctx.author.name}'s ScoreSaber Stats",
+            title = f"{playerName}'s ScoreSaber Stats",
             colour = 0xffdc1b
         )
         embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=False)
         embed.add_field(name=f"Country Rank ({playerCountry})", value=playerInfo["countryRank"], inline=False)
-        embed.add_field(name="Performance Points", value=playerInfo["pp"], inline=True)
-        templol = ("https://new.scoresaber.com/"+playerInfo["avatar"])
-        embed.set_thumbnail(url=templol)
-        print (templol)
+        embed.add_field(name="Performance Points <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
+        embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
         print('----------')
