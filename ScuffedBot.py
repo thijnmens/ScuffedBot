@@ -5,9 +5,11 @@
 #    Version: 1.0.0     #
 #########################
 
-import discord, os
+import discord, os, firebase_admin
 from discord.ext import commands
 from discord.utils import get
+from firebase_admin import credentials
+
 
 intents = discord.Intents.default()
 intents.members = True
@@ -15,6 +17,20 @@ client = commands.Bot(command_prefix=">", intents=intents, case_insensitive=True
 client.remove_command('help')
 cwd = os.getcwd()
             
+cred = credentials.Certificate({
+  "type": "service_account",
+  "project_id": os.getenv("PROJECT_ID").replace('\\n', '\n'),
+  "private_key_id": os.getenv("PRIVATE_KEY_ID").replace('\\n', '\n'),
+  "private_key": os.getenv("PRIVATE_KEY").replace('\\n', '\n'),
+  "client_email": os.getenv("CLIENT_EMAIL").replace('\\n', '\n'),
+  "client_id": os.getenv("CLIENT_ID").replace('\\n', '\n'),
+  "auth_uri": os.getenv("AUTH_URI").replace('\\n', '\n'),
+  "token_uri": os.getenv("TOKEN_URI").replace('\\n', '\n'),
+  "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL").replace('\\n', '\n'),
+  "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL").replace('\\n', '\n')
+})
+default_app = firebase_admin.initialize_app(cred)
+
 try: #literally copy and pasted this from one of my discord bots lol
     for filename in os.listdir(f'{cwd}/Cogs/'): #Heroku weird
         if filename.endswith(".py"):

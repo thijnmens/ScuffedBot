@@ -27,12 +27,12 @@ class ScoreSaber(commands.Cog):
     async def scoresaber(self, ctx, argument1=None):
         print (f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
-            SS_id = argument1[26:]
+            SS_id = argument1[25:]
             print (SS_id)
         else: 
             ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
-            SS_id = scoresaber[26:]
+            SS_id = scoresaber[25:]
             print (SS_id)
         response = requests.get(URL1)
         print (response)

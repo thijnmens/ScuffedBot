@@ -1,9 +1,6 @@
 import discord, os, json, requests
 from discord.ext import commands
 from discord.utils import get
-from firebase_admin import credentials
-from firebase_admin import firestore
-from firebase_admin import db
 
 #Get Random Quote
 def get_quote():
