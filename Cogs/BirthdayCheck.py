@@ -9,10 +9,15 @@ from firebase_admin import db
 now = datetime.now()
 current_time = now.strftime("%Y-%m-%d %H:%M:%S")
 dab = firestore.client()
+check = False
 
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.loop.start()
+    
+    def cog_unload(self):
+        self.loop.cancel()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -31,6 +36,7 @@ class BirthdayCheck(commands.Cog):
             if current_time == '2020-12-25 16:10:00':
                 channel = client.get_channel(754627439413690469)
                 await channel.send('3 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
+                check = True
         except Exception as e:
             print(e)
 
@@ -38,16 +44,18 @@ class BirthdayCheck(commands.Cog):
     @commands.command()
     async def test(self, ctx):
         print('Recieved: >test')
-        print(now)
+        print(current_time)
         get_birthdays()
         await ctx.send('testing complete')
         print('Response: testing complete')
         print('----------')
 
-    while True:
+    #Infinite Loop
+    @tasks.loop(hours=12)
+    async def loop(self, ctx):
         now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        break
+        current_time = now.strftime("%Y-%m-%d %H:%M:%S")
+        countdown()
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
