@@ -41,15 +41,19 @@ class ScoreSaber(commands.Cog):
         print (response.text)
         json_data = json.loads(response.text)
         playerInfo = json_data["playerInfo"]
+        scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
         playerName = playerInfo["playerName"]
         embed=discord.Embed(
             title = f"{playerName}'s ScoreSaber Stats",
             colour = 0xffdc1b
         )
-        embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=False)
-        embed.add_field(name=f"Country Rank ({playerCountry})", value=playerInfo["countryRank"], inline=False)
+        embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=True)
+        embed.add_field(name=f"Country Rank (:flag_{playerCountry}:)", value=playerInfo["countryRank"], inline=False)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
+        embed.add_field(name="Total Play Count", value=scoreStats["totalPlayCount"], inline=True)
+        embed.add_field(name="Ranked Play Count", value=scoreStats["rankedPlayCount"], inline=False)
+        embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
