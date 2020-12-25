@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin
+import discord, os, requests, json, firebase_admin, emoji
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -49,11 +49,11 @@ class ScoreSaber(commands.Cog):
             colour = 0xffdc1b
         )
         embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=True)
-        embed.add_field(name=f"Country Rank (:flag_{playerCountry}:)", value=playerInfo["countryRank"], inline=False)
+        embed.add_field(name=(emoji.emojize(f"Country Rank :flag_{playerCountry}: ({playerCountry})")), value=playerInfo["countryRank"], inline=False)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
+        embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2), inline=False)
         embed.add_field(name="Total Play Count", value=scoreStats["totalPlayCount"], inline=True)
         embed.add_field(name="Ranked Play Count", value=scoreStats["rankedPlayCount"], inline=False)
-        embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")

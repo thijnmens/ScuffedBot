@@ -6,3 +6,4 @@ DiscordUtils
 asyncio
 schedule
 datetime
+emoji
