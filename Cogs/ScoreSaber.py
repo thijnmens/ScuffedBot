@@ -38,7 +38,7 @@ class ScoreSaber(commands.Cog):
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         scoresaber = ref.get('scoresaber')
         print (scoresaber)
-        SS_id = argument1[25:]
+        SS_id = scoresaber[25:]
         print (SS_id)
 
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
