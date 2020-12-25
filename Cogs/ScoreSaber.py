@@ -51,9 +51,9 @@ class ScoreSaber(commands.Cog):
             colour = 0xffdc1b
         )
         embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=True)
-        #embed.add_field(name=f"Country Rank {playerCountryFlag} ({playerCountry})", value=playerInfo["countryRank"], inline=True)
+        embed.add_field(name=f"Country Rank {playerCountryFlag} ({playerCountry})", value=playerInfo["countryRank"], inline=True)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
-        embed.add_field(name="Ranked Acc", value=(round(scoreStats["averageRankedAccuracy"], 2)+"%"), inline=True)
+        #embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2)+"%", inline=True)
         embed.add_field(name="Total Play Count", value=scoreStats["totalPlayCount"], inline=True)
         embed.add_field(name="Ranked Play Count", value=scoreStats["rankedPlayCount"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
