@@ -4,9 +4,9 @@ from discord.utils import get
 
 #Get Random Quote
 def get_quote():
-    responce = requests.get('https://zenquotes.io/api/random')
-    json_data = json.loads(responce.text)
-    quote = json_data[0]['q'] + ' -' + json_data[0]['a']
+    response = requests.get('https://zenquotes.io/api/random')
+    json_data = json.loads(response.text)
+    quote = (f"{json_data[0]['q']} - {json_data[0]['a']}")
     return(quote)
 
 class Text(commands.Cog):
