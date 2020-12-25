@@ -44,14 +44,14 @@ class ScoreSaber(commands.Cog):
         scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
         playerName = playerInfo["playerName"]
-        playerCountryFlag = (emoji.emojize(f":{playerCountry}:", use_aliases=True))
+        playerCountryFlag = (emoji.emojize(f":{playerCountry}:", use_aliases=True, variant="emoji_type"))
         print (playerCountryFlag)
         embed=discord.Embed(
             title = f"{playerName}'s ScoreSaber Stats",
             colour = 0xffdc1b
         )
         embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=True)
-        embed.add_field(name=f"Country Rank :{playerCountryFlag}: ({playerCountry})", value=playerInfo["countryRank"], inline=True)
+        embed.add_field(name=f"Country Rank {playerCountryFlag} ({playerCountry})", value=playerInfo["countryRank"], inline=True)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
         embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
         embed.add_field(name="Total Play Count", value=scoreStats["totalPlayCount"], inline=True)
