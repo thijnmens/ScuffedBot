@@ -6,22 +6,6 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 dab = firestore.client()
-check = False
-
-#Check for birthdays
-def get_birthdays():
-    try:
-        ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-        amount = len(ref) - 1
-    except Exception as e:
-        print(e)
-
-schedule.every().day.at("12:00").do(get_birthdays)
-
-while check == False:
-    schedule.run_pending()
-    check = True
-    break
 
 class User(commands.Cog):
     def __init__(self, client):
@@ -30,15 +14,6 @@ class User(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("User cog loaded")
-
-    #Test
-    @commands.command()
-    async def test(self, ctx):
-        print('Recieved: >test')
-        get_birthdays()
-        await ctx.send('testing complete')
-        print('Response: testing complete')
-        print('----------')
 
     #User
     @commands.group(invoke_without_command=True)
