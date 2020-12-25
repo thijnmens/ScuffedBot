@@ -28,7 +28,9 @@ class ScoreSaber(commands.Cog):
     async def scoresaber(self, ctx, argument1=None):
         print (f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
-            ref = dab.collection(str(argument1)).document('data').get()
+            ID = argument1[3:]
+            ID = ID[:-1]
+            ref = dab.collection(str(ID)).document('data').get()
             scoresaber = ref.get('scoresaber')
             SS_id = argument1[25:]
             print (SS_id)
@@ -51,7 +53,7 @@ class ScoreSaber(commands.Cog):
         )
         embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=False)
         embed.add_field(name=f"Country Rank ({playerCountry})", value=playerInfo["countryRank"], inline=False)
-        embed.add_field(name="Performance Points <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
+        embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
