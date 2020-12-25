@@ -30,17 +30,11 @@ class ScoreSaber(commands.Cog):
         if argument1 is not None:
             ID = argument1[3:]
             ID = ID[:-1]
-            print (ID)
             ctx.author = self.client.get_user(int(ID))
-            print (ctx.author.id)
-        print ("---")
-        print (ctx.author.id)
+            print (f"Argument given, now {ctx.author.name}")
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         scoresaber = ref.get('scoresaber')
-        print (scoresaber)
         SS_id = scoresaber[25:]
-        print (SS_id)
-
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
         print (URL)
         response = requests.get(URL)
