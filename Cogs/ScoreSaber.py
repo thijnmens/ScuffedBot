@@ -39,12 +39,18 @@ class ScoreSaber(commands.Cog):
         print (URL)
         response = requests.get(URL)
         print (response)
+        print (response.text)
         json_data = json.loads(response.text)
-        print (json_data[0]["playerName"]) #I'm too lazy to see what the value is for
-        print (json_data[1]["playerName"]) #this is so I don't have to make multiple commits
-        print (json_data[2]["playerName"]) #I'm smart I swear
-        print (json_data[3]["playerName"]) #please
-        print (json_data[4]["playerName"]) #uwu
+        playerInfo = json_data["playerInfo"]
+        playerCountry = playerInfo["country"]
+        embed=discord.Embed(
+            title = f"{ctx.author.name}'s ScoreSaber Stats"
+        )
+        embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=False)
+        embed.add_field(name=f"Country Rank ({playerCountry})", value=playerInfo["countryRank"], inline=False)
+        embed.add_field(name="Performance Points", value=playerInfo["pp"], inline=True)
+        embed.set_thumbnail(url="https://new.scoresaber.com/"+playerInfo["avatar"])
+        await ctx.send(embed=embed)
 
 def setup(client):    
     client.add_cog(ScoreSaber(client))

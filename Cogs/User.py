@@ -47,7 +47,7 @@ class User(commands.Cog):
             ID = argument[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-        print(f'Recieved: >user {ctx.author.id}')
+        print(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
