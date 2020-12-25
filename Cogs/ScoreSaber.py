@@ -30,8 +30,11 @@ class ScoreSaber(commands.Cog):
         if argument1 is not None:
             ID = argument1[3:]
             ID = ID[:-1]
-            ref = dab.collection(str(ID)).document('data').get()
+            print (ID)
+            ctx.author = self.client.get_user(int(ID))
+            ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
+            print (scoresaber)
             SS_id = argument1[25:]
             print (SS_id)
         else: 
