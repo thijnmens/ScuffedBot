@@ -45,14 +45,15 @@ class BirthdayCheck(commands.Cog):
     async def test(self, ctx):
         print('Recieved: >test')
         print(current_time)
-        get_birthdays()
+        countdown()
         await ctx.send('testing complete')
         print('Response: testing complete')
         print('----------')
 
     #Infinite Loop
-    @tasks.loop(hours=12)
+    @tasks.loop(seconds=30)
     async def loop(self, ctx):
+        print('something')
         now = datetime.now()
         current_time = now.strftime("%Y-%m-%d %H:%M:%S")
         countdown()
