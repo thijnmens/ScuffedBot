@@ -7,14 +7,13 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 now = datetime.now()
-current_time = now.strftime("%Y-%m-%d %H:%M:%S")
+current_time = now.strftime("%Y-%m-%d-%H")
 dab = firestore.client()
 check = False
 
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.loop.start()
     
     def cog_unload(self):
         self.loop.cancel()
@@ -33,7 +32,7 @@ class BirthdayCheck(commands.Cog):
 
     async def countdown(self, ctx):
         try:
-            if current_time == '2020-12-25 16:10:00':
+            if current_time == '2020-12-25-16':
                 channel = client.get_channel(754627439413690469)
                 await channel.send('3 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
                 check = True
@@ -51,12 +50,14 @@ class BirthdayCheck(commands.Cog):
         print('----------')
 
     #Infinite Loop
-    @tasks.loop(seconds=30)
-    async def loop(self, ctx):
+    @tasks.loop(seconds=1)
+    async def checker(self, ctx):
         print('something')
         now = datetime.now()
-        current_time = now.strftime("%Y-%m-%d %H:%M:%S")
+        current_time = now.strftime("%Y-%m-%d-%H")
         countdown()
+
+    checker.start()
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
