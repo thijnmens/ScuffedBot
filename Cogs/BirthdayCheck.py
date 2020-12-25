@@ -18,8 +18,6 @@ class BirthdayCheck(commands.Cog):
     def cog_unload(self):
         self.loop.cancel()
 
-    schedule.every().day.at("16:45").do(countdown)
-
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
@@ -47,6 +45,8 @@ class BirthdayCheck(commands.Cog):
                 await channel.send('1 More Day till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
         except Exception as e:
             print(e)
+
+    schedule.every().day.at("16:50").do(countdown)
 
     #Test
     @commands.command()
