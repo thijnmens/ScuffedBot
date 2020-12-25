@@ -32,16 +32,15 @@ class ScoreSaber(commands.Cog):
             ID = ID[:-1]
             print (ID)
             ctx.author = self.client.get_user(int(ID))
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
-            scoresaber = ref.get('scoresaber')
-            print (scoresaber)
-            SS_id = argument1[25:]
-            print (SS_id)
-        else: 
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
-            scoresaber = ref.get('scoresaber')
-            SS_id = scoresaber[25:]
-            print (SS_id)
+            print (ctx.author.id)
+        print ("---")
+        print (ctx.author.id)
+        ref = dab.collection(str(ctx.author.id)).document('data').get()
+        scoresaber = ref.get('scoresaber')
+        print (scoresaber)
+        SS_id = argument1[25:]
+        print (SS_id)
+
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
         print (URL)
         response = requests.get(URL)
