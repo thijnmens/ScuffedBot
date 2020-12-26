@@ -47,16 +47,16 @@ class ScoreSaber(commands.Cog):
         playerCountryFlag = (f":flag_{playerCountry.lower()}:")
         print (playerCountryFlag)
         embed=discord.Embed(
-            title = f"{playerName}'s ScoreSaber Stats",
+            title = f"{playerName}'s ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
         )
-        embed.add_field(name="Global Rank", value=playerInfo["rank"], inline=True)
+        embed.add_field(name="Global Rank 🌐", value=playerInfo["rank"], inline=True)
         embed.add_field(name=f"Country Rank {playerCountryFlag}", value=playerInfo["countryRank"], inline=True)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
-        embed.add_field(name="Ranked Acc", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
-        embed.add_field(name="Total Play Count", value=scoreStats["totalPlayCount"], inline=True)
-        embed.add_field(name="Ranked Play Count", value=scoreStats["rankedPlayCount"], inline=True)
+        embed.add_field(name="Ranked Acc <a:ppJedi:754632378206388315>", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
+        embed.add_field(name="Total Play Count 🔁", value=scoreStats["totalPlayCount"], inline=True)
+        embed.add_field(name="Ranked Play Count 🔂", value=scoreStats["rankedPlayCount"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
