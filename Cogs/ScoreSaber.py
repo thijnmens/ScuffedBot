@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin, emojis
+import discord, os, requests, json, firebase_admin
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -42,9 +42,9 @@ class ScoreSaber(commands.Cog):
         json_data = json.loads(response.text)
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
-        playerCountry = playerInfo["country"].lower()
+        playerCountry = playerInfo["country"]
         playerName = playerInfo["playerName"]
-        playerCountryFlag = (f":flag_{playerCountry}:")
+        playerCountryFlag = (f":flag_{playerCountry.lower()}:")
         print (playerCountryFlag)
         embed=discord.Embed(
             title = f"{playerName}'s ScoreSaber Stats",
