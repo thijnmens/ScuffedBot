@@ -10,6 +10,7 @@ dab = firestore.client()
 SS_id = None
 page = int(0)
 #https://new.scoresaber.com/api/player/76561198091128855/full
+#https://new.scoresaber.com/api/static/covers/69E494F4A295197BF03720029086FABE6856FBCE.png
 #URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full") - Get UserData
 #URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{page}") - #Get Top Songs
 #URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent/{page}") - #Get Recent Songs
@@ -23,8 +24,8 @@ class ScoreSaber(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("ScoreSaber cog loaded")
-
-    @commands.command()
+ 
+    @commands.group(invoke_without_command=True)
     async def scoresaber(self, ctx, argument1=None):
         print (f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
@@ -61,6 +62,27 @@ class ScoreSaber(commands.Cog):
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
         print('----------')
+
+    @scoresaber.command()
+    async def recentsong(self, ctx, argument1=None):
+        print (f"Recieved >scoresaber recentsong {ctx.author.name}")
+        if argument1 is not None:
+            ID = argument1[3:]
+            ID = ID[:-1]
+            ctx.author = self.client.get_user(int(ID))
+            print (f"Argument given, now {ctx.author.name}")
+        ref = dab.collection(str(ctx.author.id)).document('data').get()
+        scoresaber = ref.get('scoresaber')
+        SS_id = scoresaber[25:]
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
+        print (URL)
+        response = requests.get(URL)
+        print (response.text)
+        json_data = json.loads(response.text)
+        recentSongs = json_data["scores"]
+        print (recentSongs)
+        recentSong = recentSongs[0]
+        print (recentSong)
 
 def setup(client):    
     client.add_cog(ScoreSaber(client))

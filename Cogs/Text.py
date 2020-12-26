@@ -52,6 +52,7 @@ class Text(commands.Cog):
         embed.add_field(name=">user add", value="add yourself to the userbase, if you don't want to fill something in, pls use ``None``", inline=False)
         embed.add_field(name=">user update <field> <new value>", value="Update your info", inline=False)
         embed.add_field(name=">user remove", value="Removes your info from the database", inline=False)
+        embed.add_field(name=">scoresaber [mention]", value="gets a user's ScoreSaber data,",inline=False)
         embed.add_field(name=">quote", value="Posts a random quote", inline=False)
         embed.add_field(name=">ping", value="Pings Scuffed Bot", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
