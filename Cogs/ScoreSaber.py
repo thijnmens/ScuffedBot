@@ -92,9 +92,17 @@ class ScoreSaber(commands.Cog):
         songAuthorName = recentSong["songAuthorName"]
         levelAuthorName = recentSong["levelAuthorName"]
         songAcc = round((int(recentSong["score"])/int(recentSong["maxScore"]))*100, 2)
+        if recentSong["difficulty"] == 9:
+            difficulty = "Expert+"
+        elif recentSong["difficulty"] == 7:
+            difficulty = "Expert"
+        elif recentSong["difficulty"] == 5:
+            difficulty = "Hard"
+        else:
+            difficulty = "Please DM Sirspam thanks uwu"
         embed=discord.Embed(
             title = f"{songName} - {songSubName}",
-            description = f"**{songAuthorName} - {levelAuthorName}**\n(diff placeholder)",
+            description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
         )
@@ -106,6 +114,59 @@ class ScoreSaber(commands.Cog):
         embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber RecentSong embed")
+        print('----------')
+
+    @scoresaber.command()
+    async def topsong(self, ctx, argument1=None):
+        print (f"Recieved >scoresaber topsong {ctx.author.name}")
+        if argument1 is not None:
+            ID = argument1[3:]
+            ID = ID[:-1]
+            ctx.author = self.client.get_user(int(ID))
+            print (f"Argument given, now {ctx.author.name}")
+        ref = dab.collection(str(ctx.author.id)).document('data').get()
+        scoresaber = ref.get('scoresaber')
+        SS_id = scoresaber[25:]
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
+        URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
+        print (URL)
+        print (URL1)
+        response = requests.get(URL)
+        json_data = json.loads(response.text)
+        topSongs = json_data["scores"]
+        response = requests.get(URL1)
+        json_data = json.loads(response.text)
+        playerInfo = json_data["playerInfo"]
+        playerName = playerInfo["playerName"]
+        topSong = topSongs[0]
+        print (topSong)
+        songName = topSong["songName"]
+        songSubName = topSong["songSubName"]
+        songAuthorName = topSong["songAuthorName"]
+        levelAuthorName = topSong["levelAuthorName"]
+        songAcc = round((int(topSong["score"])/int(topSong["maxScore"]))*100, 2)
+        if topSong["difficulty"] == 9:
+            difficulty = "Expert+"
+        elif topSong["difficulty"] == 7:
+            difficulty = "Expert"
+        elif topSong["difficulty"] == 5:
+            difficulty = "Hard"
+        else:
+            difficulty = "Please DM Sirspam thanks uwu"
+        embed=discord.Embed(
+            title = f"{songName} - {songSubName}",
+            description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
+            colour = 0xffdc1b,
+            timestamp = ctx.message.created_at
+        )
+        embed.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
+        embed.add_field(name="Rank", value=topSong["rank"], inline=True)
+        embed.add_field(name="Score", value=topSong["score"], inline=True)
+        embed.add_field(name="Acc", value=f"{songAcc}%", inline=True)
+        embed.add_field(name="PP", value=topSong["pp"], inline=True)
+        embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+topSong["songHash"]+".png")
+        await ctx.send(embed=embed)
+        print ("Response: ScoreSaber TopSong embed")
         print('----------')
 
 def setup(client):    
