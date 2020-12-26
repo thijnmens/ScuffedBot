@@ -42,10 +42,9 @@ class ScoreSaber(commands.Cog):
         json_data = json.loads(response.text)
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
-        playerCountry = playerInfo["country"]
+        playerCountry = playerInfo["country"].lower()
         playerName = playerInfo["playerName"]
-        playerCountryFlag = (emojis.encode(f":{playerCountry.lower()}:"))
-        playerCountryFlag = ":flag_au:"
+        playerCountryFlag = (f":flag_{playerCountry}:")
         print (playerCountryFlag)
         embed=discord.Embed(
             title = f"{playerName}'s ScoreSaber Stats",
