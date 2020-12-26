@@ -84,18 +84,22 @@ class ScoreSaber(commands.Cog):
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         recentSong = recentSongs[0]
+        print (recentSong)
         songName = recentSong["songName"]
         songSubName = recentSong["songSubName"]
+        songAuthorName = recentSong["songAuthorName"]
+        levelAuthorName = recentSong["levelAuthorName"]
+        songAcc = (int(recentSong["score"])/int(recentSong["maxScore"]))*100
         embed=discord.Embed(
             title = f"{songName} - {songSubName}",
-            description = recentSong["songAuthorName"],
+            description = f"**{songAuthorName} - {levelAuthorName}**\n(diff placeholder)",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
         )
         embed.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
-        embed.add_field(name="Song Diff", value="a")
         embed.add_field(name="Rank", value=recentSong["rank"], inline=True)
         embed.add_field(name="Score", value=recentSong["score"], inline=True)
+        embed.add_field(name="Acc", value=f"{songAcc}%", inline=True)
         embed.add_field(name="PP", value=recentSong["pp"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
         await ctx.send(embed=embed)
