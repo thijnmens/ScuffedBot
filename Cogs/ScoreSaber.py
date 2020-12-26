@@ -45,6 +45,7 @@ class ScoreSaber(commands.Cog):
         playerCountry = playerInfo["country"]
         playerName = playerInfo["playerName"]
         playerCountryFlag = (f":flag_{playerCountry.lower()}:")
+        rankedAcc = round(scoreStats["averageRankedAccuracy"], 2)
         embed=discord.Embed(
             title = f"[{playerName}'s]({scoresaber}) ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
             colour = 0xffdc1b,
@@ -53,7 +54,7 @@ class ScoreSaber(commands.Cog):
         embed.add_field(name="Global Rank 🌐", value=playerInfo["rank"], inline=True)
         embed.add_field(name=f"Country Rank {playerCountryFlag}", value=playerInfo["countryRank"], inline=True)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
-        embed.add_field(name="Ranked Acc <:PeepoAcc:792385194351001610>", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
+        embed.add_field(name="Ranked Acc <:PeepoAcc:792385194351001610>", value=f"{rankedAcc}%", inline=True)
         embed.add_field(name="Total Play Count <a:ppJedi:754632378206388315>", value=scoreStats["totalPlayCount"], inline=True)
         embed.add_field(name="Ranked Play Count 🧑‍🌾", value=scoreStats["rankedPlayCount"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
@@ -89,7 +90,7 @@ class ScoreSaber(commands.Cog):
         songSubName = recentSong["songSubName"]
         songAuthorName = recentSong["songAuthorName"]
         levelAuthorName = recentSong["levelAuthorName"]
-        songAcc = (int(recentSong["score"])/int(recentSong["maxScore"]))*100
+        songAcc = round((int(recentSong["score"])/int(recentSong["maxScore"]))*100, 2)
         embed=discord.Embed(
             title = f"{songName} - {songSubName}",
             description = f"**{songAuthorName} - {levelAuthorName}**\n(diff placeholder)",
