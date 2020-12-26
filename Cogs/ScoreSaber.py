@@ -39,16 +39,14 @@ class ScoreSaber(commands.Cog):
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
         print (URL)
         response = requests.get(URL)
-        print (response.text)
         json_data = json.loads(response.text)
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
         playerName = playerInfo["playerName"]
         playerCountryFlag = (f":flag_{playerCountry.lower()}:")
-        print (playerCountryFlag)
         embed=discord.Embed(
-            title = f"{playerName}'s ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
+            title = f"[{playerName}'s]({scoresaber}) ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
         )
@@ -75,14 +73,34 @@ class ScoreSaber(commands.Cog):
         scoresaber = ref.get('scoresaber')
         SS_id = scoresaber[25:]
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
+        URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
         print (URL)
+        print (URL1)
         response = requests.get(URL)
-        print (response.text)
         json_data = json.loads(response.text)
         recentSongs = json_data["scores"]
-        print (recentSongs)
+        response = requests.get(URL1)
+        json_data = json.loads(response.text)
+        playerInfo = json_data["playerInfo"]
+        playerName = playerInfo["playerName"]
         recentSong = recentSongs[0]
-        print (recentSong)
+        songName = recentSong["songName"]
+        songSubName = recentSong["songSubName"]
+        embed=discord.Embed(
+            title = f"{songName} - {songSubName}",
+            description = recentSong["songAuthorName"],
+            colour = 0xffdc1b,
+            timestamp = ctx.message.created_at
+        )
+        embed.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
+        embed.add_field(name="Song Diff", value="a")
+        embed.add_field(name="Rank", value=recentSong["rank"], inline=True)
+        embed.add_field(name="Score", value=recentSong["score"], inline=True)
+        embed.add_field(name="PP", value=recentSong["pp"], inline=True)
+        embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
+        await ctx.send(embed=embed)
+        print ("Response: ScoreSaber RecentSong embed")
+        print('----------')
 
 def setup(client):    
     client.add_cog(ScoreSaber(client))
