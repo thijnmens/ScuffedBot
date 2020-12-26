@@ -92,12 +92,17 @@ class ScoreSaber(commands.Cog):
         songAuthorName = recentSong["songAuthorName"]
         levelAuthorName = recentSong["levelAuthorName"]
         songAcc = round((int(recentSong["score"])/int(recentSong["maxScore"]))*100, 2)
+        rank = recentSong["rank"]
         if recentSong["difficulty"] == 9:
             difficulty = "Expert+"
         elif recentSong["difficulty"] == 7:
             difficulty = "Expert"
         elif recentSong["difficulty"] == 5:
             difficulty = "Hard"
+        elif difficulty["difficulty"] == 3:
+            difficulty = "Normal"
+        elif difficulty["difficulty"] == 1:
+            difficulty = "Easy"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
         embed=discord.Embed(
@@ -107,10 +112,10 @@ class ScoreSaber(commands.Cog):
             timestamp = ctx.message.created_at
         )
         embed.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
-        embed.add_field(name="Rank", value=recentSong["rank"], inline=True)
-        embed.add_field(name="Score", value=recentSong["score"], inline=True)
-        embed.add_field(name="Acc", value=f"{songAcc}%", inline=True)
-        embed.add_field(name="PP", value=recentSong["pp"], inline=True)
+        embed.add_field(name="Rank <:OkayChamp:754632378051199059>", value=f"#{rank}", inline=True)
+        embed.add_field(name="Acc <:PeepoAcc:792385194351001610>", value=f"{songAcc}%", inline=True)
+        embed.add_field(name="Score <:OkayChomp:754632378462371950>", value=recentSong["score"], inline=False)
+        embed.add_field(name="PP <a:PogLick:792002791828357131>", value=recentSong["pp"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber RecentSong embed")
@@ -145,12 +150,17 @@ class ScoreSaber(commands.Cog):
         songAuthorName = topSong["songAuthorName"]
         levelAuthorName = topSong["levelAuthorName"]
         songAcc = round((int(topSong["score"])/int(topSong["maxScore"]))*100, 2)
+        rank = topSong["rank"]
         if topSong["difficulty"] == 9:
             difficulty = "Expert+"
         elif topSong["difficulty"] == 7:
             difficulty = "Expert"
         elif topSong["difficulty"] == 5:
             difficulty = "Hard"
+        elif difficulty["difficulty"] == 3:
+            difficulty = "Normal"
+        elif difficulty["difficulty"] == 1:
+            difficulty = "Easy"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
         embed=discord.Embed(
@@ -160,10 +170,10 @@ class ScoreSaber(commands.Cog):
             timestamp = ctx.message.created_at
         )
         embed.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
-        embed.add_field(name="Rank", value=topSong["rank"], inline=True)
-        embed.add_field(name="Score", value=topSong["score"], inline=True)
-        embed.add_field(name="Acc", value=f"{songAcc}%", inline=True)
-        embed.add_field(name="PP", value=topSong["pp"], inline=True)
+        embed.add_field(name="Rank <:OkayChamp:754632378051199059>", value=f"#{rank}", inline=True)
+        embed.add_field(name="Acc <:PeepoAcc:792385194351001610>", value=f"{songAcc}%", inline=True)
+        embed.add_field(name="Score <:OkayChomp:754632378462371950>", value=topSong["score"], inline=True)
+        embed.add_field(name="PP <a:PogLick:792002791828357131>", value=topSong["pp"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+topSong["songHash"]+".png")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber TopSong embed")
