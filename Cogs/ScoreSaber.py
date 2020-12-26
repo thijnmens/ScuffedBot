@@ -56,7 +56,7 @@ class ScoreSaber(commands.Cog):
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
         embed.add_field(name="Ranked Acc <a:ppJedi:754632378206388315>", value=round(scoreStats["averageRankedAccuracy"], 2), inline=True)
         embed.add_field(name="Total Play Count 🔁", value=scoreStats["totalPlayCount"], inline=True)
-        embed.add_field(name="Ranked Play Count 🔂", value=scoreStats["rankedPlayCount"], inline=True)
+        embed.add_field(name="Ranked Play Count 🧑‍🌾", value=scoreStats["rankedPlayCount"], inline=True)
         embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
