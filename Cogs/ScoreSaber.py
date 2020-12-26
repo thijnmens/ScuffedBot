@@ -48,10 +48,10 @@ class ScoreSaber(commands.Cog):
         rankedAcc = round(scoreStats["averageRankedAccuracy"], 2)
         embed=discord.Embed(
             title = f"{playerName}'s ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
+            description = f"[ScoreSaber Link]({scoresaber})",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
         )
-        embed.add_field(name="Test field! :)", value=f"[test lol]({scoresaber})\n[{playerName}]({scoresaber})")
         embed.add_field(name="Global Rank 🌐", value=playerInfo["rank"], inline=True)
         embed.add_field(name=f"Country Rank {playerCountryFlag}", value=playerInfo["countryRank"], inline=True)
         embed.add_field(name="PP <a:PogLick:792002791828357131>", value=playerInfo["pp"], inline=True)
