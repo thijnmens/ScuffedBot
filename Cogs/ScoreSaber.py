@@ -105,66 +105,12 @@ class ScoreSaber(commands.Cog):
             difficulty = "Easy"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
-        embed=discord.Embed(
-            title = f"{songName} - {songSubName}",
-            description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
-            colour = 0xffdc1b,
-            timestamp = ctx.message.created_at
-        )
-        embed.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
-        embed.add_field(name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>", value=f"#{rank}", inline=False)
-        embed.add_field(name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>", value=f"{songAcc}%", inline=False)
-        embed.add_field(name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>", value=recentSong["score"], inline=False)
-        embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=recentSong["pp"], inline=False)
-        embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
-        await ctx.send(embed=embed)
-        print ("Response: ScoreSaber RecentSong embed")
-        print('----------')
-
-    @scoresaber.command()
-    async def temp(self, ctx, argument1=None):
-        print (f"Recieved >scoresaber recentsong {ctx.author.name}")
-        if argument1 is not None:
-            ID = argument1[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
-            print (f"Argument given, now {ctx.author.name}")
-        ref = dab.collection(str(ctx.author.id)).document('data').get()
-        scoresaber = ref.get('scoresaber')
-        SS_id = scoresaber[25:]
-        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
-        URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-        print (URL)
-        print (URL1)
-        response = requests.get(URL)
-        json_data = json.loads(response.text)
-        recentSongs = json_data["scores"]
-        response = requests.get(URL1)
-        json_data = json.loads(response.text)
-        playerInfo = json_data["playerInfo"]
-        playerName = playerInfo["playerName"]
-        recentSong = recentSongs[0]
-        print (recentSong)
-        songName = recentSong["songName"]
-        songSubName = recentSong["songSubName"]
-        songAuthorName = recentSong["songAuthorName"]
-        levelAuthorName = recentSong["levelAuthorName"]
-        songAcc = round((int(recentSong["score"])/int(recentSong["maxScore"]))*100, 2)
-        rank = recentSong["rank"]
-        if recentSong["difficulty"] == 9:
-            difficulty = "Expert+"
-        elif recentSong["difficulty"] == 7:
-            difficulty = "Expert"
-        elif recentSong["difficulty"] == 5:
-            difficulty = "Hard"
-        elif difficulty["difficulty"] == 3:
-            difficulty = "Normal"
-        elif difficulty["difficulty"] == 1:
-            difficulty = "Easy"
+        if songSubName == '':
+            title = f"{songName}"
         else:
-            difficulty = "Please DM Sirspam thanks uwu"
+            title = f"{songName} - {songSubName}"
         embed=discord.Embed(
-            title = f"{songName} - {songSubName}",
+            title = title,
             description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
@@ -174,7 +120,7 @@ class ScoreSaber(commands.Cog):
         embed.add_field(name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>", value=f"{songAcc}%", inline=False)
         embed.add_field(name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>", value=recentSong["score"], inline=False)
         embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=recentSong["pp"], inline=False)
-        embed.set_image(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
+        embed.set_image(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png?size=256")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber RecentSong embed")
         print('----------')
@@ -221,8 +167,12 @@ class ScoreSaber(commands.Cog):
             difficulty = "Easy"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
+        if songSubName == '':
+            title = f"{songName}"
+        else:
+            title = f"{songName} - {songSubName}"
         embed=discord.Embed(
-            title = f"{songName} - {songSubName}",
+            title = title,
             description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
             colour = 0xffdc1b,
             timestamp = ctx.message.created_at
@@ -232,7 +182,7 @@ class ScoreSaber(commands.Cog):
         embed.add_field(name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>", value=f"{songAcc}%", inline=False)
         embed.add_field(name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>", value=topSong["score"], inline=False)
         embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=topSong["pp"], inline=False)
-        embed.set_thumbnail(url="https://new.scoresaber.com/api/static/covers/"+topSong["songHash"]+".png")
+        embed.set_image(url="https://new.scoresaber.com/api/static/covers/"+topSong["songHash"]+".png?size=256")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber TopSong embed")
         print('----------')
