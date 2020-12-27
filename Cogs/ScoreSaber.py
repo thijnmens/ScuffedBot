@@ -41,7 +41,7 @@ class ScoreSaber(commands.Cog):
         response = requests.get(URL)
         json_data = json.loads(response.text)
         if "error" in json_data:
-            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid")
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
@@ -86,7 +86,7 @@ class ScoreSaber(commands.Cog):
         response = requests.get(URL1)
         json_data = json.loads(response.text)
         if "error" in json_data:
-            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid")
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         recentSong = recentSongs[0]
@@ -122,7 +122,10 @@ class ScoreSaber(commands.Cog):
         embed.add_field(name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>", value=f"#{rank}", inline=False)
         embed.add_field(name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>", value=f"{songAcc}%", inline=False)
         embed.add_field(name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>", value=recentSong["score"], inline=False)
-        embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=recentSong["pp"], inline=False)
+        if recentSong["pp"] == "0":
+            embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
+        else:
+            embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=recentSong["pp"], inline=False)
         embed.set_image(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png?size=256")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber RecentSong embed")
@@ -149,7 +152,7 @@ class ScoreSaber(commands.Cog):
         response = requests.get(URL1)
         json_data = json.loads(response.text)
         if "error" in json_data:
-            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid")
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         topSong = topSongs[0]
@@ -185,7 +188,10 @@ class ScoreSaber(commands.Cog):
         embed.add_field(name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>", value=f"#{rank}", inline=False)
         embed.add_field(name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>", value=f"{songAcc}%", inline=False)
         embed.add_field(name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>", value=topSong["score"], inline=False)
-        embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=topSong["pp"], inline=False)
+        if topSong["pp"] == "0":
+            embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
+        else:
+            embed.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=topSong["pp"], inline=False)
         embed.set_image(url="https://new.scoresaber.com/api/static/covers/"+topSong["songHash"]+".png?size=256")
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber TopSong embed")
