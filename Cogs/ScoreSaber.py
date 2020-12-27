@@ -40,10 +40,8 @@ class ScoreSaber(commands.Cog):
         print (URL)
         response = requests.get(URL)
         json_data = json.loads(response.text)
-        print (json_data.values())
-        print (json_data.items())
         if "error" in json_data:
-            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid!")
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid")
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
@@ -87,6 +85,8 @@ class ScoreSaber(commands.Cog):
         recentSongs = json_data["scores"]
         response = requests.get(URL1)
         json_data = json.loads(response.text)
+        if "error" in json_data:
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid")
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         recentSong = recentSongs[0]
@@ -148,6 +148,8 @@ class ScoreSaber(commands.Cog):
         topSongs = json_data["scores"]
         response = requests.get(URL1)
         json_data = json.loads(response.text)
+        if "error" in json_data:
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid")
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         topSong = topSongs[0]
