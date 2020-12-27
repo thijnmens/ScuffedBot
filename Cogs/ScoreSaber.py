@@ -40,6 +40,9 @@ class ScoreSaber(commands.Cog):
         print (URL)
         response = requests.get(URL)
         json_data = json.loads(response.text)
+        print (json_data.values())
+        if "error" in json_data.values():
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid!")
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
         playerCountry = playerInfo["country"]
@@ -86,7 +89,6 @@ class ScoreSaber(commands.Cog):
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         recentSong = recentSongs[0]
-        print (recentSong)
         songName = recentSong["songName"]
         songSubName = recentSong["songSubName"]
         songAuthorName = recentSong["songAuthorName"]
@@ -148,7 +150,6 @@ class ScoreSaber(commands.Cog):
         playerInfo = json_data["playerInfo"]
         playerName = playerInfo["playerName"]
         topSong = topSongs[0]
-        print (topSong)
         songName = topSong["songName"]
         songSubName = topSong["songSubName"]
         songAuthorName = topSong["songAuthorName"]
@@ -186,6 +187,13 @@ class ScoreSaber(commands.Cog):
         await ctx.send(embed=embed)
         print ("Response: ScoreSaber TopSong embed")
         print('----------')
+
+    @scoresaber.command()
+    async def compare(self, ctx, argument1=None, argument2=None):
+        if argument1 is None or argument2 is None:
+            await ctx.send ("You need to mention two people for me to compare!")
+            return
+        return
 
 def setup(client):    
     client.add_cog(ScoreSaber(client))
