@@ -42,7 +42,7 @@ class ScoreSaber(commands.Cog):
         json_data = json.loads(response.text)
         print (json_data.values())
         print (json_data.items())
-        if "error" in json_data.items():
+        if "error" in json_data:
             return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid!")
         playerInfo = json_data["playerInfo"]
         scoreStats = json_data["scoreStats"]
