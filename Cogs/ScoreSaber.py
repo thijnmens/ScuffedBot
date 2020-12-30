@@ -97,15 +97,15 @@ class ScoreSaber(commands.Cog):
         songAcc = round((int(recentSong["score"])/int(recentSong["maxScore"]))*100, 2)
         rank = recentSong["rank"]
         if recentSong["difficulty"] == 9:
-            difficulty = "Expert+"
+            difficulty = "Expert+ 🟪"
         elif recentSong["difficulty"] == 7:
-            difficulty = "Expert"
+            difficulty = "Expert 🟥"
         elif recentSong["difficulty"] == 5:
-            difficulty = "Hard"
-        elif difficulty["difficulty"] == 3:
-            difficulty = "Normal"
-        elif difficulty["difficulty"] == 1:
-            difficulty = "Easy"
+            difficulty = "Hard 🟨"
+        elif recentSong["difficulty"] == 3:
+            difficulty = "Normal 🟦"
+        elif recentSong["difficulty"] == 1:
+            difficulty = "Easy 🟩"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
         if songSubName == '':
@@ -163,15 +163,15 @@ class ScoreSaber(commands.Cog):
         songAcc = round((int(topSong["score"])/int(topSong["maxScore"]))*100, 2)
         rank = topSong["rank"]
         if topSong["difficulty"] == 9:
-            difficulty = "Expert+"
+            difficulty = "Expert+ 🟪"
         elif topSong["difficulty"] == 7:
-            difficulty = "Expert"
+            difficulty = "Expert 🟥"
         elif topSong["difficulty"] == 5:
-            difficulty = "Hard"
-        elif difficulty["difficulty"] == 3:
-            difficulty = "Normal"
-        elif difficulty["difficulty"] == 1:
-            difficulty = "Easy"
+            difficulty = "Hard 🟨"
+        elif topSong["difficulty"] == 3:
+            difficulty = "Normal 🟦"
+        elif topSong["difficulty"] == 1:
+            difficulty = "Easy 🟩"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
         if songSubName == '':
