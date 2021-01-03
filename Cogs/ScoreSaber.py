@@ -30,9 +30,11 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     recentSongs = json_data["scores"]
     response = requests.get(URL1)
     json_data = json.loads(response.text)
+    print ("1")
     if "error" in json_data:
         message = ("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
         return message
+    print ("2)")
     playerInfo = json_data["playerInfo"]
     playerName = playerInfo["playerName"]
     recentSong = recentSongs[0]
@@ -42,6 +44,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     levelAuthorName = recentSong["levelAuthorName"]
     songAcc = round((int(recentSong["score"])/int(recentSong["maxScore"]))*100, 2)
     rank = recentSong["rank"]
+    print ("3")
     if recentSong["difficulty"] == 9:
         difficulty = "Expert+ 🟣"
     elif recentSong["difficulty"] == 7:
@@ -58,21 +61,29 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         title = f"{songName}"
     else:
         title = f"{songName} - {songSubName}"
+    print ("4")
     message=discord.Embed(
         title = title,
         description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
         colour = 0xffdc1b,
         timestamp = ctx.message.created_at
     )
+    print ("5")
     message.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
+    print ("6")
     message.add_field(name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>", value=f"#{rank}", inline=False)
+    print ("7")
     message.add_field(name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>", value=f"{songAcc}%", inline=False)
+    print ("8")
     message.add_field(name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>", value=recentSong["score"], inline=False)
+    print ("9")
     if recentSong["pp"] == 0:
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
     else:
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=recentSong["pp"], inline=False)
+    print ("10")
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+recentSong["songHash"]+".png")
+    print ("11")
     return message
 
 class ScoreSaber(commands.Cog):
