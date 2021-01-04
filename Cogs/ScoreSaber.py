@@ -44,7 +44,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     songSubName = Song["songSubName"]
     songAuthorName = Song["songAuthorName"]
     levelAuthorName = Song["levelAuthorName"]
-
+    timeSet = Song["timeSet"]
     if Song["maxScore"] == 0:
         songAcc = "ScoreSaber API being fucky wucky,\nso you get 0"
     else:
@@ -80,7 +80,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
     else:
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=Song["pp"], inline=False)
-    message.add_field(name="Time Set 🕕🕘", value="temp", inline=False)
+    message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
     return message
 
