@@ -49,7 +49,7 @@ class Text(commands.Cog):
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
         embed.add_field(name=">help", value="this fancy page", inline=False)
         embed.add_field(name=">user [mention]", value="get the info of a user", inline=False)
-        embed.add_field(name=">user add", value="add yourself to the userbase, if you don't want to fill something in, pls use ``None``", inline=False)
+        embed.add_field(name=">user add", value="add yourself to the userbase. If you don't want to fill something in, pls use ``None``", inline=False)
         embed.add_field(name=">user update <field> <new value>", value="Update your info", inline=False)
         embed.add_field(name=">user remove", value="Removes your info from the database", inline=False)
         embed.add_field(name=">scoresaber [mention]", value="gets a user's ScoreSaber data,",inline=False)

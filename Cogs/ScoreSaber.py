@@ -42,20 +42,20 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     levelAuthorName = Song["levelAuthorName"]
 
     if Song["maxScore"] == 0:
-        songAcc = "ScoreSaber API being fucky wucky\n So you get 0"
+        songAcc = "ScoreSaber API being fucky wucky,\n so you get 0"
     else:
         songAcc = round((int(Song["score"])/int(Song["maxScore"]))*100, 2)
     rank = Song["rank"]
     if Song["difficulty"] == 9:
-        difficulty = "Expert+ 🟣"
+        difficulty = "<:ExpertPlus1:794900253156442134><:ExpertPlus2:794900231883063297><:ExpertPlus3:794900212060520448>"
     elif Song["difficulty"] == 7:
-        difficulty = "Expert 🔴"
+        difficulty = "<:Expert1:794900190623957032><:Expert2:794900172647301122>"
     elif Song["difficulty"] == 5:
-        difficulty = "Hard 🟡"
+        difficulty = "<:hard1:794900135099629568><:Hard2:794900117726822400>"
     elif Song["difficulty"] == 3:
-        difficulty = "Normal 🔵"
+        difficulty = "<:Normal1:794900081135845379> <:Normal2:794900048706142218> <:Normal3:794899993701908522>"
     elif Song["difficulty"] == 1:
-        difficulty = "Easy 🟢"
+        difficulty = "<:Easy1:794899950713438239> <:Easy2:794899950655111186>"
     else:
         difficulty = "Please DM Sirspam thanks uwu"
     if songSubName == '':
