@@ -1,4 +1,4 @@
 # Scuffed Bot
-The Scuffed Bot for the Beat Saber Scuffed Tourneys server
+Scuffed bot is a discord bot for the [Scuffed Tourneys discord server](https://discord.gg/4bF8JAGeB3), a server orianted around hosting monthly tournaments in the VR game Beat Saber.
 
-don't complain about broken code, we know it sucks
+don't complain about broken code, we know it's *scuffed* :)
