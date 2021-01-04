@@ -103,11 +103,13 @@ class User(commands.Cog):
             print('----------')
         if(argument1 == 'scoresaber'):
             print(f'Recieved: >user update scoresaber {ctx.author.name}')
+            sep = "?"
+            stripped = argument2.split(sep, 1)[0]
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
-                'scoresaber':argument2})
+                'scoresaber':stripped})
             await ctx.send("Your scoresaber has been updated")
-            print(f"{ctx.author.name} has updated their scoresaber to {argument2}")
+            print(f"{ctx.author.name} has updated their scoresaber to {stripped}")
             print('----------')
         if(argument1 == 'birthday'):
             print(f'Recieved: >user update birthday {ctx.author.name}')
