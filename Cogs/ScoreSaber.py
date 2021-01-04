@@ -30,8 +30,10 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     songsList = json_data["scores"]
     response = requests.get(URL1)
     json_data = json.loads(response.text)
+    print (json_data)
     if "error" in json_data:
         message = ("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
+        print (message)
         return message
     playerInfo = json_data["playerInfo"]
     playerName = playerInfo["playerName"]
@@ -42,7 +44,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     levelAuthorName = Song["levelAuthorName"]
 
     if Song["maxScore"] == 0:
-        songAcc = "ScoreSaber API being fucky wucky,\n so you get 0"
+        songAcc = "ScoreSaber API being fucky wucky,\nso you get 0"
     else:
         songAcc = round((int(Song["score"])/int(Song["maxScore"]))*100, 2)
     rank = Song["rank"]
@@ -64,7 +66,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         title = f"{songName} - {songSubName}"
     message=discord.Embed(
         title = title,
-        description = f"**{songAuthorName} - {levelAuthorName}**\n{difficulty}",
+        description = f"**{songAuthorName} - {levelAuthorName}** {difficulty}",
         colour = 0xffdc1b,
         timestamp = ctx.message.created_at
     )
