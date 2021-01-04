@@ -27,10 +27,12 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     print (URL1)
     response = requests.get(URL)
     json_data = json.loads(response.text)
-    print (json_data)
     if "error" in json_data:
-        message = ("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
-        print (message)
+        message=discord.Embed(
+            title = "Uh Oh, the codie wodie did an oopsie woopsie! uwu",
+            description = "Check if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>",
+            colour = 0xff0000
+        )
         return message
     songsList = json_data["scores"]
     response = requests.get(URL1)
