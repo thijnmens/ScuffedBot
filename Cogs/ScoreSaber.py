@@ -27,14 +27,14 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     print (URL1)
     response = requests.get(URL)
     json_data = json.loads(response.text)
-    songsList = json_data["scores"]
-    response = requests.get(URL1)
-    json_data = json.loads(response.text)
     print (json_data)
     if "error" in json_data:
         message = ("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
         print (message)
         return message
+    songsList = json_data["scores"]
+    response = requests.get(URL1)
+    json_data = json.loads(response.text)
     playerInfo = json_data["playerInfo"]
     playerName = playerInfo["playerName"]
     Song = songsList[0]
@@ -78,6 +78,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
     else:
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=Song["pp"], inline=False)
+    message.add_field(name="Time Set 🕕🕘", value="temp", inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
     return message
 
