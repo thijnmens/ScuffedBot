@@ -138,7 +138,7 @@ class ScoreSaber(commands.Cog):
         print ("Response: ScoreSaber UserData embed")
         print('----------')
         
-    @scoresaber.command(aliases=("recentsong", "rs"))
+    @scoresaber.command(aliases=("rs"))
     async def recentsong(self, ctx, argument1=None):
         print (f"Recieved >scoresaber recentsong {ctx.author.name}")
         if argument1 is not None:
@@ -155,7 +155,7 @@ class ScoreSaber(commands.Cog):
         print ("Response: ScoreSaber RecentSong embed")
         print('----------')
     
-    @scoresaber.command(aliases=("topsong", "ts"))
+    @scoresaber.command(aliases=("ts"))
     async def topsong(self, ctx, argument1=None):
         print (f"Recieved >scoresaber topsong {ctx.author.name}")
         if argument1 is not None:
