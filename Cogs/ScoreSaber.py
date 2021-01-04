@@ -30,32 +30,22 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     songsList = json_data["scores"]
     response = requests.get(URL1)
     json_data = json.loads(response.text)
-    print ("1")
     if "error" in json_data:
         message = ("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
         return message
-    print ("2")
     playerInfo = json_data["playerInfo"]
-    print ("3")
     playerName = playerInfo["playerName"]
-    print ("4")
     Song = songsList[0]
-    print ("5")
     songName = Song["songName"]
-    print ("6")
     songSubName = Song["songSubName"]
-    print ("7")
     songAuthorName = Song["songAuthorName"]
-    print ("8")
     levelAuthorName = Song["levelAuthorName"]
-    print ("9")
+
     if Song["maxScore"] == 0:
-        songAcc = "ScoreSaber API being fucky wucky"
+        songAcc = "ScoreSaber API being fucky wucky\n So you get 0"
     else:
         songAcc = round((int(Song["score"])/int(Song["maxScore"]))*100, 2)
-    print ("10")
     rank = Song["rank"]
-    print ("11")
     if Song["difficulty"] == 9:
         difficulty = "Expert+ 🟣"
     elif Song["difficulty"] == 7:
@@ -97,7 +87,7 @@ class ScoreSaber(commands.Cog):
     async def on_ready(self):
         print("ScoreSaber cog loaded")
  
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, aliases=["ss"])
     async def scoresaber(self, ctx, argument1=None):
         print (f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
