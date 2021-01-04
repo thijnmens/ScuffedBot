@@ -53,9 +53,9 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     elif Song["difficulty"] == 5:
         difficulty = "<:hard1:794900135099629568><:Hard2:794900117726822400>"
     elif Song["difficulty"] == 3:
-        difficulty = "<:Normal1:794900081135845379> <:Normal2:794900048706142218> <:Normal3:794899993701908522>"
+        difficulty = "<:Normal1:794900081135845379><:Normal2:794900048706142218><:Normal3:794899993701908522>"
     elif Song["difficulty"] == 1:
-        difficulty = "<:Easy1:794899950713438239> <:Easy2:794899950655111186>"
+        difficulty = "<:Easy1:794899950713438239><:Easy2:794899950655111186>"
     else:
         difficulty = "Please DM Sirspam thanks uwu"
     if songSubName == '':
