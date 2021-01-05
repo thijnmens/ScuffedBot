@@ -48,7 +48,7 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name=funniList[value]))
     print (f"Status set to: {funniList[value]}")
 
-@commands.has_permissions(administrator=True)
+#@commands.has_permissions(administrator=True)
 @client.command
 async def status(ctx):
     value = randint(0,len(funniList))
