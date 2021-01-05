@@ -1,5 +1,5 @@
 import discord, os, json, requests
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.utils import get
 
 #Get Random Quote
@@ -13,6 +13,11 @@ class Text(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    @tasks.loop(seconds=30)
+    async def status(self):
+        print ("a")
+
+    
     @commands.Cog.listener()
     async def on_ready(self):
         print("Text cog loaded")
