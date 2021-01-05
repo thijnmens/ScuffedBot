@@ -227,7 +227,7 @@ class ScoreSaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "recentSongs"
-            await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
+            await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
         print ("Response: ScoreSaber RecentSongs embed")
         print('----------')
     
