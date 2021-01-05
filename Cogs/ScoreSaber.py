@@ -50,8 +50,11 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     URL2 = (f"https://maps.beatsaberplus.com/api/maps/by-hash/{songHash}") #HardCPP's Mirror
     response = requests.get(URL2)
     json_data = json.load(response.text)
+    print (json_data)
     songKey = json_data["key"]
+    print (songKey)
     songBSLink = (f"https://beatsaver.com/beatmap/{songKey}")
+    print (songBSLink)
     if Song["maxScore"] == 0:
         songAcc = "ScoreSaber API being fucky wucky,\nso you get 0"
     else:
@@ -89,7 +92,8 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=Song["pp"], inline=False)
     message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
-    message.set_footer(text=f"[BeatSaver Download]({songBSLink})")
+    #message.set_footer(text=f"[BeatSaver Download]({songBSLink})")
+    print ("a")
     return message
 
 class ScoreSaber(commands.Cog):
