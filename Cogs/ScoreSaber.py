@@ -46,9 +46,12 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     levelAuthorName = Song["levelAuthorName"]
     timeSet = Song["timeSet"]
     songHash = Song["songHash"]
+    print (songHash)
     #URL2 = (f"https://beatsaver.com/api/maps/by-hash/{songHash}") #Beat Saver
     URL2 = (f"https://maps.beatsaberplus.com/api/maps/by-hash/{songHash}") #HardCPP's Mirror
+    print (URL2)
     response = requests.get(URL2)
+    print (response.text)
     json_data = json.load(response.text)
     print (json_data)
     songKey = json_data["key"]
