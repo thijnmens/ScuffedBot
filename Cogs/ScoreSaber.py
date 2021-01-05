@@ -77,7 +77,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         title = title,
         description = f"**{songAuthorName} - {levelAuthorName}** {difficulty}",
         colour = 0xffdc1b,
-        timestamp = ctx.message.created_at
+        #timestamp = ctx.message.created_at
     )
     message.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
     message.add_field(name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>", value=f"#{rank}", inline=False)
