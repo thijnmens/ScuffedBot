@@ -42,6 +42,7 @@ except Exception as e:
 @client.event
 async def on_ready():
     print('Bot has successfully launched as {0.user}'.format(client))
+    await client.change_presence(activity=discord.Game(name="Aso kinda cute 😳"))
 
 #Login to discord   
 client.run(os.getenv("TOKEN"))
