@@ -6,6 +6,9 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 dab = firestore.client()
+header = {
+    "User-Agent": "Scuffed Bot (https://github.com/thijnmens/ScuffedBot)"
+}
 
 SS_id = None
 page = int(0)
@@ -25,7 +28,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
     print (URL)
     print (URL1)
-    response = requests.get(URL)
+    response = requests.get(URL, headers=header)
     json_data = json.loads(response.text)
     if "error" in json_data:
         message=discord.Embed(
@@ -35,7 +38,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         )
         return message
     songsList = json_data["scores"]
-    response = requests.get(URL1)
+    response = requests.get(URL1, headers=header)
     json_data = json.loads(response.text)
     playerInfo = json_data["playerInfo"]
     playerName = playerInfo["playerName"]
@@ -46,9 +49,9 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     levelAuthorName = Song["levelAuthorName"]
     timeSet = Song["timeSet"]
     songHash = Song["songHash"]
-    #URL2 = (f"https://beatsaver.com/api/maps/by-hash/{songHash}") #Beat Saver
-    URL2 = (f"https://maps.beatsaberplus.com/api/maps/by-hash/{songHash}") #HardCPP's Mirror
-    response = requests.get(URL2)
+    URL2 = (f"https://beatsaver.com/api/maps/by-hash/{songHash}") #Beat Saver
+    #URL2 = (f"https://maps.beatsaberplus.com/api/maps/by-hash/{songHash}") #HardCPP's Mirror
+    response = requests.get(URL2, headers=header)
     json_data = json.loads(response.text)
     songKey = json_data["key"]
     songBSLink = (f"https://beatsaver.com/beatmap/{songKey}")
@@ -102,7 +105,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
     print (URL)
     print (URL1)
-    response = requests.get(URL)
+    response = requests.get(URL, headers=header)
     json_data = json.loads(response.text)
     if "error" in json_data:
         message=discord.Embed(
@@ -112,7 +115,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         )
         return message
     songsList = json_data["scores"]
-    response = requests.get(URL1)
+    response = requests.get(URL1, headers=header)
     json_data = json.loads(response.text)
     playerInfo = json_data["playerInfo"]
     playerName = playerInfo["playerName"]
@@ -185,7 +188,7 @@ class ScoreSaber(commands.Cog):
             SS_id = scoresaber[25:]
             URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
             print (URL)
-            response = requests.get(URL)
+            response = requests.get(URL, headers=header)
             json_data = json.loads(response.text)
             if "error" in json_data:
                 return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
