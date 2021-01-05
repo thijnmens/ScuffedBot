@@ -74,7 +74,8 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     else:
         title = f"{songName} - {songSubName}"
     message=discord.Embed(
-        title = title, url=songBSLink,
+        title = title, 
+        url = songBSLink,
         description = f"**{songAuthorName} - {levelAuthorName}** {difficulty}",
         colour = 0xffdc1b,
         timestamp = ctx.message.created_at
