@@ -39,7 +39,7 @@ try: #literally copy and pasted this from one of my discord bots lol
 except Exception as e:
     print(f"Possible fatal error:\n{e}\nThis means that the cogs have not started correctly!")
 
-@tasks.loop(seconds=30)
+@tasks.loop(hours=1)
 async def status():
     value = randint(0,len(funniList))
     value = value - 1
@@ -51,10 +51,6 @@ async def status():
 async def on_ready():
     print('Bot has successfully launched as {0.user}'.format(client))
     status.start()
-    value = randint(0,len(funniList))
-    value = value - 1
-    await client.change_presence(activity=discord.Game(name=funniList[value]))
-    print (f"Status set to: {funniList[value]}")
 
 #Login to discord   
 client.run(os.getenv("TOKEN"))
