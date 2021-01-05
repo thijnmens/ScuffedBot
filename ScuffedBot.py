@@ -6,17 +6,18 @@
 #########################
 
 import discord, os, firebase_admin
+from random import randint
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
-
 
 intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix=">", intents=intents, case_insensitive=True)
 client.remove_command('help')
 cwd = os.getcwd()
-            
+funniList = ["Join the NOPE clan", "Aso kinda cute 😳", "I'm wowking vewy hawd!! uwu","Grinding PP"]            
+
 cred = credentials.Certificate({
   "type": "service_account",
   "project_id": os.getenv("PROJECT_ID").replace('\\n', '\n'),
@@ -42,7 +43,10 @@ except Exception as e:
 @client.event
 async def on_ready():
     print('Bot has successfully launched as {0.user}'.format(client))
-    await client.change_presence(activity=discord.Game(name="Join NOPE clan 😳"))
+    value = randint(0,len(funniList))
+    value = value - 1
+    await client.change_presence(activity=discord.Game(name=funniList[value]))
+    print (f"Status set to: {funniList[value]}")
 
 #Login to discord   
 client.run(os.getenv("TOKEN"))
