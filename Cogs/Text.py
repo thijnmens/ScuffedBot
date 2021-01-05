@@ -23,7 +23,7 @@ class Text(commands.Cog):
         if message.author == self.client.user:
             return
 
-    #Hello
+    #ping
     @commands.command()
     async def ping(self, ctx):
         print('Recieved: >ping')
@@ -31,6 +31,11 @@ class Text(commands.Cog):
         print('Response: Owo')
         print('----------')
 
+    @commands.command() #Keep this out of the help embed
+    async def nope(self, ctx):
+        print("Recieved >nope")
+        await ctx.send("Join the NOPE clan <:GunChamp:796047943966523432>\nhttps://discord.gg/xH7AGnGXkf")
+    
     #Quote
     @commands.command()
     async def quote(self, ctx):
