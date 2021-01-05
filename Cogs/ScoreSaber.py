@@ -46,18 +46,12 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     levelAuthorName = Song["levelAuthorName"]
     timeSet = Song["timeSet"]
     songHash = Song["songHash"]
-    print (songHash)
     #URL2 = (f"https://beatsaver.com/api/maps/by-hash/{songHash}") #Beat Saver
     URL2 = (f"https://maps.beatsaberplus.com/api/maps/by-hash/{songHash}") #HardCPP's Mirror
-    print (URL2)
     response = requests.get(URL2)
-    print (response.text)
-    json_data = json.load(response.text)
-    print (json_data)
+    json_data = json.loads(response.text)
     songKey = json_data["key"]
-    print (songKey)
     songBSLink = (f"https://beatsaver.com/beatmap/{songKey}")
-    print (songBSLink)
     if Song["maxScore"] == 0:
         songAcc = "ScoreSaber API being fucky wucky,\nso you get 0"
     else:
@@ -83,7 +77,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         title = title,
         description = f"**{songAuthorName} - {levelAuthorName}** {difficulty}",
         colour = 0xffdc1b,
-        #timestamp = ctx.message.created_at
+        timestamp = ctx.message.created_at
     )
     message.set_author(name=playerName, url=scoresaber, icon_url="https://new.scoresaber.com"+playerInfo["avatar"])
     message.add_field(name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>", value=f"#{rank}", inline=False)
@@ -95,8 +89,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=Song["pp"], inline=False)
     message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
-    #message.set_footer(text=f"[BeatSaver Download]({songBSLink})")
-    print ("a")
+    message.set_footer(text=f"[BeatSaver Download]({songBSLink})")
     return message
 
 class ScoreSaber(commands.Cog):
