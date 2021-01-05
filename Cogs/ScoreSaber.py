@@ -124,6 +124,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         
         songMessage = (f"```Song: {songName} - {songSubName}\nRank: #{rank}\n```")
         songsMessage = songsMessage+songMessage
+        count = count+1
         print (songMessage)
     message = discord.Embed(
         title = f"{playerName}'s recent songs",
