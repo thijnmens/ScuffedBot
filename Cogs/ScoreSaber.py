@@ -92,6 +92,46 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
     return message
 
+def songsEmbed(ctx, argument, SS_id, scoresaber):
+    if argument == "recentSongs":
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
+    elif argument == "topSong":
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
+    URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
+    print (URL)
+    print (URL1)
+    response = requests.get(URL)
+    json_data = json.loads(response.text)
+    if "error" in json_data:
+        message=discord.Embed(
+            title = "Uh Oh, the codie wodie did an oopsie woopsie! uwu",
+            description = "Check if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>",
+            colour = 0xff0000
+        )
+        return message
+    songsList = json_data["scores"]
+    response = requests.get(URL1)
+    json_data = json.loads(response.text)
+    playerInfo = json_data["playerInfo"]
+    playerName = playerInfo["playerName"]
+    songsMessage = ""
+    count = 0
+    while count != len(songsList):
+        Song = songsList[count]
+        songName = Song["songName"]
+        songSubName = Song["songSubName"]
+        rank = Song["rank"]
+        
+        songMessage = (f"```Song: {songName} - {songSubName}\nRank: #{rank}\n```")
+        songsMessage = songsMessage+songMessage
+        print (songMessage)
+    message = discord.Embed(
+        title = f"{playerName}'s recent songs",
+        description = message,
+        colour = 0xffdc1b
+    )
+    return message
+
 class ScoreSaber(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -175,6 +215,26 @@ class ScoreSaber(commands.Cog):
         print ("Response: ScoreSaber TopSong embed")
         print('----------')
 
+    @scoresaber.command(aliases=["rss"])
+    async def recentsongs(self, ctx, argument1=None):
+        if argument1 is not None:
+            ID = argument1[3:]
+            ID = ID[:-1]
+            ctx.author = self.client.get_user(int(ID))
+            print (f"Argument given, now {ctx.author.name}")
+        async with ctx.channel.typing():
+            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            scoresaber = ref.get('scoresaber')
+            SS_id = scoresaber[25:]
+            argument = "recentSongs"
+            await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
+        print ("Response: ScoreSaber RecentSongs embed")
+        print('----------')
+    
+    @scoresaber.command(aliases=["tss"])
+    async def topsongs(self, ctx, argument1=None):
+        return
+    
     @scoresaber.command()
     async def compare(self, ctx, argument1=None, argument2=None):
         if argument1 is None or argument2 is None:
