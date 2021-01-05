@@ -126,9 +126,10 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         songsMessage = songsMessage+songMessage
         count = count+1
         print (songMessage)
+    print (songsMessage)
     message = discord.Embed(
         title = f"{playerName}'s recent songs",
-        description = message,
+        description = songsMessage,
         colour = 0xffdc1b
     )
     return message
