@@ -95,7 +95,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
 def songsEmbed(ctx, argument, SS_id, scoresaber):
     if argument == "recentSongs":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
-    elif argument == "topSong":
+    elif argument == "topSongs":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
     print (URL)
@@ -120,9 +120,35 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         Song = songsList[count]
         songName = Song["songName"]
         songSubName = Song["songSubName"]
+        if songSubName == '':
+            songTitle = f"{songName}"
+        else:
+            songTitle = f"{songName} - {songSubName}"
+        songAuthorName = Song["songAuthorName"]
+        levelAuthorName = Song["levelAuthorName"]
         rank = Song["rank"]
-        
-        songMessage = (f"```Song: {songName} - {songSubName}\nRank: #{rank}\n```")
+        songScore = Song["score"]
+        if Song["maxScore"] == 0:
+            songAcc = "ScoreSaber API being fucky wucky,\nso you get 0"
+        else:
+            songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
+        if Song["pp"] == 0:
+            songPP = "Unranked"
+        else:
+            songPP = Song["pp"]
+        if Song["difficulty"] == 9:
+            difficulty = "Expert+"
+        elif Song["difficulty"] == 7:
+            difficulty = "Expert"
+        elif Song["difficulty"] == 5:
+            difficulty = "Hard"
+        elif Song["difficulty"] == 3:
+            difficulty = "Normal"
+        elif Song["difficulty"] == 1:
+            difficulty = "Easy"
+        else:
+            difficulty = "Please DM Sirspam thanks uwu"
+        songMessage = (f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}```")
         songsMessage = songsMessage+songMessage
         count = count+1
         print (songMessage)
@@ -235,7 +261,19 @@ class ScoreSaber(commands.Cog):
     
     @scoresaber.command(aliases=["tss"])
     async def topsongs(self, ctx, argument1=None):
-        return
+        if argument1 is not None:
+            ID = argument1[3:]
+            ID = ID[:-1]
+            ctx.author = self.client.get_user(int(ID))
+            print (f"Argument given, now {ctx.author.name}")
+        async with ctx.channel.typing():
+            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            scoresaber = ref.get('scoresaber')
+            SS_id = scoresaber[25:]
+            argument = "topSongs"
+            await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
+        print ("Response: ScoreSaber TopSongs embed")
+        print('----------')
     
     @scoresaber.command()
     async def compare(self, ctx, argument1=None, argument2=None):
