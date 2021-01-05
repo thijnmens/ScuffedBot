@@ -95,8 +95,10 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
 def songsEmbed(ctx, argument, SS_id, scoresaber):
     if argument == "recentSongs":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
+        requestType = ("Recent Songs")
     elif argument == "topSongs":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
+        requestType = ("Top Songs")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
     print (URL)
     print (URL1)
@@ -130,7 +132,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         songScore = Song["score"]
         timeSet = Song["timeSet"]
         if Song["maxScore"] == 0:
-            songAcc = "ScoreSaber API being fucky wucky,\nso you get 0"
+            songAcc = "ScoreSaber API being fucky wucky, so you get 0"
         else:
             songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
         if Song["pp"] == 0:
@@ -149,14 +151,11 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
             difficulty = "Easy"
         else:
             difficulty = "Please DM Sirspam thanks uwu"
-        songMessage = (f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nTime Set: {timeSet}```")
+        songMessage = (f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nTime Set: {timeSet[:10]}```")
         songsMessage = songsMessage+songMessage
         count = count+1
-        print (songMessage)
-    print (songsMessage)
     message = discord.Embed(
-        title = f"{playerName}'s recent songs",
-        icon_url = "https://new.scoresaber.com"+playerInfo["avatar"],
+        title = f"{playerName}'s {requestType}",
         url = scoresaber,
         description = songsMessage,
         colour = 0xffdc1b,
