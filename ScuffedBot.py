@@ -7,7 +7,7 @@
 
 import discord, os, firebase_admin
 from random import randint
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.utils import get
 from firebase_admin import credentials
 
@@ -38,6 +38,13 @@ try: #literally copy and pasted this from one of my discord bots lol
            client.load_extension(f"Cogs.{filename[:-3]}")
 except Exception as e:
     print(f"Possible fatal error:\n{e}\nThis means that the cogs have not started correctly!")
+
+@tasks.loop(minutes=1)
+async def status():
+    value = randint(0,len(funniList))
+    value = value - 1
+    await client.change_presence(activity=discord.Game(name=funniList[value]))
+    print (f"Status set to: {funniList[value]}")
 
 #Bot Startup
 @client.event
