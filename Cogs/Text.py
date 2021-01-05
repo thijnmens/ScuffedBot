@@ -35,6 +35,8 @@ class Text(commands.Cog):
     async def nope(self, ctx):
         print("Recieved >nope")
         await ctx.send("Join the NOPE clan <:GunChamp:796047943966523432>\nhttps://discord.gg/xH7AGnGXkf")
+        print ("Response: Certainly not a link to the NOPE discord")
+        print('----------')
     
     #Quote
     @commands.command()
