@@ -35,7 +35,10 @@ class BirthdayCheck(commands.Cog):
                 print(birthday)
                 birthdaysplit = birthday.split('/')
                 print(birthdaysplit)
-                birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
+                try:
+                    birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
+                except Exception:
+                    birthdayfinal = '32/13'
                 print(birthdayfinal)
                 current_time = now.strftime("%d-%m")
                 print(current_time)
