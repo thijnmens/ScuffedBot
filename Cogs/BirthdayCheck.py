@@ -14,34 +14,29 @@ dab = firestore.client()
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
+        self.birthdays.start()
 
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
-        self.birthdays.start()
     
-    @tasks.loop(minutes=1)
+    @tasks.loop(hours=12)
     async def birthdays(self):
+        print ("Running birthdays")
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             amount = len(ref)
             count = 0
             while(count < amount):
                 ID = ref[count]
-                print(ID)
                 birthday = dab.collection(str(ID)).document('data').get().get('birthday')
-                print(birthday)
                 birthdaysplit = birthday.split('/')
-                print(birthdaysplit)
                 try:
                     birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
                 except Exception:
                     birthdayfinal = '32/13'
-                print(birthdayfinal)
                 current_time = now.strftime("%d-%m")
-                print(current_time)
                 a = dab.collection(str(ID)).document('data').get().get('a')
-                print(a)
                 if(birthdayfinal == current_time):
                    if(a == False):
                         channel = self.client.get_channel(793049781554642954)
@@ -51,6 +46,8 @@ class BirthdayCheck(commands.Cog):
                 count = count + 1
         except Exception as e:
             print(e)
+        print ("Birthdays Ended")
+        print ("----------")
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
