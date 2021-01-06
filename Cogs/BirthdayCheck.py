@@ -21,7 +21,7 @@ class BirthdayCheck(commands.Cog):
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
     
-    @birthday.command()
+    @BirthdayCheck.command()
     #Check for birthdays
     async def get_birthdays(self, ctx):
         try:
