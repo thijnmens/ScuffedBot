@@ -14,6 +14,7 @@ dab = firestore.client()
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
+        birthdays.start(self)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -60,10 +61,6 @@ class BirthdayCheck(commands.Cog):
                 count = count + 1
         except Exception as e:
             print(e)
-
-        @client.event
-        async def on_ready(self):
-            birthdays.start(self)
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
