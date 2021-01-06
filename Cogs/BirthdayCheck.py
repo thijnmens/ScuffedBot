@@ -30,8 +30,7 @@ class BirthdayCheck(commands.Cog):
         print('Response: testing complete')
         print('----------')
 
-    @commands.command()
-    #@tasks.loop(hours=12)
+    @tasks.loop(minutes=1)
     async def birthdays(self, ctx):
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
