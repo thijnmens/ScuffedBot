@@ -32,7 +32,7 @@ class BirthdayCheck(commands.Cog):
 
     @commands.command()
     #@tasks.loop(hours=12)
-    async def status(self, ctx):
+    async def birthdays(self, ctx):
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             amount = len(ref)
@@ -56,7 +56,7 @@ class BirthdayCheck(commands.Cog):
                 if(birthdayfinal == current_time):
                    if(a == False):
                         channel = self.client.get_channel(793049781554642954)
-                        await channel.send(f'<:HyperTada:796323264888307731> Happy birtday <!@{ID}>! <:HyperTada:796323264888307731>')
+                        await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
                         print(f'Wished {ID} a happy birthday')
                         a = dab.collection(str(ID)).document('data').update({'a':True})
                 count = count + 1
