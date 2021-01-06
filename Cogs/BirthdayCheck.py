@@ -23,6 +23,7 @@ class BirthdayCheck(commands.Cog):
     @commands.command()
     #Check for birthdays
     async def get_birthdays(self, ctx):
+        print('Recieved: >get_birthdays')
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             amount = len(ref)
@@ -40,20 +41,26 @@ class BirthdayCheck(commands.Cog):
                 print(current_time)
                 a = dab.collection(str(ID)).document('data').get().get('a')
                 print(a)
-                if(birthdayfinal == current_time & a == False):
-                    channel = client.get_channel(793049781554642954)
-                    await channel.send(f'<:HyperTada:796323264888307731> Happy birtday <!@{ID}>! <:HyperTada:796323264888307731>')
-                    print(f'Wished {ID} a happy birthday')
-                    a = dab.collection(str(ID)).document('data').update({'a':True})
+                if(birthdayfinal == current_time):
+                    if(a == False):
+                        channel = client.get_channel(793049781554642954)
+                        await channel.send(f'<:HyperTada:796323264888307731> Happy birtday <!@{ID}>! <:HyperTada:796323264888307731>')
+                        print(f'Wished {ID} a happy birthday')
+                        a = dab.collection(str(ID)).document('data').update({'a':True})
+                count = count + 1
         except Exception as e:
             print(e)
+        print('----------')
 
     #Test
     @commands.command()
     async def test(self, ctx):
         print('Recieved: >test')
         ###VVV testing here VVV###
-        get_birthdays()
+        try:
+            get_birthdays()
+        except Exception as e:
+            print(e)
         ###^^^ testing here ^^^###
         await ctx.send('testing complete')
         print('Response: testing complete')
