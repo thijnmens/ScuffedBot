@@ -27,9 +27,12 @@ class User(commands.Cog):
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
+        status = ref.get("status")
+        print (status)
         embed=discord.Embed(title=username, color=0xff0000)
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
+        embed.add_field(name="Status", value=status, inline=True)
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: user embed')
@@ -99,7 +102,7 @@ class User(commands.Cog):
     #User update
     @user.command()
     async def update(self, ctx, argument1=None, argument2=None):
-        if(argument1 == 'username'):
+        if(argument1.lower() == 'username'):
             print(f'Recieved: >user update username {ctx.author.name}')
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
@@ -107,7 +110,7 @@ class User(commands.Cog):
             await ctx.send("Your username has been updated")
             print(f"{ctx.author.name} has updated their username to {argument2}")
             print('----------')
-        if(argument1 == 'scoresaber'):
+        if(argument1.lower() == 'scoresaber'):
             print(f'Recieved: >user update scoresaber {ctx.author.name}')
             argument2 = argument2.split("?", 1)[0]
             argument2 = argument2.split("&", 1)[0]
@@ -117,13 +120,21 @@ class User(commands.Cog):
             await ctx.send("Your scoresaber has been updated")
             print(f"{ctx.author.name} has updated their scoresaber to {argument2}")
             print('----------')
-        if(argument1 == 'birthday'):
+        if(argument1.lower() == 'birthday'):
             print(f'Recieved: >user update birthday {ctx.author.name}')
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'birthday':argument2})
             await ctx.send("Your birthday has been updated")
             print(f"{ctx.author.name} has updated their birthday to {argument2}")
+            print('----------')
+        if(argument1.lower() == "status"):
+            print(f'Recieved: >user update status {ctx.author.name}')
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
+            doc_ref.update({
+                'status':argument2})
+            await ctx.send("Your status has been updated")
+            print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
         if(argument1 is None):
             await ctx.send('Please include an option to change (username, scoresaber, birthday)')
