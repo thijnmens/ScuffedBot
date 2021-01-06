@@ -28,7 +28,6 @@ class User(commands.Cog):
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
         status = ref.get("status")
-        print (status)
         embed=discord.Embed(title=username, color=0xff0000)
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
@@ -56,7 +55,7 @@ class User(commands.Cog):
                     scoresaber = scoresaber.split("&", 1)[0]
                     print(scoresaber)
                     if msg:
-                        sent = await ctx.send("When is your birthday? [DD/MM/YYYY]. Use ``None`` if you don't want to input anything")
+                        sent = await ctx.send("When is your birthday? [DD/MM] or [DD/MM/YYYY].\nUse ``None`` if you don't want to input anything.")
                         try:
                             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                             birthday = msg.content
@@ -73,7 +72,7 @@ class User(commands.Cog):
                                     'collectionarray':col_ref})
                             except Exception as e:
                                 print(e)
-                            await ctx.send(f'{ctx.author.name} has sucessfully been added to the database')
+                            await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
                             print(f'Response: {ctx.author.name} has sucessfully been added to the database')
                             print('----------')
                         except asyncio.TimeoutError:
@@ -101,7 +100,7 @@ class User(commands.Cog):
                 
     #User update
     @user.command()
-    async def update(self, ctx, argument1=None, argument2=None):
+    async def update(self, ctx, argument1=None, *,argument2=None):
         if(argument1.lower() == 'username'):
             print(f'Recieved: >user update username {ctx.author.name}')
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
@@ -136,8 +135,8 @@ class User(commands.Cog):
             await ctx.send("Your status has been updated")
             print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
-        if(argument1 is None):
-            await ctx.send('Please include an option to change (username, scoresaber, birthday)')
+        else:
+            await ctx.send('Please include an option to change\n(username, scoresaber, birthday, status)')
             print('no argument1 given')
             print('----------')
 
