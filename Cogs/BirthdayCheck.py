@@ -10,7 +10,6 @@ client = discord.Client()
 now = datetime.now()
 current_time = now.strftime("%d-%m")
 dab = firestore.client()
-check = False
 
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
@@ -19,7 +18,8 @@ class BirthdayCheck(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
-    
+        birthdays.start()
+
     #Test
     @commands.command()
     async def test(self, ctx):
@@ -31,7 +31,7 @@ class BirthdayCheck(commands.Cog):
         print('----------')
 
     @tasks.loop(minutes=1)
-    async def birthdays(self, ctx):
+    async def birthdays(self):
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             amount = len(ref)
