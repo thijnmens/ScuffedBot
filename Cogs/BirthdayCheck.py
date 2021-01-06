@@ -15,7 +15,6 @@ check = False
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.infinite_loop.start()
 
     @commands.Cog.listener()
     async def on_ready(self):
