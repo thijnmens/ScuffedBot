@@ -14,22 +14,12 @@ dab = firestore.client()
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
-        birthdays.start(self)
 
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
+        self.birthdays.start()
     
-    #Test
-    @commands.command()
-    async def test(self, ctx):
-        print('Recieved: >test')
-        ###VVV testing here VVV###
-        ###^^^ testing here ^^^###
-        await ctx.send('testing complete')
-        print('Response: testing complete')
-        print('----------')
-
     @tasks.loop(minutes=1)
     async def birthdays(self):
         try:
