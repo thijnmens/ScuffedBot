@@ -14,15 +14,14 @@ dab = firestore.client()
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.birthdays.start()
 
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
-    
-    @tasks.loop(minutes=5)
+        self.birthdays.start()
+
+    @tasks.loop(hours=12)
     async def birthdays(self):
-        asyncio.sleep(30)
         print ("Running birthdays")
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
@@ -38,11 +37,7 @@ class BirthdayCheck(commands.Cog):
                     birthdayfinal = '32/13'
                 current_time = now.strftime("%d-%m")
                 a = dab.collection(str(ID)).document('data').get().get('a')
-                print (birthdayfinal)
-                print (current_time)
-                print (a)
                 if(birthdayfinal == current_time):
-                   a = False
                    if(a == False):
                         channel = self.client.get_channel(793049781554642954)
                         await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
