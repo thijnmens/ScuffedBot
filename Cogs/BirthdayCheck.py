@@ -8,7 +8,7 @@ from firebase_admin import db
 
 client = discord.Client()
 now = datetime.now()
-current_time = now.strftime("%Y-%m-%d-%H-%M-%S")
+current_time = now.strftime("%d-%m")
 dab = firestore.client()
 check = False
 
@@ -21,11 +21,31 @@ class BirthdayCheck(commands.Cog):
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
     
+    @birthday.command()
     #Check for birthdays
     async def get_birthdays(self, ctx):
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-            amount = len(ref) - 1
+            amount = len(ref)
+            count = 0
+            while(count < amount):
+                ID = ref[count]
+                print(ID)
+                birthday = dab.collection(str(ID)).document('data').get().get('birthday')
+                print(birthday)
+                birthdaysplit = birthday.split('/')
+                print(birthdaysplit)
+                birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
+                print(birthdayfinal)
+                current_time = now.strftime("%d-%m")
+                print(current_time)
+                a = dab.collection(str(ID)).document('data').get().get('a')
+                print(a)
+                if(birthdayfinal == current_time & a == False):
+                    channel = client.get_channel(793049781554642954)
+                    await channel.send(f'<:HyperTada:796323264888307731> Happy birtday <!@{ID}>! <:HyperTada:796323264888307731>')
+                    print(f'Wished {ID} a happy birthday')
+                    a = dab.collection(str(ID)).document('data').update({'a':True})
         except Exception as e:
             print(e)
 
@@ -33,32 +53,12 @@ class BirthdayCheck(commands.Cog):
     @commands.command()
     async def test(self, ctx):
         print('Recieved: >test')
-        print(current_time)
+        ###VVV testing here VVV###
+        get_birthdays()
+        ###^^^ testing here ^^^###
         await ctx.send('testing complete')
         print('Response: testing complete')
         print('----------')
-
-    #Infinite Loop
-    @tasks.loop(minutes=1)
-    async def infinite_loop(self, ctx):
-        await client.wait_until_ready()
-        while not client.is_closed:
-            now = datetime.now()
-            current_time = now.strftime("%Y-%m-%d-%H-%M-%S")
-            try:
-                if current_time == '2020-12-25-17-45 -00':
-                    channel = client.get_channel(754627439413690469)
-                    await channel.send('Countdown has initialized <a:Loading:792062970599178251>')
-                    await channel.send('3 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
-                if current_time == '2020-12-26-17-45-00':
-                    channel = client.get_channel(754627439413690469)
-                    await channel.send('2 More Days till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
-                if current_time == '2020-12-27-17-45-00':
-                    channel = client.get_channel(754627439413690469)
-                    await channel.send('1 More Day till a̶̧͔̱̰̩̋͑̅̾͗̈́̐͂̚͘g̸̺̣̟̜̓̓́́͘h̸͖͈̺̿̊͆͒̅̎̑̚ͅa̴̙̫̗̟͐͂̈̀̒̅͛̉͠s̴̺̔̌͑͑s̷̞̥͈͚̺͈͕̀̀͂̇́͘ͅȁ̵̬̀̂̂̎͝g̸͓̞̑̐̏̉́͆͝h̷̹̯̣͈̻̺͑̾́́̔͗̐̓͘k̸̯̟̼̮̜̏͐͜....')
-            except Exception as e:
-                print(e)
-            await asyncio.sleep(60)
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
