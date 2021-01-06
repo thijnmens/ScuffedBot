@@ -14,7 +14,6 @@ dab = firestore.client()
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
-        asyncio.sleep(30)
         self.birthdays.start()
 
     @commands.Cog.listener()
@@ -23,6 +22,7 @@ class BirthdayCheck(commands.Cog):
     
     @tasks.loop(hours=12)
     async def birthdays(self):
+        asyncio.sleep(30)
         print ("Running birthdays")
         try:
             ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
