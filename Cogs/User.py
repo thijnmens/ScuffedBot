@@ -66,7 +66,7 @@ class User(commands.Cog):
                             try:
                                 col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
                                 col_ref.append(str(ctx.author.id))
-                                col_ref.update({
+                                dab.collection('collectionlist').document('data').update({
                                     'collectionarray':col_ref})
                             except Exception as e:
                                 print(e)
@@ -82,15 +82,19 @@ class User(commands.Cog):
         except asyncio.TimeoutError:
             await sent.delete()
             await ctx.send('You did not reply in time, please restart the process')
-
                 
     #User Remove
     @user.command()
     async def remove(self, ctx):
-        dab.collection(str(ctx.author.id)).document('data').delete()
-        await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
-        print(f"Response: {ctx.author.id} has been successfully removed to the database")
-        print('----------')
+        try:
+            col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+            col_ref.remove(str(ctx.author.id))
+            dab.collection('collectionlist').document('data').get
+            await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
+            print(f"Response: {ctx.author.id} has been successfully removed to the database")
+            print('----------')
+        except Exception as e:
+            print(e)
                 
     #User update
     @user.command()
