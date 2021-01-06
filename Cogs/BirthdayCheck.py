@@ -30,7 +30,7 @@ class BirthdayCheck(commands.Cog):
         print('Response: testing complete')
         print('----------')
 
-    @BirthdayCheck.commands()
+    @commands.command()
     #@tasks.loop(hours=12)
     async def status(self, ctx):
         try:
