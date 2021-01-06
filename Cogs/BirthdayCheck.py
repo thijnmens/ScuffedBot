@@ -14,6 +14,7 @@ dab = firestore.client()
 class BirthdayCheck(commands.Cog):
     def __init__(self, client):
         self.client = client
+        asyncio.sleep(30)
         self.birthdays.start()
 
     @commands.Cog.listener()
