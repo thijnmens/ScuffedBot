@@ -20,7 +20,7 @@ class BirthdayCheck(commands.Cog):
         print("BirthdayCheck cog loaded")
         self.birthdays.start()
     
-    @tasks.loop(hours=12)
+    @tasks.loop(minutes=1)
     async def birthdays(self):
         print ("Running birthdays")
         try:
@@ -37,6 +37,8 @@ class BirthdayCheck(commands.Cog):
                     birthdayfinal = '32/13'
                 current_time = now.strftime("%d-%m")
                 a = dab.collection(str(ID)).document('data').get().get('a')
+                print (current_time)
+                print (a)
                 if(birthdayfinal == current_time):
                    if(a == False):
                         channel = self.client.get_channel(793049781554642954)
