@@ -18,7 +18,6 @@ class BirthdayCheck(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("BirthdayCheck cog loaded")
-        birthdays.start(self)
     
     #Test
     @commands.command()
@@ -61,6 +60,10 @@ class BirthdayCheck(commands.Cog):
                 count = count + 1
         except Exception as e:
             print(e)
+
+        @client.event
+        async def on_ready(self):
+            birthdays.start(self)
 
 def setup(client):
     client.add_cog(BirthdayCheck(client))
