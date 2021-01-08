@@ -30,7 +30,6 @@ class User(commands.Cog):
         print ("a")
         try:
             colour = ref.get("colour")
-            colour = "0x"+colour
             embed=discord.Embed(title=username, colour=int(colour))
         except Exception as e:
             embed=discord.Embed(title=username, colour=discord.Colour.random())
@@ -158,7 +157,7 @@ class User(commands.Cog):
             await ctx.send("Your status has been updated")
             print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
-        elif argument1.lower() == "colour":
+        elif argument1.lower() == "colour" or argument1.lower() == "color": #Americans ew
             print(f"Recieved: >user update colour {ctx.author.name}")
             if len(argument2) != 6:
                 await ctx.send("Please use a valid hexadecimal colour value. uwu")
