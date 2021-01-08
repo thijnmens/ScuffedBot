@@ -29,11 +29,13 @@ class User(commands.Cog):
         birthday = ref.get('birthday')
         print ("a")
         try:
+            print ("1")
             colour = ref.get("colour")
             print("b")
             embed=discord.Embed(title=username, color="0x"+colour)
             print ("3")
         except Exception as e:
+            print ("d")
             embed=discord.Embed(title=username, color=discord.colour.random)
             print (f"Funny colour exception: {e}")
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
