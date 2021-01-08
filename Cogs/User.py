@@ -36,7 +36,7 @@ class User(commands.Cog):
             print ("3")
         except Exception as e:
             print ("d")
-            embed=discord.Embed(title=username, color=colour.random)
+            embed=discord.Embed(title=username, color=colour.random())
             print (f"Funny colour exception: {e}")
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
