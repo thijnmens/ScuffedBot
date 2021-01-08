@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin, asyncio, schedule, time
+import discord, os, requests, json, firebase_admin, asyncio, time, re
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -27,11 +27,14 @@ class User(commands.Cog):
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
-        #status = ref.get("status")
         embed=discord.Embed(title=username, color=0xff0000)
+        try:
+            status = ref.get("status")
+            embed.add_field(name="Status", value=status, inline=True)
+        except Exception as e:
+            print (f"Funny exception\n{e}")
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
-        #embed.add_field(name="Status", value=status, inline=True)
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: user embed')
@@ -60,6 +63,10 @@ class User(commands.Cog):
                             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                             birthday = msg.content
                             print(birthday)
+                            if ((bool(re.search(r"\d/", birthday)))) is False:
+                                print ("Birthday input validation triggered")
+                                await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
+                                return
                             doc_ref = dab.collection(str(ctx.author.id)).document('data')
                             doc_ref.set({
                                 'username':username,
@@ -101,7 +108,7 @@ class User(commands.Cog):
     #User update
     @user.command()
     async def update(self, ctx, argument1=None, *,argument2=None):
-        if(argument1.lower() == 'username'):
+        if argument1.lower() == 'username':
             print(f'Recieved: >user update username {ctx.author.name}')
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
@@ -109,7 +116,7 @@ class User(commands.Cog):
             await ctx.send("Your username has been updated")
             print(f"{ctx.author.name} has updated their username to {argument2}")
             print('----------')
-        elif(argument1.lower() == 'scoresaber'):
+        elif argument1.lower() == 'scoresaber':
             print(f'Recieved: >user update scoresaber {ctx.author.name}')
             argument2 = argument2.split("?", 1)[0]
             argument2 = argument2.split("&", 1)[0]
@@ -119,15 +126,19 @@ class User(commands.Cog):
             await ctx.send("Your scoresaber has been updated")
             print(f"{ctx.author.name} has updated their scoresaber to {argument2}")
             print('----------')
-        elif(argument1.lower() == 'birthday'):
+        elif argument1.lower() == 'birthday':
             print(f'Recieved: >user update birthday {ctx.author.name}')
+            if ((bool(re.search(r"\d/", argument2)))) is False:
+                print ("Birthday input validation triggered")
+                await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
+                return
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'birthday':argument2})
             await ctx.send("Your birthday has been updated")
             print(f"{ctx.author.name} has updated their birthday to {argument2}")
             print('----------')
-        elif(argument1.lower() == "status"):
+        elif argument1.lower() == "status":
             print(f'Recieved: >user update status {ctx.author.name}')
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
@@ -135,7 +146,7 @@ class User(commands.Cog):
             await ctx.send("Your status has been updated")
             print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
-        else:
+        elif argument1 is None:
             await ctx.send('Please include an option to change\n``username, scoresaber, birthday, status``')
             print('no argument1 given')
             print('----------')

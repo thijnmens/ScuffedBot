@@ -4,5 +4,4 @@ firebase-admin
 discord-ext-alternatives
 DiscordUtils
 asyncio
-schedule
 datetime
