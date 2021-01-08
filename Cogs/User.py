@@ -30,7 +30,7 @@ class User(commands.Cog):
         print ("a")
         try:
             colour = ref.get("colour")
-            embed=discord.Embed(title=username, color=int(colour))
+            embed=discord.Embed(title=username, color=0x+int(colour))
         except Exception as e:
             embed=discord.Embed(title=username, color=discord.Colour.random())
             print (f"Funny colour exception: {e}")
@@ -164,7 +164,7 @@ class User(commands.Cog):
             else:
                 doc_ref = dab.collection(str(ctx.author.id)).document('data')
                 doc_ref.update({
-                    'colour':"0x"+argument2})
+                    'colour':argument2})
                 await ctx.send("Your colour has been updated")
                 print(f"{ctx.author.name} has updated their colour to {argument2}")
                 print('----------')
