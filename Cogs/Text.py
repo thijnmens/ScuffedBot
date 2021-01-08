@@ -22,16 +22,17 @@ class Text(commands.Cog):
     async def on_message(self, message):
         if message.author == self.client.user:
             return
-
+    
     #ping
     @commands.command()
     async def ping(self, ctx):
         print('Recieved: >ping')
-        await ctx.send(f'uwu *notices your ping* Owo ``{round(self.client.latency * 1000)}ms``')
-        print('Response: Owo')
+        await ctx.send(f'uwu *notices your ping* <w< ``{round(self.client.latency * 1000)}ms``')
+        print(f'Response: {round(self.client.latency * 1000)}')
         print('----------')
 
     @commands.command() #Keep this out of the help embed
+    @commands.cooldown(1, 30, commands.BucketType.guild)
     async def nope(self, ctx):
         print("Recieved >nope")
         await ctx.send("Join the NOPE clan <:GunChamp:796047943966523432>\nhttps://discord.gg/xH7AGnGXkf")

@@ -25,16 +25,16 @@ class ErrorHandler(commands.Cog):
             return await ctx.send("Bad argument")
         elif isinstance(error, commands.CommandNotFound):
             print("CommandNotFound ran")
-            return await ctx.send("Command not found")
+            return await ctx.send("S-Sorry Senpai, I couldn't find that command uwu")
         elif isinstance(error, commands.BotMissingPermissions):
             print(f"BotMissingPermissions ran - {error.missing_perms[0]}")
             return await ctx.send(f"Bot missing the following permissions: {error.missing_perms[0]}")
         elif isinstance(error, commands.NotOwner):
-                return await ctx.send('Only the bot owner can run this command')
+                return await ctx.send('Only my owner can do that with me~ >w<')
         elif isinstance(error, commands.CommandOnCooldown):
-            return await ctx.send(f"Command on cooldown, wait {math.ceil(error.retry_after)} seconds")
+            return await ctx.send(f"S-Senpai, I'm cooling down! O//w//O\nplease wait {math.ceil(error.retry_after)} seconds uwu")
         elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.MissingPermissions):
-            return await ctx.send("You don't have the valid permissions for this command")
+            return await ctx.send("Sorry Senpai, you don't have the permissions for this command :(")
 
     @commands.Cog.listener()
     async def on_ready(self):
