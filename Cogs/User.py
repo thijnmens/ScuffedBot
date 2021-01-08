@@ -30,7 +30,7 @@ class User(commands.Cog):
         print ("a")
         try:
             colour = ref.get("colour")
-            embed=discord.Embed(title=username, colour=colour)
+            embed=discord.Embed(title=username, colour=discord.Colour(colour))
         except Exception as e:
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
