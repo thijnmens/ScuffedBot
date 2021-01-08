@@ -28,13 +28,13 @@ class User(commands.Cog):
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
         embed=discord.Embed(title=username, color=0xff0000)
+        embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
+        embed.add_field(name="Birthday", value=birthday, inline=True)
         try:
             status = ref.get("status")
             embed.add_field(name="Status", value=status, inline=True)
         except Exception as e:
             print (f"Funny exception\n{e}")
-        embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
-        embed.add_field(name="Birthday", value=birthday, inline=True)
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: user embed')
