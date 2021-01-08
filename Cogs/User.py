@@ -62,7 +62,7 @@ class User(commands.Cog):
                         try:
                             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                             birthday = msg.content
-                            bool a = false
+                            bool(a) = false
                             print(birthday)
                             if ((bool(re.search(r"\d/", birthday)))) is False:
                                 print ("Birthday input validation triggered")
