@@ -27,14 +27,19 @@ class User(commands.Cog):
         username = ref.get('username')
         scoresaber = ref.get('scoresaber')
         birthday = ref.get('birthday')
-        embed=discord.Embed(title=username, color=0xff0000)
+        try:
+            colour = ref.get("colour")
+            embed=discord.Embed(title=username, color=colour)
+        except Exception as e:
+            embed=discord.Embed(title=username, color=discord.colour.random)
+            print (f"Funny colour exception: {e}")
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
         embed.add_field(name="Birthday", value=birthday, inline=True)
         try:
             status = ref.get("status")
             embed.add_field(name="Status", value=status, inline=True)
         except Exception as e:
-            print (f"Funny exception\n{e}")
+            print (f"Funny status exception: {e}")
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: user embed')
@@ -110,7 +115,10 @@ class User(commands.Cog):
     #User update
     @user.command()
     async def update(self, ctx, argument1=None, *,argument2=None):
-        if argument1.lower() == 'username':
+        if argument1 is None:
+            await ctx.send('Please include an option to change\n``username, scoresaber, birthday, status``')
+            print('no argument1 given')
+        elif argument1.lower() == 'username':
             print(f'Recieved: >user update username {ctx.author.name}')
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
@@ -148,10 +156,18 @@ class User(commands.Cog):
             await ctx.send("Your status has been updated")
             print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
-        elif argument1 is None:
-            await ctx.send('Please include an option to change\n``username, scoresaber, birthday, status``')
-            print('no argument1 given')
-            print('----------')
+        elif argument1.lower() == "colour":
+            print(f"Recieved: >user update colour {ctx.author.name}")
+            if len(argument2) != 6:
+                await ctx.send("Please use a valid hexadecimal colour value. uwu")
+            else:
+                doc_ref = dab.collection(str(ctx.author.id)).document('data')
+                doc_ref.update({
+                    'colour':argument2})
+                await ctx.send("Your colour has been updated")
+                print(f"{ctx.author.name} has updated their colour to {argument2}")
+                print('----------')
+        print('----------')
 
 def setup(client):    
     client.add_cog(User(client))
