@@ -68,18 +68,19 @@ class User(commands.Cog):
                         try:
                             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                             birthday = msg.content
+                            print(birthday)
+                            if ((bool(re.search(r"\d/", birthday)))) is False:
+                                print ("Birthday input validation triggered")
+                                await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
+                                return
                             storer = birthday.split('/')
                             storer[0] = int(storer[0])
                             storer[1] = int(storer[1])
                             if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
-                                birthday = "b-baka!!!"
+                                print ("Birthday legitimacy triggered")
+                                await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
                                 return
                             a = False
-                            print(birthday)
-                            if ((bool(re.search(r"\d/", birthday)))) is False:
-                                print ("Birthday input validation triggered")
-                                await ctx.send("Oopsie, looks like you did a woopsie! Did you input a fake date b-baka!!! uwu\n``Don't use characters expect for numbers and /``")
-                                return
                             doc_ref = dab.collection(str(ctx.author.id)).document('data')
                             doc_ref.set({
                                 'a':a,
@@ -149,6 +150,13 @@ class User(commands.Cog):
                 print ("Birthday input validation triggered")
                 await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
                 return
+            storer = argument2.split('/')
+            storer[0] = int(storer[0])
+            storer[1] = int(storer[1])
+            if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
+                print ("Birthday legitimacy triggered")
+                await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
+                return
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'birthday':argument2})
@@ -163,7 +171,7 @@ class User(commands.Cog):
             await ctx.send("Your status has been updated")
             print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
-        elif argument1.lower() == "colour" or argument1.lower() == "color": #Americans ew -- hey Americans are great idk what you're on
+        elif argument1.lower() == "colour" or argument1.lower() == "color": #Americans ew -- hey Americans are great idk what you're on -- American doesn't have greggs, checkmate.
             print(f"Recieved: >user update colour {ctx.author.name}")
             if len(argument2) != 6:
                 await ctx.send("Please use a valid hexadecimal colour value. uwu")
