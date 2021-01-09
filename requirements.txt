@@ -5,3 +5,4 @@ discord-ext-alternatives
 DiscordUtils
 asyncio
 datetime
+pychal
