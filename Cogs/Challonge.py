@@ -5,6 +5,8 @@ from discord.utils import get
 #https://api.challonge.com/v1
 #https://github.com/ZEDGR/pychallonge
 
+challonge.set_credentials("ScuffedTourney",os.getenv("CHALLONGEKEY"))
+
 class Challonge(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -16,6 +18,13 @@ class Challonge(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def challonge(self, ctx):
         await ctx.send("https://challonge.com/users/scuffedtourney/tournaments")
+
+    @challonge.command()
+    async def test(self, ctx):
+        embed = discord.Embed(
+            title = "ligma balls lol"
+        )
+        embed.set_image(url="https://challonge.com/l76djrwh.svg")
 
 def setup(client):    
     client.add_cog(Challonge(client))
