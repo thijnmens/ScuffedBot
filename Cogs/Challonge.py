@@ -23,17 +23,16 @@ class Challonge(commands.Cog):
                 messages = ""
                 tournaments = challonge.tournaments.index()
                 count = 0
-                for x in tournaments:
+                for x in reversed(tournaments):
                     tournament = tournaments[count]
-                    tourney_name = (tournament["name"])
+                    #tourney_id = tournament["id"]
                     matches = challonge.matches.index(tournament["id"])
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
-                        winner = ("yet to be determined")
+                        message = ("```{} - {}".format(tournament["name"],tournament["state"]))
                     else:
                         match = matches[(len(matches)) - 1]
                         winner = challonge.participants.show(tournament["id"], match["winner_id"])
-                        winner = (winner["name"])
-                    message = (f"```{tourney_name} - Winner: {winner}```")
+                        message = ("```{} - Winner: {}".format(tournament["name"],winner["name"]))
                     messages = messages+message
                     count = count + 1
                 embed=discord.Embed(
