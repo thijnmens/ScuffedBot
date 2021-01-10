@@ -17,16 +17,34 @@ class Challonge(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     async def challonge(self, ctx):
-        await ctx.send("https://challonge.com/users/scuffedtourney/tournaments")
-
-    @challonge.command()
-    async def test(self, ctx):
-        await ctx.send("okie dokie!")
-        embed = discord.Embed(
-            title = "ligma balls lol"
-        )
-        embed.set_image(url="https://challonge.com/l76djrwh.svg")
-        await ctx.send(embed=embed)
+        print ("recieved challonge")
+        async with ctx.channel.typing():
+            messages = ""
+            tournaments = challonge.tournaments.index()
+            count = 0
+            for x in tournaments:
+                tournament = tournaments[count]
+                tourney_name = (tournament["name"])
+                matches = challonge.matches.index(tournament["id"])
+                if (len(matches)) == 0:
+                    winner = ("not determined")
+                else:
+                    match = matches[(len(matches)) - 1]
+                    winner = challonge.participants.show(tournament["id"], match["winner_id"])
+                    winner = ("1st: {}".format(winner["name"]))
+                message = (f"{tourney_name} - Winner: {winner}")
+                messages = messages+message
+                count = count + 1
+            embed=discord.Embed(
+                title = "Scuffed Tournaments",
+                url = "https://challonge.com/users/scuffedtourney/tournaments",
+                description = messages,
+                colour = 0xff7324,
+                timestamp = ctx.message.created_at
+            )
+            await ctx.send(embed=embed)
+        print ("responded with embed")
+        print ("--------")
 
 def setup(client):    
     client.add_cog(Challonge(client))
