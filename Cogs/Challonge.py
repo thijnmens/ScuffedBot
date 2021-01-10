@@ -32,7 +32,7 @@ class Challonge(commands.Cog):
                     match = matches[(len(matches)) - 1]
                     winner = challonge.participants.show(tournament["id"], match["winner_id"])
                     winner = ("1st: {}".format(winner["name"]))
-                message = (f"{tourney_name} - Winner: {winner}")
+                message = (f"```{tourney_name} - Winner: {winner}```")
                 messages = messages+message
                 count = count + 1
             embed=discord.Embed(
