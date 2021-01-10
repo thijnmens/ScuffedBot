@@ -18,31 +18,35 @@ class Challonge(commands.Cog):
     @commands.group(invoke_without_command=True)
     async def challonge(self, ctx):
         print ("recieved challonge")
-        async with ctx.channel.typing():
-            messages = ""
-            tournaments = challonge.tournaments.index()
-            count = 0
-            for x in tournaments:
-                tournament = tournaments[count]
-                tourney_name = (tournament["name"])
-                matches = challonge.matches.index(tournament["id"])
-                if (len(matches)) == 0:
-                    winner = ("not determined")
-                else:
-                    match = matches[(len(matches)) - 1]
-                    winner = challonge.participants.show(tournament["id"], match["winner_id"])
-                    winner = (winner["name"])
-                message = (f"```{tourney_name} - Winner: {winner}```")
-                messages = messages+message
-                count = count + 1
-            embed=discord.Embed(
-                title = "Scuffed Tournaments",
-                url = "https://challonge.com/users/scuffedtourney/tournaments",
-                description = messages,
-                colour = 0xff7324,
-                timestamp = ctx.message.created_at
-            )
-            await ctx.send(embed=embed)
+        try:
+            async with ctx.channel.typing():
+                messages = ""
+                tournaments = challonge.tournaments.index()
+                count = 0
+                for x in tournaments:
+                    tournament = tournaments[count]
+                    tourney_name = (tournament["name"])
+                    matches = challonge.matches.index(tournament["id"])
+                    if (len(matches)) == 0:
+                        winner = ("not determined")
+                    else:
+                        match = matches[(len(matches)) - 1]
+                        winner = challonge.participants.show(tournament["id"], match["winner_id"])
+                        winner = (winner["name"])
+                    message = (f"```{tourney_name} - Winner: {winner}```")
+                    messages = messages+message
+                    count = count + 1
+                embed=discord.Embed(
+                    title = "Scuffed Tournaments",
+                    url = "https://challonge.com/users/scuffedtourney/tournaments",
+                    description = messages,
+                    colour = 0xff7324,
+                    timestamp = ctx.message.created_at
+                )
+                await ctx.send(embed=embed)
+        except Exception as e:
+            print (f"Uh Oh it did a fucky\n{e}")
+            await ctx.send("I'm sorry, S-Senpai. I messed up your command\n<@232574143818760192>")
         print ("responded with embed")
         print ("--------")
 

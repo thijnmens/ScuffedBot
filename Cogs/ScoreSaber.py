@@ -71,7 +71,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     elif Song["difficulty"] == 1:
         difficulty = "<:Easy1:794899950713438239><:Easy2:794899950655111186>"
     else:
-        difficulty = "Please DM Sirspam thanks uwu"
+        difficulty = "Please ping Sirspam thanks uwu"
     if songSubName == '':
         title = f"{songName}"
     else:
@@ -153,7 +153,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         elif Song["difficulty"] == 1:
             difficulty = "Easy"
         else:
-            difficulty = "Please DM Sirspam thanks uwu"
+            difficulty = "Please ping Sirspam thanks uwu"
         songMessage = (f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nTime Set: {timeSet[:10]}```")
         songsMessage = songsMessage+songMessage
         count = count+1
