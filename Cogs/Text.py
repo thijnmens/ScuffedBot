@@ -71,7 +71,7 @@ class Text(commands.Cog):
         print('Response: help embed')
         print('----------')
 
-    commands.command()
+    @commands.command()
     async def death(self, ctx):
         await ctx.send("!mute <@303017061637160961>")
 
