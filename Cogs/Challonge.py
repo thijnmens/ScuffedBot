@@ -27,8 +27,8 @@ class Challonge(commands.Cog):
                     tournament = tournaments[count]
                     tourney_name = (tournament["name"])
                     matches = challonge.matches.index(tournament["id"])
-                    if (len(matches)) == 0:
-                        winner = ("not determined")
+                    if tournament["state"] == "pending" or tournament["state"] == "underway":
+                        winner = ("yet to be determined")
                     else:
                         match = matches[(len(matches)) - 1]
                         winner = challonge.participants.show(tournament["id"], match["winner_id"])
