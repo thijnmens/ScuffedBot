@@ -25,14 +25,13 @@ class Challonge(commands.Cog):
                 count = 0
                 for x in reversed(tournaments):
                     tournament = tournaments[count]
-                    #tourney_id = tournament["id"]
                     matches = challonge.matches.index(tournament["id"])
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
-                        message = ("```{} - {}```".format(tournament["name"],tournament["state"]))
+                        message = ("```{} - ID: {}\nStatus: {}```".format(tournament["name"],tournament["id"],tournament["state"]))
                     else:
                         match = matches[(len(matches)) - 1]
                         winner = challonge.participants.show(tournament["id"], match["winner_id"])
-                        message = ("```{} - Winner: {}```".format(tournament["name"],winner["name"]))
+                        message = ("```{} - ID: {}\nWinner: {}```".format(tournament["name"],tournament["id"],winner["name"]))
                     messages = messages+message
                     count = count + 1
                 embed=discord.Embed(
@@ -43,11 +42,32 @@ class Challonge(commands.Cog):
                     timestamp = ctx.message.created_at
                 )
                 await ctx.send(embed=embed)
+                print ("responded with embed")
         except Exception as e:
             print (f"Uh Oh it did a fucky\n{e}")
             await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w<")
             await ctx.send("<https://challonge.com/users/scuffedtourney/tournaments>")
-        print ("responded with embed")
+        print ("--------")
+
+    @challonge.command()
+    async def id (self, ctx, argument1=None):
+        print ("recieved challonge id")
+        if argument1 is None:
+            await ctx.send("B-Baka!! You need to give a tournament ID!\n``Use >challonge to check the tournament IDs``")
+            print ("No argument given")
+            return
+        try:
+            tournament = challonge.tournaments.show(argument1)
+        except Exception as e:
+            print (f"challonge id did a fucky when getting tournament\n{e}")
+            await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w< \n<https://challonge.com/users/scuffedtourney/tournaments>")
+        embed=discord.Embed(
+            title = tournament["name"],
+            url = tournament["full_challonge_url"],
+            colour = 0xff7324,
+            timestamp = ctx.message.created_at
+        )
+        await ctx.send(embed=embed)
         print ("--------")
 
 def setup(client):    
