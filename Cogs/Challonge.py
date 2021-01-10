@@ -21,10 +21,12 @@ class Challonge(commands.Cog):
 
     @challonge.command()
     async def test(self, ctx):
+        await ctx.send("okie dokie!")
         embed = discord.Embed(
             title = "ligma balls lol"
         )
         embed.set_image(url="https://challonge.com/l76djrwh.svg")
+        await ctx.send(embed=embed)
 
 def setup(client):    
     client.add_cog(Challonge(client))
