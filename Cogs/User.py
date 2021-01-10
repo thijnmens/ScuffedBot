@@ -86,14 +86,13 @@ class User(commands.Cog):
                                 try:
                                     sent = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                                     hmd = msg.content
-                                except Exception as e:
-                                print(e)
+                                https://github.com/thijnmens/ScuffedBot/commit/c413ce38131694ff2af4ec59ed1b74378f4690cd
                                 doc_ref = dab.collection(str(ctx.author.id)).document('data')
                                 doc_ref.set({
-                                    'a':a,
-                                    'username':username,
-                                    'scoresaber':scoresaber,
-                                    'birthday':birthday})
+                                  'a':a,
+                                  'username':username,
+                                  'scoresaber':scoresaber,
+                                   'birthday':birthday})
                                 try:
                                     col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
                                     col_ref.append(str(ctx.author.id))
@@ -101,18 +100,18 @@ class User(commands.Cog):
                                         'collectionarray':col_ref})
                                 except Exception as e:
                                     print(e)
-                                await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
-                                print(f'Response: {ctx.author.name} has sucessfully been added to the database')
-                                print('----------')
-                            except asyncio.TimeoutError:
-                                await sent.delete()
-                                await ctx.send('You did not reply in time, please restart the process')
-                    except asyncio.TimeoutError:
-                        await sent.delete()
-                        await ctx.send('You did not reply in time, please restart the process')
-            except asyncio.TimeoutError:
-                await sent.delete()
-                await ctx.send('You did not reply in time, please restart the process')
+                            await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
+                            print(f'Response: {ctx.author.name} has sucessfully been added to the database')
+                            print('----------')
+                        except asyncio.TimeoutError:
+                            await sent.delete()
+                            await ctx.send('You did not reply in time, please restart the process')
+                except asyncio.TimeoutError:
+                    await sent.delete()
+                    await ctx.send('You did not reply in time, please restart the process')
+        except asyncio.TimeoutError:
+            await sent.delete()
+            await ctx.send('You did not reply in time, please restart the process')
                 
     #User Remove
     @user.command()
