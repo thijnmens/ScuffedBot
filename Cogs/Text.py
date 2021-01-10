@@ -63,13 +63,17 @@ class Text(commands.Cog):
         embed.add_field(name=">scoresaber [mention]", value="gets a user's ScoreSaber data,", inline=False)
         embed.add_field(name=">scoresaber topsong [mention]", value="gets a user's top song from ScoreSaber,", inline=False)
         embed.add_field(name=">scoresaber recentsong [mention]", value="gets a user's most recent song from ScoreSaber,", inline=False)
-        embed.add_field(name=">challonge", value="Posts a link to the scuffed tourney's previous tournament brackets", inline=False)
+        embed.add_field(name=">challonge", value="Posts an embed of previous scuffed tournaments.", inline=False)
         embed.add_field(name=">quote", value="Posts a random quote", inline=False)
         embed.add_field(name=">ping", value="Pings Scuffed Bot", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         await ctx.send(embed=embed)
         print('Response: help embed')
         print('----------')
+
+    commands.command()
+    async def death(self, ctx):
+        await ctx.send("!mute <@303017061637160961>")
 
 def setup(client):    
     client.add_cog(Text(client))
