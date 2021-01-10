@@ -23,7 +23,7 @@ class Challonge(commands.Cog):
                 messages = ""
                 tournaments = challonge.tournaments.index()
                 count = 0
-                for x in reversed(tournaments):
+                for x in (tournaments):
                     tournament = tournaments[count]
                     matches = challonge.matches.index(tournament["id"])
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
@@ -45,8 +45,7 @@ class Challonge(commands.Cog):
                 print ("responded with embed")
         except Exception as e:
             print (f"Uh Oh it did a fucky\n{e}")
-            await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w<")
-            await ctx.send("<https://challonge.com/users/scuffedtourney/tournaments>")
+            await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w< \n<https://challonge.com/users/scuffedtourney/tournaments>")
         print ("--------")
 
     @challonge.command()
