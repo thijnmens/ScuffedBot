@@ -28,11 +28,11 @@ class Challonge(commands.Cog):
                     #tourney_id = tournament["id"]
                     matches = challonge.matches.index(tournament["id"])
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
-                        message = ("```{} - {}".format(tournament["name"],tournament["state"]))
+                        message = ("```{} - {}```".format(tournament["name"],tournament["state"]))
                     else:
                         match = matches[(len(matches)) - 1]
                         winner = challonge.participants.show(tournament["id"], match["winner_id"])
-                        message = ("```{} - Winner: {}".format(tournament["name"],winner["name"]))
+                        message = ("```{} - Winner: {}```".format(tournament["name"],winner["name"]))
                     messages = messages+message
                     count = count + 1
                 embed=discord.Embed(
