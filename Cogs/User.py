@@ -86,13 +86,15 @@ class User(commands.Cog):
                                 try:
                                     sent = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                                     hmd = msg.content
-                                https://github.com/thijnmens/ScuffedBot/commit/c413ce38131694ff2af4ec59ed1b74378f4690cd
+                                except Exception as e:
+                                    print (e)
                                 doc_ref = dab.collection(str(ctx.author.id)).document('data')
                                 doc_ref.set({
-                                  'a':a,
-                                  'username':username,
-                                  'scoresaber':scoresaber,
-                                   'birthday':birthday})
+                                    'a':a,
+                                    'username':username,
+                                    'scoresaber':scoresaber,
+                                    'birthday':birthday,
+                                    'hmd':hmd})
                                 try:
                                     col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
                                     col_ref.append(str(ctx.author.id))
@@ -168,6 +170,14 @@ class User(commands.Cog):
                 'birthday':argument2})
             await ctx.send("Your birthday has been updated")
             print(f"{ctx.author.name} has updated their birthday to {argument2}")
+            print('----------')
+        elif argument1.lower() == "hmd":
+            print(f'Recieved: >user update hmd {ctx.author.name}')
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
+            doc_ref.update({
+                'hmd':argument2})
+            await ctx.send("Your hmd has been updated")
+            print(f"{ctx.author.name} has updated their status to {argument2}")
             print('----------')
         elif argument1.lower() == "status":
             print(f'Recieved: >user update status {ctx.author.name}')
