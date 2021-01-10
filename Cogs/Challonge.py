@@ -46,7 +46,7 @@ class Challonge(commands.Cog):
                 await ctx.send(embed=embed)
         except Exception as e:
             print (f"Uh Oh it did a fucky\n{e}")
-            await ctx.send("I'm sorry, S-Senpai. I messed up your command\n<@232574143818760192>")
+            await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w<\n<https://challonge.com/users/scuffedtourney/tournaments> ")
         print ("responded with embed")
         print ("--------")
 
