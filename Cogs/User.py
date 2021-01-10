@@ -81,31 +81,38 @@ class User(commands.Cog):
                                 await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
                                 return
                             a = False
-                            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-                            doc_ref.set({
-                                'a':a,
-                                'username':username,
-                                'scoresaber':scoresaber,
-                                'birthday':birthday})
-                            try:
-                                col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-                                col_ref.append(str(ctx.author.id))
-                                dab.collection('collectionlist').document('data').update({
-                                    'collectionarray':col_ref})
-                            except Exception as e:
+                            if msg:
+                                sent = await ctx.send("What headset do you use?")
+                                try:
+                                    sent = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                                    hmd = msg.content
+                                except Exception as e:
                                 print(e)
-                            await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
-                            print(f'Response: {ctx.author.name} has sucessfully been added to the database')
-                            print('----------')
-                        except asyncio.TimeoutError:
-                            await sent.delete()
-                            await ctx.send('You did not reply in time, please restart the process')
-                except asyncio.TimeoutError:
-                    await sent.delete()
-                    await ctx.send('You did not reply in time, please restart the process')
-        except asyncio.TimeoutError:
-            await sent.delete()
-            await ctx.send('You did not reply in time, please restart the process')
+                                doc_ref = dab.collection(str(ctx.author.id)).document('data')
+                                doc_ref.set({
+                                    'a':a,
+                                    'username':username,
+                                    'scoresaber':scoresaber,
+                                    'birthday':birthday})
+                                try:
+                                    col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+                                    col_ref.append(str(ctx.author.id))
+                                    dab.collection('collectionlist').document('data').update({
+                                        'collectionarray':col_ref})
+                                except Exception as e:
+                                    print(e)
+                                await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
+                                print(f'Response: {ctx.author.name} has sucessfully been added to the database')
+                                print('----------')
+                            except asyncio.TimeoutError:
+                                await sent.delete()
+                                await ctx.send('You did not reply in time, please restart the process')
+                    except asyncio.TimeoutError:
+                        await sent.delete()
+                        await ctx.send('You did not reply in time, please restart the process')
+            except asyncio.TimeoutError:
+                await sent.delete()
+                await ctx.send('You did not reply in time, please restart the process')
                 
     #User Remove
     @user.command()
