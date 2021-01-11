@@ -40,7 +40,7 @@ class Challonge(commands.Cog):
                                 third = participant["name"]
                             par_count = par_count + 1
                         par_count = 0 
-                        message = ("[{}]({}) - ID: {}\n1st: {}, 2nd: {}, 3rd: {} \n".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
+                        message = ("**[{}]({}) - ID: {}**\n1st: {}, 2nd: {}, 3rd: {} \n ".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
                     messages = message+messages
                     count = count + 1
                 embed=discord.Embed(
@@ -50,8 +50,8 @@ class Challonge(commands.Cog):
                     colour = 0xff7324,
                     timestamp = ctx.message.created_at
                 )
-                await ctx.send(embed=embed)
-                print ("responded with embed")
+            await ctx.send(embed=embed)
+            print ("responded with embed")
         except Exception as e:
             print (f"Uh Oh it did a fucky\n{e}")
             await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w< \n<https://challonge.com/users/scuffedtourney/tournaments>")
@@ -77,7 +77,7 @@ class Challonge(commands.Cog):
                 colour = 0xff7324,
                 timestamp = ctx.message.created_at
             )
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
         print ("--------")
 
 def setup(client):    

@@ -211,7 +211,7 @@ class ScoreSaber(commands.Cog):
             embed.add_field(name="Total Play Count <a:ppJedi:754632378206388315>", value=scoreStats["totalPlayCount"], inline=True)
             embed.add_field(name="Ranked Play Count 🧑‍🌾", value=scoreStats["rankedPlayCount"], inline=True)
             embed.set_thumbnail(url="https://new.scoresaber.com"+playerInfo["avatar"])
-            await ctx.send(embed=embed)
+        await ctx.send(embed=embed)
         print ("Response: ScoreSaber UserData embed")
         print('----------')
         
@@ -228,7 +228,7 @@ class ScoreSaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "recentSong"
-            await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
         print ("Response: ScoreSaber RecentSong embed")
         print('----------')
     
@@ -245,7 +245,7 @@ class ScoreSaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "topSong"
-            await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
         print ("Response: ScoreSaber TopSong embed")
         print('----------')
 
@@ -261,7 +261,7 @@ class ScoreSaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "recentSongs"
-            await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
         print ("Response: ScoreSaber RecentSongs embed")
         print('----------')
     
@@ -277,7 +277,7 @@ class ScoreSaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "topSongs"
-            await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
         print ("Response: ScoreSaber TopSongs embed")
         print('----------')
     
