@@ -38,7 +38,9 @@ class Challonge(commands.Cog):
                                 second = participant["name"]
                             elif participant["final_rank"] == 3:
                                 third = participant["name"]
-                            message = ("```{} - ID: {}\n1st: {}, 2nd: {}, 3rd: {}```".format(tournament["name"],tournament["id"],first, second, third))
+                            par_count = par_count + 1
+                        par_count = 0 
+                        message = ("```{} - ID: {}\n1st: {}, 2nd: {}, 3rd: {}```".format(tournament["name"],tournament["id"],first, second, third))
                     messages = message+messages
                     count = count + 1
                 embed=discord.Embed(
