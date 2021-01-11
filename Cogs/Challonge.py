@@ -40,8 +40,8 @@ class Challonge(commands.Cog):
                                 third = participant["name"]
                             par_count = par_count + 1
                         par_count = 0 
-                        message = ("**[{}]({}) - ID: {}**\n1st: {}, 2nd: {}, 3rd: {}".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
-                    messages = message+"\n"+messages
+                        message = ("**[{}]({}) - ID: {}**\n1st: {}, 2nd: {}, 3rd: {}\n*_ _*".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
+                    messages = message+messages
                     count = count + 1
                 embed=discord.Embed(
                     title = "Scuffed Tournaments",
