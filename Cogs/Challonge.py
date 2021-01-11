@@ -29,6 +29,13 @@ class Challonge(commands.Cog):
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
                         message = ("```{} - ID: {}\nStatus: {}```".format(tournament["name"],tournament["id"],tournament["state"]))
                     else:
+                        embed=discord.Embed(
+                            title = "Scuffed Tournaments",
+                            url = "https://challonge.com/users/scuffedtourney/tournaments",
+                            #description = messages,
+                            colour = 0xff7324,
+                            timestamp = ctx.message.created_at
+                        )
                         participants = challonge.participants.index(tournament["id"])
                         for x in participants:
                             participant = participants[par_count]
@@ -41,15 +48,12 @@ class Challonge(commands.Cog):
                             par_count = par_count + 1
                         par_count = 0 
                         message = ("```{} - ID: {}\n1st: {}, 2nd: {}, 3rd: {}```".format(tournament["name"],tournament["id"],first, second, third))
+                        name = "[{}]({})".format(tournament["name"], tournament["full_challonge_url"])
+                        value = "1st: {}, 2nd: {}, 3rd: {}".format(first, second, third)
+                        embed.add_field(name=name, value=value, inline=False)
                     messages = message+messages
                     count = count + 1
-                embed=discord.Embed(
-                    title = "Scuffed Tournaments",
-                    url = "https://challonge.com/users/scuffedtourney/tournaments",
-                    description = messages,
-                    colour = 0xff7324,
-                    timestamp = ctx.message.created_at
-                )
+
                 await ctx.send(embed=embed)
                 print ("responded with embed")
         except Exception as e:
@@ -69,13 +73,15 @@ class Challonge(commands.Cog):
         except Exception as e:
             print (f"challonge id did a fucky when getting tournament\n{e}")
             await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w< \n<https://challonge.com/users/scuffedtourney/tournaments>")
-        embed=discord.Embed(
-            title = tournament["name"],
-            url = tournament["full_challonge_url"],
-            colour = 0xff7324,
-            timestamp = ctx.message.created_at
-        )
-        await ctx.send(embed=embed)
+        async with ctx.channel.typing():
+            
+            embed=discord.Embed(
+                title = tournament["name"],
+                url = tournament["full_challonge_url"],
+                colour = 0xff7324,
+                timestamp = ctx.message.created_at
+            )
+            await ctx.send(embed=embed)
         print ("--------")
 
 def setup(client):    
