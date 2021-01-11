@@ -46,7 +46,7 @@ class Challonge(commands.Cog):
                 embed=discord.Embed(
                     title = "Scuffed Tournaments",
                     url = "https://challonge.com/users/scuffedtourney/tournaments",
-                    #description = messages,
+                    description = messages,
                     colour = 0xff7324,
                     timestamp = ctx.message.created_at
                 )
