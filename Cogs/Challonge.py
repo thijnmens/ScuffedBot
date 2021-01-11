@@ -27,7 +27,7 @@ class Challonge(commands.Cog):
                 for x in (tournaments):
                     tournament = tournaments[count]
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
-                        message = ("```{} - ID: {}\nStatus: {}```".format(tournament["name"],tournament["id"],tournament["state"]))
+                        message = ("{} - ID: {}\nStatus: Tourney currently {}\n".format(tournament["name"],tournament["id"],tournament["state"]))
                     else:
                         participants = challonge.participants.index(tournament["id"])
                         for x in participants:
@@ -40,8 +40,8 @@ class Challonge(commands.Cog):
                                 third = participant["name"]
                             par_count = par_count + 1
                         par_count = 0 
-                        message = ("**[{}]({}) - ID: {}**\n1st: {}, 2nd: {}, 3rd: {}\n*_ _*".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
-                    messages = message+messages
+                        message = ("**[{}]({}) - ID: {}**\n1st: {}, 2nd: {}, 3rd: {}\n".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
+                    messages = "\n"+message+messages
                     count = count + 1
                 embed=discord.Embed(
                     title = "Scuffed Tournaments",
