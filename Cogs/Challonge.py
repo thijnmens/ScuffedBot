@@ -29,13 +29,6 @@ class Challonge(commands.Cog):
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
                         message = ("```{} - ID: {}\nStatus: {}```".format(tournament["name"],tournament["id"],tournament["state"]))
                     else:
-                        embed=discord.Embed(
-                            title = "Scuffed Tournaments",
-                            url = "https://challonge.com/users/scuffedtourney/tournaments",
-                            #description = messages,
-                            colour = 0xff7324,
-                            timestamp = ctx.message.created_at
-                        )
                         participants = challonge.participants.index(tournament["id"])
                         for x in participants:
                             participant = participants[par_count]
@@ -47,13 +40,16 @@ class Challonge(commands.Cog):
                                 third = participant["name"]
                             par_count = par_count + 1
                         par_count = 0 
-                        message = ("```{} - ID: {}\n1st: {}, 2nd: {}, 3rd: {}```".format(tournament["name"],tournament["id"],first, second, third))
-                        name = "[{}]({})".format(tournament["name"], tournament["full_challonge_url"])
-                        value = "1st: {}, 2nd: {}, 3rd: {}".format(first, second, third)
-                        embed.add_field(name=name, value=value, inline=False)
+                        message = ("[{}]({}) - ID: {}\n1st: {}, 2nd: {}, 3rd: {} \n".format(tournament["name"],tournament["full_challonge_url"],tournament["id"],first, second, third))
                     messages = message+messages
                     count = count + 1
-
+                embed=discord.Embed(
+                    title = "Scuffed Tournaments",
+                    url = "https://challonge.com/users/scuffedtourney/tournaments",
+                    #description = messages,
+                    colour = 0xff7324,
+                    timestamp = ctx.message.created_at
+                )
                 await ctx.send(embed=embed)
                 print ("responded with embed")
         except Exception as e:
