@@ -15,7 +15,7 @@ class Challonge(commands.Cog):
     async def on_ready(self):
         print("Challonge cog loaded")
 
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, aliases=["challenge", "ch"])
     async def challonge(self, ctx):
         print ("recieved challonge")
         try:
@@ -23,15 +23,22 @@ class Challonge(commands.Cog):
                 messages = ""
                 tournaments = challonge.tournaments.index()
                 count = 0
+                par_count = 0
                 for x in (tournaments):
                     tournament = tournaments[count]
-                    matches = challonge.matches.index(tournament["id"])
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
                         message = ("```{} - ID: {}\nStatus: {}```".format(tournament["name"],tournament["id"],tournament["state"]))
                     else:
-                        match = matches[(len(matches)) - 1]
-                        winner = challonge.participants.show(tournament["id"], match["winner_id"])
-                        message = ("```{} - ID: {}\nWinner: {}```".format(tournament["name"],tournament["id"],winner["name"]))
+                        participants = challonge.participants.index(tournament["id"])
+                        for x in participants:
+                            participant = participants[par_count]
+                            if participant["final_rank"] == 1:
+                                first = participant["name"]
+                            elif participant["final_rank"] == 2:
+                                second = participant["name"]
+                            elif participant["final_rank"] == 3:
+                                third = participant["name"]
+                        message = ("```{} - ID: {}\n1st: {}, 2nd: {}, 3rd: {}```".format(tournament["name"],tournament["id"],first, second, third))
                     messages = message+messages
                     count = count + 1
                 embed=discord.Embed(
