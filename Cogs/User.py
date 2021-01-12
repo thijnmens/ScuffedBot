@@ -89,7 +89,7 @@ class User(commands.Cog):
                             if msg:
                                 sent = await ctx.send("What headset do you use?")
                                 try:
-                                    sent = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                                    msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                                     hmd = msg.content
                                 except Exception as e:
                                     print (e)
