@@ -73,17 +73,18 @@ class User(commands.Cog):
                             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                             birthday = msg.content
                             print(birthday)
-                            if ((bool(re.search(r"\d/", birthday)))) is False:
-                                print ("Birthday input validation triggered")
-                                await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
-                                return
-                            storer = birthday.split('/')
-                            storer[0] = int(storer[0])
-                            storer[1] = int(storer[1])
-                            if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
-                                print ("Birthday legitimacy triggered")
-                                await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
-                                return
+                            if birthday != "None":
+                                if ((bool(re.search(r"\d/", birthday)))) is False:
+                                    print ("Birthday input validation triggered")
+                                    await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
+                                    return
+                                storer = birthday.split('/')
+                                storer[0] = int(storer[0])
+                                storer[1] = int(storer[1])
+                                if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
+                                    print ("Birthday legitimacy triggered")
+                                    await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
+                                    return
                             a = False
                             if msg:
                                 sent = await ctx.send("What headset do you use?")
@@ -225,6 +226,12 @@ class User(commands.Cog):
         embed.add_field(name="Birthday", value="", inline=True)
         embed.add_field(name="Status", value="", inline=True)
         #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
+        await ctx.send(embed=embed)
+
+    @update.group(invoke_without_command=True)
+    async def link (self, ctx):
+        return
+
 
 def setup(client):    
     client.add_cog(User(client))

@@ -30,7 +30,7 @@ class ErrorHandler(commands.Cog):
 
         elif isinstance(error, commands.MissingRequiredArgument):
             print ("MissingRequiredArgument handler ran")
-            return await ctx.send(f"You didn't give a required argument, B-Baka!\n``Missing: {error.param.name}``")
+            return await ctx.send(f"You didn't give a required argument, B-Baka!")#\n``Missing: {error.param.name}``")
 
         elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.MissingPermissions):
             print ("MissingPermissions handler ran")
