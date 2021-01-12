@@ -24,9 +24,10 @@ class User(commands.Cog):
             ctx.author = self.client.get_user(int(ID))
         print(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection(str(ctx.author.id)).document('data').get()
-        username = ref.get('username')
-        scoresaber = ref.get('scoresaber')
-        birthday = ref.get('birthday')
+        username = ref.get("username")
+        scoresaber = ref.get("scoresaber")
+        birthday = ref.get("birthday")
+        hmd = ref.get("hmd")
         print ("a")
         try:
             colour = int(ref.get("colour"))
@@ -35,10 +36,11 @@ class User(commands.Cog):
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
         embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
+        embed.add_field(name="HMD", value=hmd, inline=True)
         embed.add_field(name="Birthday", value=birthday, inline=True)
         try:
             status = ref.get("status")
-            embed.add_field(name="Status", value=status, inline=True)
+            embed.add_field(name="Status", value=status, inline=False)
         except Exception as e:
             print (f"Funny status exception: {e}")
         embed.set_thumbnail(url=ctx.author.avatar_url)
@@ -47,6 +49,7 @@ class User(commands.Cog):
         print('----------')
         
     #User Add
+    
     @user.command()
     async def add (self, ctx):
         print(f'Recieved: >user add {ctx.author.name}')
@@ -129,76 +132,88 @@ class User(commands.Cog):
             print(e)
                 
     #User update
-    @user.command()
-    async def update(self, ctx, argument1=None, *,argument2=None):
-        if argument1 is None:
-            await ctx.send('Please include an option to change\n``username, scoresaber, birthday, status``')
-            print('no argument1 given')
-        elif argument1.lower() == 'username':
-            print(f'Recieved: >user update username {ctx.author.name}')
-            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-            doc_ref.update({
-                'username':argument2})
-            await ctx.send("Your username has been updated")
-            print(f"{ctx.author.name} has updated their username to {argument2}")
-            print('----------')
-        elif argument1.lower() == 'scoresaber':
-            print(f'Recieved: >user update scoresaber {ctx.author.name}')
-            argument2 = argument2.split("?", 1)[0]
-            argument2 = argument2.split("&", 1)[0]
-            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-            doc_ref.update({
-                'scoresaber':argument2})
-            await ctx.send("Your scoresaber has been updated")
-            print(f"{ctx.author.name} has updated their scoresaber to {argument2}")
-            print('----------')
-        elif argument1.lower() == 'birthday':
-            print(f'Recieved: >user update birthday {ctx.author.name}')
-            if ((bool(re.search(r"\d/", argument2)))) is False:
-                print ("Birthday input validation triggered")
-                await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
-                return
-            storer = argument2.split('/')
-            storer[0] = int(storer[0])
-            storer[1] = int(storer[1])
-            if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
-                print ("Birthday legitimacy triggered")
-                await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
-                return
-            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-            doc_ref.update({
-                'birthday':argument2})
-            await ctx.send("Your birthday has been updated")
-            print(f"{ctx.author.name} has updated their birthday to {argument2}")
-            print('----------')
-        elif argument1.lower() == "hmd":
-            print(f'Recieved: >user update hmd {ctx.author.name}')
-            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-            doc_ref.update({
-                'hmd':argument2})
-            await ctx.send("Your hmd has been updated")
-            print(f"{ctx.author.name} has updated their status to {argument2}")
-            print('----------')
-        elif argument1.lower() == "status":
-            print(f'Recieved: >user update status {ctx.author.name}')
-            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-            doc_ref.update({
-                'status':argument2})
-            await ctx.send("Your status has been updated")
-            print(f"{ctx.author.name} has updated their status to {argument2}")
-            print('----------')
-        elif argument1.lower() == "colour" or argument1.lower() == "color": #Americans ew -- hey Americans are great idk what you're on -- American doesn't have greggs, checkmate.
-            print(f"Recieved: >user update colour {ctx.author.name}")
-            if len(argument2) != 6:
-                await ctx.send("Please use a valid hexadecimal colour value. uwu")
-            else:
-                doc_ref = dab.collection(str(ctx.author.id)).document('data')
-                doc_ref.update({
-                    'colour':argument2})
-                await ctx.send("Your colour has been updated")
-                print(f"{ctx.author.name} has updated their colour to {argument2}")
-                print('----------')
+    @user.group(invoke_without_command=True)
+    async def update(self, ctx):
+        print(f"Recieved: >user update")
+        await ctx.send("B-Baka!! You need to tell me what you want to update!!\nUse ``>user update help`` to check the valid arguments")
+        print("no sub command given")
+        print("---------")
+        
+    @update.command()
+    async def username(self, ctx, *, argument):
+        print(f'Recieved: >user update username {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'username':argument})
+        await ctx.send(f"Your username has been updated to {argument}")
+        print(f"{ctx.author.name} has updated their username to {argument}")
         print('----------')
+    
+    @update.command()
+    async def scoresaber(self, ctx, argument):
+        print(f'Recieved: >user update scoresaber {ctx.author.name}')
+        argument = argument.split("?", 1)[0]
+        argument = argument.split("&", 1)[0]
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'scoresaber':argument})
+        await ctx.send("Your scoresaber has been updated")
+        print(f"{ctx.author.name} has updated their scoresaber to {argument}")
+        print('----------')
+    
+    @update.command()
+    async def birthday(self, ctx, argument):
+        print(f'Recieved: >user update birthday {ctx.author.name}')
+        if ((bool(re.search(r"\d/", argument)))) is False:
+            print ("Birthday input validation triggered")
+            await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
+            return
+        storer = argument.split('/')
+        storer[0] = int(storer[0])
+        storer[1] = int(storer[1])
+        if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
+            print ("Birthday legitimacy triggered")
+            await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
+            return
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'birthday':argument})
+        await ctx.send(f"Your birthday has been updated to {argument}")
+        print(f"{ctx.author.name} has updated their birthday to {argument}")
+        print('----------')
+    
+    @update.command()
+    async def hmd (self, ctx, *, argument):
+        print(f'Recieved: >user update hmd {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'hmd':argument})
+        await ctx.send(f"Your hmd has been updated to {argument}")
+        print(f"{ctx.author.name} has updated their status to {argument}")
+        print('----------')
+    
+    @update.command()
+    async def status (self, ctx, *, argument):
+        print(f'Recieved: >user update status {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'status':argument})
+        await ctx.send("Your status has been updated")
+        print(f"{ctx.author.name} has updated their status to {argument}")
+        print('----------')
+    
+    @update.command(aliases=["color"]) #Americans ew
+    async def colour (self, ctx, argument):
+        print(f"Recieved: >user update colour {ctx.author.name}")
+        if len(argument) != 6:
+            await ctx.send("Please use a valid hexadecimal colour value. uwu")
+        else:
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
+            doc_ref.update({
+                'colour':argument})
+            await ctx.send("Your colour has been updated")
+            print(f"{ctx.author.name} has updated their colour to {argument}")
+            print('----------')
 
 def setup(client):    
     client.add_cog(User(client))

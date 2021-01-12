@@ -21,20 +21,26 @@ class ErrorHandler(commands.Cog):
             return
 
         elif isinstance(error, commands.BadArgument):
-            print("BadArgument ran")
-            return await ctx.send("Bad argument")
+            print("BadArgument handler ran")
+            return await ctx.send("Bad argument") #ngl I have no clue when this error is invoked but whatever
         elif isinstance(error, commands.CommandNotFound):
-            print("CommandNotFound ran")
-            return await ctx.send("S-Sorry Senpai, I couldn't find that command uwu")
+            print("CommandNotFound handler ran")
+            return await ctx.send("S-Sorry Senpai, I couldn't find that command qwq")
         elif isinstance(error, commands.BotMissingPermissions):
-            print(f"BotMissingPermissions ran - {error.missing_perms[0]}")
+            print(f"BotMissingPermissions handler ran - {error.missing_perms[0]}")
             return await ctx.send(f"Bot missing the following permissions: {error.missing_perms[0]}")
         elif isinstance(error, commands.NotOwner):
-                return await ctx.send('Only my owner can do that with me~ >w<')
+            print ("NotOwner handler ran")
+            return await ctx.send('Only my owner can do that with me~ >w<')
         elif isinstance(error, commands.CommandOnCooldown):
+            print ("CommandOnCooldown handler ran")
             return await ctx.send(f"S-Senpai, I'm cooling down! O//w//O\nplease wait {math.ceil(error.retry_after)} seconds uwu")
+        elif isinstance(error, commands.MissingRequiredArgument):
+            print ("MissingRequiredArgument handler ran")
+            return await ctx.send(f"You didn't give a required argument, B-Baka!\n``Use >help to check what arguments are needed``")
         elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.MissingPermissions):
-            return await ctx.send("Sorry Senpai, you don't have the permissions for this command :(")
+            print ("MissingPermissions handler ran")
+            return await ctx.send("Sorry Senpai, you don't have the permissions for this command qwq")
 
     @commands.Cog.listener()
     async def on_ready(self):
