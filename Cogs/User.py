@@ -6,6 +6,7 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 dab = firestore.client()
+valid_HMD = ["cv1","rift S","quest","quest 2","index","vive"]
 
 class User(commands.Cog):
     def __init__(self, client):
@@ -214,6 +215,16 @@ class User(commands.Cog):
             await ctx.send("Your colour has been updated")
             print(f"{ctx.author.name} has updated their colour to {argument}")
             print('----------')
+
+    @update.command()
+    async def help (self, ctx):
+        embed=discord.Embed(title="User update help", color=0xff0000)
+        embed.add_field(name="Username", value="", inline=True)
+        embed.add_field(name="Scoresaber", value="", inline=True)
+        embed.add_field(name="HMD", value="", inline=True)
+        embed.add_field(name="Birthday", value="", inline=True)
+        embed.add_field(name="Status", value="", inline=True)
+        #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
 
 def setup(client):    
     client.add_cog(User(client))
