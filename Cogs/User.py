@@ -24,23 +24,22 @@ class User(commands.Cog):
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
         print(f'Recieved: >user {ctx.author.name}')
-        links_Message = ""
         ref = dab.collection(str(ctx.author.id)).document('data').get()
-        try:
-            username = ref.get("username")
-        except Exception as e:
-            print (f"User *probably* not found\n{e}")
+        username = ref.get("username")
+        if username == "None":
+            print (f"User not found")
             if argument is None:
                 return await ctx.send("You're not in my database, Senapi! qwq\nYou should use ``>user add`` <w<")
             elif argument is not None:
                 return await ctx.send("That person isn't in my database qwq")
         scoresaber = ref.get("scoresaber")
-        links_Message = f"[Scoresaber]({scoresaber})"+links_Message
-        try:
-            twitch = ref.get("twitch")
+        twitch = ref.get("twitch")
+        hmd = ref.get("hmd")
+        birthday = ref.get("birthday")
+        status = ref.get("status")
+        links_Message = f"[Scoresaber]({scoresaber})"
+        if twitch != ref.get("twitch") != "None":
             links_Message = links_Message+f" | [Twitch]({twitch})"
-        except Exception as e:
-            print (f"funny twitch exception: {e}")
         try:
             colour = int(ref.get("colour"))
             embed=discord.Embed(title=username, colour=discord.Colour(colour))
@@ -48,21 +47,12 @@ class User(commands.Cog):
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
         embed.add_field(name="Links", value=links_Message, inline=False)
-        try:
-            hmd = ref.get("hmd")
+        if hmd != "None":
             embed.add_field(name="HMD", value=hmd, inline=True)
-        except Exception as e:
-            print (f"Funny HMD exception: {e}")
-        try:
-            birthday = ref.get("birthday")
+        if birthday != "None":
             embed.add_field(name="Birthday", value=birthday, inline=True)
-        except Exception as e:
-            print (f"Funny birthday exception: {e}")
-        try:
-            status = ref.get("status")
+        if status != "None":
             embed.add_field(name="Status", value=status, inline=False)
-        except Exception as e:
-            print (f"Funny status exception: {e}")
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: user embed')
