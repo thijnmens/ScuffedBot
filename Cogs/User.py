@@ -27,7 +27,7 @@ class User(commands.Cog):
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get("username")
         print (username)
-        if username == "None":
+        if username is None:
             print (f"User not found")
             if argument is None:
                 return await ctx.send("You're not in my database, Senapi! qwq\nYou should use ``>user add`` <w<")
