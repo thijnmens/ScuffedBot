@@ -180,7 +180,7 @@ class User(commands.Cog):
         print(f'Recieved: >user update hmd {ctx.author.name}')
         if argument.lower() not in self.client.valid_HMD:
             print (f"{argument} not in valid_HMD")
-            return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >user update help to check the valid HMDs``")
+            return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >help update to check the valid HMDs``")
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'hmd':argument})
