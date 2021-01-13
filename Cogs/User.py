@@ -34,10 +34,22 @@ class User(commands.Cog):
             elif argument is not None:
                 return await ctx.send("That person isn't in my database qwq")
         scoresaber = ref.get("scoresaber")
-        twitch = ref.get("twitch")
-        hmd = ref.get("hmd")
-        birthday = ref.get("birthday")
-        status = ref.get("status")
+        try:
+            twitch = ref.get("twitch")
+        except:
+            twitch = None
+        try:
+            hmd = ref.get("hmd")
+        except:
+            hmd = None
+        try:
+            birthday = ref.get("birthday")
+        except:
+            birthday = None
+        try:
+            status = ref.get("status")
+        except:
+            status = None
         links_Message = f"[Scoresaber]({scoresaber})"
         if twitch is not None:
             links_Message = links_Message+f" | [Twitch]({twitch})"
