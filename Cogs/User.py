@@ -39,7 +39,7 @@ class User(commands.Cog):
         birthday = ref.get("birthday")
         status = ref.get("status")
         links_Message = f"[Scoresaber]({scoresaber})"
-        if twitch != ref.get("twitch") is not None:
+        if twitch is not None:
             links_Message = links_Message+f" | [Twitch]({twitch})"
         try:
             colour = int(ref.get("colour"))
