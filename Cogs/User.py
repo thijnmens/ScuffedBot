@@ -24,19 +24,25 @@ class User(commands.Cog):
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
         print(f'Recieved: >user {ctx.author.name}')
+        links_Message = ""
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get("username")
         scoresaber = ref.get("scoresaber")
+        links_Message = f"[Scoresaber]({scoresaber}) "+links_Message
         birthday = ref.get("birthday")
         hmd = ref.get("hmd")
-        print ("a")
+        try:
+            twitch = ref.get("twitch")
+            links_Message = f"[Twitch]({twitch}) "+links_Message
+        except Exception as e:
+            print (f"funny twitch exception")
         try:
             colour = int(ref.get("colour"))
             embed=discord.Embed(title=username, colour=discord.Colour(colour))
         except Exception as e:
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
-        embed.add_field(name="Scoresaber", value=scoresaber, inline=False)
+        embed.add_field(name="Links", value=links_Message, inline=False)
         embed.add_field(name="HMD", value=hmd, inline=True)
         embed.add_field(name="Birthday", value=birthday, inline=True)
         try:
@@ -134,7 +140,7 @@ class User(commands.Cog):
             print(e)
                 
     #User update
-    @user.group(invoke_without_command=True)
+    @user.group(invoke_without_command=True, case_insensitive=True)
     async def update(self, ctx):
         print(f"Recieved: >user update")
         await ctx.send("B-Baka!! You need to tell me what you want to update!!\nUse ``>user update help`` to check the valid arguments")
@@ -149,18 +155,6 @@ class User(commands.Cog):
             'username':argument})
         await ctx.send(f"Your username has been updated to {argument}")
         print(f"{ctx.author.name} has updated their username to {argument}")
-        print('----------')
-    
-    @update.command()
-    async def scoresaber(self, ctx, argument):
-        print(f'Recieved: >user update scoresaber {ctx.author.name}')
-        argument = argument.split("?", 1)[0]
-        argument = argument.split("&", 1)[0]
-        doc_ref = dab.collection(str(ctx.author.id)).document('data')
-        doc_ref.update({
-            'scoresaber':argument})
-        await ctx.send("Your scoresaber has been updated")
-        print(f"{ctx.author.name} has updated their scoresaber to {argument}")
         print('----------')
     
     @update.command()
@@ -185,7 +179,7 @@ class User(commands.Cog):
         print('----------')
     
     @update.command()
-    async def hmd (self, ctx, *, argument):
+    async def hmd(self, ctx, *, argument):
         print(f'Recieved: >user update hmd {ctx.author.name}')
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
@@ -195,7 +189,7 @@ class User(commands.Cog):
         print('----------')
     
     @update.command()
-    async def status (self, ctx, *, argument):
+    async def status(self, ctx, *, argument):
         print(f'Recieved: >user update status {ctx.author.name}')
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
@@ -205,7 +199,7 @@ class User(commands.Cog):
         print('----------')
     
     @update.command(aliases=["color"]) #Americans ew
-    async def colour (self, ctx, argument):
+    async def colour(self, ctx, argument):
         print(f"Recieved: >user update colour {ctx.author.name}")
         if len(argument) != 6:
             await ctx.send("Please use a valid hexadecimal colour value. uwu")
@@ -218,7 +212,7 @@ class User(commands.Cog):
             print('----------')
 
     @update.command()
-    async def help (self, ctx):
+    async def help(self, ctx):
         embed=discord.Embed(title="User update help", color=0xff0000)
         embed.add_field(name="Username", value="", inline=True)
         embed.add_field(name="Scoresaber", value="", inline=True)
@@ -228,10 +222,31 @@ class User(commands.Cog):
         #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
         await ctx.send(embed=embed)
 
-    @update.group(invoke_without_command=True)
-    async def link (self, ctx):
-        return
+    @update.group(invoke_without_command=True, case_insensitive=True)
+    async def link(self, ctx):
+        await ctx.send("``Scoresaber, Twitch``")
 
+    @link.command()
+    async def scoresaber(self, ctx, argument):
+        print(f'Recieved: >user update link scoresaber {ctx.author.name}')
+        argument = argument.split("?", 1)[0]
+        argument = argument.split("&", 1)[0]
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'scoresaber':argument})
+        await ctx.send("Your scoresaber has been updated")
+        print(f"{ctx.author.name} has updated their scoresaber to {argument}")
+        print('----------')
+
+    @link.command()
+    async def twitch(self, ctx, argument):
+        print(f'Recieved: >user update link twitch {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'twitch':argument})
+        await ctx.send("Your twich has been updated")
+        print(f"{ctx.author.name} has updated their twitch to {argument}")
+        print('----------')
 
 def setup(client):    
     client.add_cog(User(client))

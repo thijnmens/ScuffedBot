@@ -7,7 +7,7 @@ class ErrorHandler(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        print ("on_command_error triggered")
+        print (f"on_command_error triggered")
         if isinstance(error, commands.BadArgument):
             print("BadArgument handler ran")
             return await ctx.send("Bad argument") #ngl I have no clue when this error is invoked but whatever
@@ -35,7 +35,8 @@ class ErrorHandler(commands.Cog):
         elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.MissingPermissions):
             print ("MissingPermissions handler ran")
             return await ctx.send("Sorry Senpai, you don't have the permissions for this command qwq")
-
+        print (error)
+        
     @commands.Cog.listener()
     async def on_ready(self):
         print("ErrorHandler cog loaded")
