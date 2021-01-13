@@ -39,7 +39,7 @@ class User(commands.Cog):
         birthday = ref.get("birthday")
         status = ref.get("status")
         links_Message = f"[Scoresaber]({scoresaber})"
-        if twitch != ref.get("twitch") != "None":
+        if twitch != ref.get("twitch") is not None:
             links_Message = links_Message+f" | [Twitch]({twitch})"
         try:
             colour = int(ref.get("colour"))
@@ -48,11 +48,11 @@ class User(commands.Cog):
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
         embed.add_field(name="Links", value=links_Message, inline=False)
-        if hmd != "None":
+        if hmd is not None:
             embed.add_field(name="HMD", value=hmd, inline=True)
-        if birthday != "None":
+        if birthday is not None:
             embed.add_field(name="Birthday", value=birthday, inline=True)
-        if status != "None":
+        if status is not None:
             embed.add_field(name="Status", value=status, inline=False)
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
