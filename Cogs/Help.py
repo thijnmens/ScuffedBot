@@ -33,7 +33,7 @@ class Help(commands.Cog):
     async def update(self, ctx):
         embed=discord.Embed(title="Help User Update", description= "These are the valid fields for >user update [field] <arg>",color=0xff0000)
         embed.add_field(name="username <arg>", value="Updates your username.\nYou can put anything here, so go nuts", inline=False)
-        embed.add_field(name="scoresaber <arg>", value="Updates your Scoresaber.\nUse a valid scoresaber link, otherwise the scoresaber command won't work!", inline=False)
+        embed.add_field(name="scoresaber/Twitch/Youtube/Twitter/Reddit <arg>", value="Updates one of your links.\nUse a valid scoresaber link, otherwise the scoresaber command won't work!\nYou can go nuts with the other links though >w<", inline=False)
         message = ""
         for x in self.client.valid_HMD:
             message = message+x+", "

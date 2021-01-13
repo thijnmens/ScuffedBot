@@ -39,6 +39,18 @@ class User(commands.Cog):
         except:
             twitch = None
         try:
+            youtube = ref.get("youtube")
+        except:
+            youtube = None
+        try:
+            twitter = ref.get("twitter")
+        except:
+            twitter = None
+        try:
+            reddit = ref.get("reddit")
+        except:
+            reddit = None
+        try:
             hmd = ref.get("hmd")
         except:
             hmd = None
@@ -50,9 +62,17 @@ class User(commands.Cog):
             status = ref.get("status")
         except:
             status = None
-        links_Message = f"[Scoresaber]({scoresaber})"
+        #try: 
+        #   this on for size, Mister
+        links_Message = f"[Scoresaber]({scoresaber}) "
         if twitch is not None:
-            links_Message = links_Message+f" | [Twitch]({twitch})"
+            links_Message = links_Message+f"| [Twitch]({twitch}) "
+        if youtube is not None:
+            links_Message = links_Message+f"| [Youtube]({youtube})"
+        if twitter is not None:
+            links_Message = links_Message+f"| [Twitter]({twitter})"
+        if reddit is not None:
+            links_Message = links_Message+f"| [Reddit]({reddit})"
         try:
             colour = int(ref.get("colour"))
             embed=discord.Embed(title=username, colour=discord.Colour(colour))
@@ -135,7 +155,7 @@ class User(commands.Cog):
     
     @update.command()
     async def scoresaber(self, ctx, argument):
-        print(f'Recieved: >user update link scoresaber {ctx.author.name}')
+        print(f'Recieved: >user update scoresaber {ctx.author.name}')
         argument = argument.split("?", 1)[0]
         argument = argument.split("&", 1)[0]
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
@@ -147,14 +167,44 @@ class User(commands.Cog):
 
     @update.command()
     async def twitch(self, ctx, argument):
-        print(f'Recieved: >user update link twitch {ctx.author.name}')
+        print(f'Recieved: >user update twitch {ctx.author.name}')
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'twitch':argument})
         await ctx.send("Your twich has been updated")
         print(f"{ctx.author.name} has updated their twitch to {argument}")
         print('----------')
+
+    @update.command()
+    async def youtube(self, ctx, argument):
+        print(f'Recieved: >user update youtube {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'youtube':argument})
+        await ctx.send("Your Youtube has been updated")
+        print(f"{ctx.author.name} has updated their youtube to {argument}")
+        print('----------')
     
+    @update.command()
+    async def twitter(self, ctx, argument):
+        print(f'Recieved: >user update twitter {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'twitter':argument})
+        await ctx.send("Your Twitter has been updated")
+        print(f"{ctx.author.name} has updated their twitter to {argument}")
+        print('----------')
+
+    @update.command()
+    async def reddit(self, ctx, argument):
+        print(f'Recieved: >user update reddit {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'Reddit':argument})
+        await ctx.send("Your Reddit has been updated")
+        print(f"{ctx.author.name} has updated their reddit to {argument}")
+        print('----------')
+
     @update.command()
     async def birthday(self, ctx, argument):
         print(f'Recieved: >user update birthday {ctx.author.name}')
@@ -211,20 +261,6 @@ class User(commands.Cog):
             await ctx.send("Your colour has been updated")
             print(f"{ctx.author.name} has updated their colour to {argument}")
             print('----------')
-
-    @update.command()
-    async def help(self, ctx):
-        embed=discord.Embed(title="User update help", color=0xff0000)
-        embed.add_field(name="Username", value="", inline=True)
-        embed.add_field(name="Scoresaber", value="", inline=True)
-        message = ""
-        for x in self.client.valid_HMD:
-            message = message+x
-        embed.add_field(name="HMD", value=f"Update your Head Mounted Display.\nValid HMDs are: {message}", inline=True)
-        embed.add_field(name="Birthday", value="Update your birthday\nOnly the format of DD/MM or DD/MM/YYYY will be accepted", inline=True)
-        embed.add_field(name="Status", value="", inline=True)
-        #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
-        await ctx.send(embed=embed)
 
 def setup(client):    
     client.add_cog(User(client))
