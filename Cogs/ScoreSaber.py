@@ -1,4 +1,5 @@
-import discord, os, requests, json, firebase_admin, math
+import discord, os, requests, json, firebase_admin
+from random import randint
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -56,7 +57,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     songKey = json_data["key"]
     songBSLink = (f"https://beatsaver.com/beatmap/{songKey}")
     if Song["maxScore"] == 0:
-        acc = math.floor(math.randint(0, 100))
+        acc = randint(0, 100)
         songAcc = f"ScoreSaber API being fucky wucky,\nso you get {acc}%"
     else:
         songAcc = round((int(Song["score"])/int(Song["maxScore"]))*100, 2)
@@ -136,7 +137,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         songScore = Song["score"]
         timeSet = Song["timeSet"]
         if Song["maxScore"] == 0:
-            acc = math.floor(math.randint(0, 100))
+            acc = randint(0, 100)
             songAcc = f"ScoreSaber API being fucky wucky, so you get {acc}%"
         else:
             songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
