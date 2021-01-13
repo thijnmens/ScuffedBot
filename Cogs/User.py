@@ -10,7 +10,7 @@ dab = firestore.client()
 class User(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.client.valid_HMD = ["cv1","rift s","quest","quest 2","index","vive"]
+        self.client.valid_HMD = ["cv1","rift s","quest","quest 2","index","vive","wmr"]
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -26,16 +26,21 @@ class User(commands.Cog):
         print(f'Recieved: >user {ctx.author.name}')
         links_Message = ""
         ref = dab.collection(str(ctx.author.id)).document('data').get()
-        username = ref.get("username")
+        try:
+            username = ref.get("username")
+        except Exception as e:
+            print (f"User *probably* not found\n{e}")
+            if argument is None:
+                return await ctx.send("You're not in my database, Senapi! qwq\nYou should use ``>user add`` <w<")
+            elif argument is not None:
+                return await ctx.send("That person isn't in my database qwq")
         scoresaber = ref.get("scoresaber")
         links_Message = f"[Scoresaber]({scoresaber})"+links_Message
-        birthday = ref.get("birthday")
-        hmd = ref.get("hmd")
         try:
             twitch = ref.get("twitch")
             links_Message = links_Message+f" | [Twitch]({twitch})"
         except Exception as e:
-            print (f"funny twitch exception")
+            print (f"funny twitch exception: {e}")
         try:
             colour = int(ref.get("colour"))
             embed=discord.Embed(title=username, colour=discord.Colour(colour))
@@ -43,8 +48,16 @@ class User(commands.Cog):
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
         embed.add_field(name="Links", value=links_Message, inline=False)
-        embed.add_field(name="HMD", value=hmd, inline=True)
-        embed.add_field(name="Birthday", value=birthday, inline=True)
+        try:
+            hmd = ref.get("hmd")
+            embed.add_field(name="HMD", value=hmd, inline=True)
+        except Exception as e:
+            print (f"Funny HMD exception: {e}")
+        try:
+            birthday = ref.get("birthday")
+            embed.add_field(name="Birthday", value=birthday, inline=True)
+        except Exception as e:
+            print (f"Funny birthday exception: {e}")
         try:
             status = ref.get("status")
             embed.add_field(name="Status", value=status, inline=False)
@@ -56,75 +69,35 @@ class User(commands.Cog):
         print('----------')
         
     #User Add
-    
     @user.command()
     async def add (self, ctx):
         print(f'Recieved: >user add {ctx.author.name}')
-        sent = await ctx.send('How would you like to be called?')
+        sent = await ctx.send('What is your scoresaber link?')
         try:
             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-            username = msg.content
-            print(username)
-            if msg:
-                sent = await ctx.send('What is your scoresaber link?')
-                try:
-                    msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                    scoresaber = msg.content
-                    scoresaber = scoresaber.split("?", 1)[0]
-                    scoresaber = scoresaber.split("&", 1)[0]
-                    print(scoresaber)
-                    if msg:
-                        sent = await ctx.send("When is your birthday? [DD/MM] or [DD/MM/YYYY].\nUse ``None`` if you don't want to input anything.")
-                        try:
-                            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                            birthday = msg.content
-                            print(birthday)
-                            if birthday != "None":
-                                if ((bool(re.search(r"\d/", birthday)))) is False:
-                                    print ("Birthday input validation triggered")
-                                    await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
-                                    return
-                                storer = birthday.split('/')
-                                storer[0] = int(storer[0])
-                                storer[1] = int(storer[1])
-                                if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
-                                    print ("Birthday legitimacy triggered")
-                                    await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
-                                    return
-                            a = False
-                            if msg:
-                                sent = await ctx.send("What headset do you use?")
-                                try:
-                                    msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                                    hmd = msg.content
-                                except Exception as e:
-                                    print (e)
-                                doc_ref = dab.collection(str(ctx.author.id)).document('data')
-                                doc_ref.set({
-                                    'a':a,
-                                    'username':username,
-                                    'scoresaber':scoresaber,
-                                    'birthday':birthday,
-                                    'hmd':hmd})
-                                try:
-                                    col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-                                    col_ref.append(str(ctx.author.id))
-                                    dab.collection('collectionlist').document('data').update({
-                                        'collectionarray':col_ref})
-                                except Exception as e:
-                                    print(e)
-                            await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
-                            print(f'Response: {ctx.author.name} has sucessfully been added to the database')
-                            print('----------')
-                        except asyncio.TimeoutError:
-                            await sent.delete()
-                            await ctx.send('You did not reply in time, please restart the process')
-                except asyncio.TimeoutError:
-                    await sent.delete()
-                    await ctx.send('You did not reply in time, please restart the process')
+            scoresaber = msg.content
+            scoresaber = scoresaber.split("?", 1)[0]
+            scoresaber = scoresaber.split("&", 1)[0]
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
+            doc_ref.set({
+                'a':False,
+                'username':ctx.author.name,
+                'scoresaber':scoresaber,})
+            try:
+                col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+                col_ref.append(str(ctx.author.id))
+                dab.collection('collectionlist').document('data').update({
+                    'collectionarray':col_ref})
+            except Exception as e:
+                print(e)
         except asyncio.TimeoutError:
             await sent.delete()
             await ctx.send('You did not reply in time, please restart the process')
+            print ("Timed out")
+            return print ("----------")
+        await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
+        print(f'Response: {ctx.author.name} has sucessfully been added to the database')
+        print('----------')
                 
     #User Remove
     @user.command()
