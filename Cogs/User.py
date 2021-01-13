@@ -6,7 +6,7 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 dab = firestore.client()
-valid_HMD = ["cv1","rift S","quest","quest 2","index","vive"]
+valid_HMD = ["cv1","rift s","quest","quest 2","index","vive"]
 
 class User(commands.Cog):
     def __init__(self, client):
@@ -33,7 +33,7 @@ class User(commands.Cog):
         hmd = ref.get("hmd")
         try:
             twitch = ref.get("twitch")
-            links_Message = links_Message+f" [Twitch]({twitch})"
+            links_Message = links_Message+f"| [Twitch]({twitch})"
         except Exception as e:
             print (f"funny twitch exception")
         try:
@@ -180,7 +180,7 @@ class User(commands.Cog):
     @update.command()
     async def hmd(self, ctx, *, argument):
         print(f'Recieved: >user update hmd {ctx.author.name}')
-        if argument not in valid_HMD:
+        if argument.content.lower() not in valid_HMD:
             print (f"{argument} not in valid_HMD")
             return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >user update help to check the valid HMDs``")
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
