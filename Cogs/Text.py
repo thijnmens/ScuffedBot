@@ -49,7 +49,7 @@ class Text(commands.Cog):
         print('----------')
     
     #Help
-    @commands.command()
+    @commands.group(invoke_without_command=True, case_insensitive=True)
     async def help(self, ctx):
         print('Recieved: >help ')
         embed=discord.Embed(title="Help", url="https://www.youtube.com/watch?v=7LnQRFh_knk", description="You can find all kinds of commands here, most of them are probably broken", color=0xff0000)
@@ -57,8 +57,8 @@ class Text(commands.Cog):
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
         embed.add_field(name=">help", value="this fancy page", inline=False)
         embed.add_field(name=">user [mention]", value="get the info of a user", inline=False)
-        embed.add_field(name=">user add", value="add yourself to the userbase. If you don't want to fill something in, pls use ``None``", inline=False)
-        embed.add_field(name=">user update <field> <new value>", value="Update your info", inline=False)
+        embed.add_field(name=">user add", value="add yourself to the userbase. If you don't want to fill something in, please use ``None``", inline=False)
+        embed.add_field(name=">user update <field> <new value>", value="Update your info, use ``>help update`` for the fields and more info!", inline=False)
         embed.add_field(name=">user remove", value="Removes your info from the database", inline=False)
         embed.add_field(name=">scoresaber [mention]", value="gets a user's ScoreSaber data,", inline=False)
         embed.add_field(name=">scoresaber topsong [mention]", value="gets a user's top song from ScoreSaber,", inline=False)
@@ -70,6 +70,20 @@ class Text(commands.Cog):
         await ctx.send(embed=embed)
         print('Response: help embed')
         print('----------')
+
+    @help.command()
+    async def update(self, ctx):
+        embed=discord.Embed(title="Help User Update", color=0xff0000)
+        embed.add_field(name="Username <value>", value="Updates your username.\nYou can put anything here, so go nuts", inline=True)
+        embed.add_field(name="Scoresaber <value>", value="Updates your Scoresaber.\nUse a valid scoresaber link, otherwise the scoresaber command won't work!", inline=True)
+        message = ""
+        for x in self.client.valid_HMD:
+            message = message+x
+        embed.add_field(name="HMD <value>", value=f"Updates your Head Mounted Display.\nValid values are: {message}", inline=True)
+        embed.add_field(name="Birthday <values>", value="Updates your birthday.\nOnly the format of DD/MM or DD/MM/YYYY will be accepted", inline=True)
+        embed.add_field(name="Status <values>", value="Updates your status.\nYou can put anything here, so go nuts", inline=True)
+        #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
+        await ctx.send(embed=embed)
 
 def setup(client):    
     client.add_cog(Text(client))

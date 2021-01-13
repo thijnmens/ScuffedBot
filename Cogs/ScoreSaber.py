@@ -174,7 +174,7 @@ class ScoreSaber(commands.Cog):
     async def on_ready(self):
         print("ScoreSaber cog loaded")
  
-    @commands.group(invoke_without_command=True, aliases=["ss"])
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["ss"])
     async def scoresaber(self, ctx, argument1=None):
         print (f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:

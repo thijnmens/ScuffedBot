@@ -6,18 +6,18 @@ from firebase_admin import firestore
 from firebase_admin import db
 
 dab = firestore.client()
-valid_HMD = ["cv1","rift s","quest","quest 2","index","vive"]
 
 class User(commands.Cog):
     def __init__(self, client):
         self.client = client
-    
+        self.client.valid_HMD = ["cv1","rift s","quest","quest 2","index","vive"]
+
     @commands.Cog.listener()
     async def on_ready(self):
         print("User cog loaded")
 
     #User
-    @commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True, case_insensitive=True)
     async def user(self, ctx, argument=None):
         if argument is not None:
             ID = argument[3:]
@@ -33,7 +33,7 @@ class User(commands.Cog):
         hmd = ref.get("hmd")
         try:
             twitch = ref.get("twitch")
-            links_Message = links_Message+f"| [Twitch]({twitch})"
+            links_Message = links_Message+f" | [Twitch]({twitch})"
         except Exception as e:
             print (f"funny twitch exception")
         try:
@@ -143,7 +143,7 @@ class User(commands.Cog):
     @user.group(invoke_without_command=True, case_insensitive=True)
     async def update(self, ctx):
         print(f"Recieved: >user update")
-        await ctx.send("B-Baka!! You need to tell me what you want to update!!\nUse ``>user update help`` to check the valid arguments")
+        await ctx.send("B-Baka!! You need to tell me what you want to update!!\nUse ``>help update`` to check the valid arguments")
         print("no sub command given")
         print("---------")
         
@@ -155,6 +155,28 @@ class User(commands.Cog):
             'username':argument})
         await ctx.send(f"Your username has been updated to {argument}")
         print(f"{ctx.author.name} has updated their username to {argument}")
+        print('----------')
+    
+    @update.command()
+    async def scoresaber(self, ctx, argument):
+        print(f'Recieved: >user update link scoresaber {ctx.author.name}')
+        argument = argument.split("?", 1)[0]
+        argument = argument.split("&", 1)[0]
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'scoresaber':argument})
+        await ctx.send("Your scoresaber has been updated")
+        print(f"{ctx.author.name} has updated their scoresaber to {argument}")
+        print('----------')
+
+    @update.command()
+    async def twitch(self, ctx, argument):
+        print(f'Recieved: >user update link twitch {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'twitch':argument})
+        await ctx.send("Your twich has been updated")
+        print(f"{ctx.author.name} has updated their twitch to {argument}")
         print('----------')
     
     @update.command()
@@ -180,7 +202,7 @@ class User(commands.Cog):
     @update.command()
     async def hmd(self, ctx, *, argument):
         print(f'Recieved: >user update hmd {ctx.author.name}')
-        if argument.lower() not in valid_HMD:
+        if argument.lower() not in self.client.valid_HMD:
             print (f"{argument} not in valid_HMD")
             return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >user update help to check the valid HMDs``")
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
@@ -218,37 +240,14 @@ class User(commands.Cog):
         embed=discord.Embed(title="User update help", color=0xff0000)
         embed.add_field(name="Username", value="", inline=True)
         embed.add_field(name="Scoresaber", value="", inline=True)
-        embed.add_field(name="HMD", value="", inline=True)
-        embed.add_field(name="Birthday", value="", inline=True)
+        message = ""
+        for x in self.client.valid_HMD:
+            message = message+x
+        embed.add_field(name="HMD", value=f"Update your Head Mounted Display.\nValid HMDs are: {message}", inline=True)
+        embed.add_field(name="Birthday", value="Update your birthday\nOnly the format of DD/MM or DD/MM/YYYY will be accepted", inline=True)
         embed.add_field(name="Status", value="", inline=True)
         #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
         await ctx.send(embed=embed)
-
-    @update.group(invoke_without_command=True, case_insensitive=True)
-    async def link(self, ctx):
-        await ctx.send("``Scoresaber, Twitch``")
-
-    @link.command()
-    async def scoresaber(self, ctx, argument):
-        print(f'Recieved: >user update link scoresaber {ctx.author.name}')
-        argument = argument.split("?", 1)[0]
-        argument = argument.split("&", 1)[0]
-        doc_ref = dab.collection(str(ctx.author.id)).document('data')
-        doc_ref.update({
-            'scoresaber':argument})
-        await ctx.send("Your scoresaber has been updated")
-        print(f"{ctx.author.name} has updated their scoresaber to {argument}")
-        print('----------')
-
-    @link.command()
-    async def twitch(self, ctx, argument):
-        print(f'Recieved: >user update link twitch {ctx.author.name}')
-        doc_ref = dab.collection(str(ctx.author.id)).document('data')
-        doc_ref.update({
-            'twitch':argument})
-        await ctx.send("Your twich has been updated")
-        print(f"{ctx.author.name} has updated their twitch to {argument}")
-        print('----------')
 
 def setup(client):    
     client.add_cog(User(client))

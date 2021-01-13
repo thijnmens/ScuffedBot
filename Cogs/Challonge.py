@@ -15,7 +15,7 @@ class Challonge(commands.Cog):
     async def on_ready(self):
         print("Challonge cog loaded")
 
-    @commands.group(invoke_without_command=True, aliases=["challenge", "ch"])
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["challenge", "ch"])
     @commands.cooldown(1, 60, commands.BucketType.channel)
     async def challonge(self, ctx):
         print ("recieved challonge")
