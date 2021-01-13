@@ -28,12 +28,12 @@ class User(commands.Cog):
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get("username")
         scoresaber = ref.get("scoresaber")
-        links_Message = f"[Scoresaber]({scoresaber}) "+links_Message
+        links_Message = f"[Scoresaber]({scoresaber})"+links_Message
         birthday = ref.get("birthday")
         hmd = ref.get("hmd")
         try:
             twitch = ref.get("twitch")
-            links_Message = f"[Twitch]({twitch}) "+links_Message
+            links_Message = links_Message+f" [Twitch]({twitch})"
         except Exception as e:
             print (f"funny twitch exception")
         try:
@@ -169,8 +169,7 @@ class User(commands.Cog):
         storer[1] = int(storer[1])
         if(storer[1]>12 or storer[1]<1 or storer[0]>31 or storer[0]<1):
             print ("Birthday legitimacy triggered")
-            await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
-            return
+            return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'birthday':argument})
@@ -181,6 +180,9 @@ class User(commands.Cog):
     @update.command()
     async def hmd(self, ctx, *, argument):
         print(f'Recieved: >user update hmd {ctx.author.name}')
+        if argument not in valid_HMD:
+            print (f"{argument} not in valid_HMD")
+            return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >user update help to check the valid HMDs``")
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'hmd':argument})
