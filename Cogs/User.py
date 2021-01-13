@@ -26,6 +26,7 @@ class User(commands.Cog):
         print(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get("username")
+        print (username)
         if username == "None":
             print (f"User not found")
             if argument is None:
