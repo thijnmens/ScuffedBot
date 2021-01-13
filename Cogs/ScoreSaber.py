@@ -58,7 +58,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     songBSLink = (f"https://beatsaver.com/beatmap/{songKey}")
     if Song["maxScore"] == 0:
         acc = randint(0, 100)
-        songAcc = f"ScoreSaber API being fucky wucky,\nso you get {acc}%"
+        songAcc = f"ScoreSaber API being fucky wucky,\nso you get {acc}"
     else:
         songAcc = round((int(Song["score"])/int(Song["maxScore"]))*100, 2)
     rank = Song["rank"]
@@ -138,7 +138,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         timeSet = Song["timeSet"]
         if Song["maxScore"] == 0:
             acc = randint(0, 100)
-            songAcc = f"ScoreSaber API being fucky wucky, so you get {acc}%"
+            songAcc = f"ScoreSaber API being fucky wucky, so you get {acc}"
         else:
             songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
         if Song["pp"] == 0:
