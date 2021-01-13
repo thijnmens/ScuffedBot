@@ -7,7 +7,7 @@ class Help(commands.Cog):
         self.client = client
 
     #Help
-    @commands.group(invoke_without_command=True, case_insensitive=True)
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["he"])
     async def help(self, ctx):
         print('Recieved: >help ')
         embed=discord.Embed(title="Help", url="https://www.youtube.com/watch?v=7LnQRFh_knk", description="You can find all kinds of commands here, most of them are probably broken", color=0xff0000)
@@ -29,7 +29,7 @@ class Help(commands.Cog):
         print('Response: help embed')
         print('----------')
 
-    @help.command()
+    @help.command(aliases=["up"])
     async def update(self, ctx):
         embed=discord.Embed(title="Help User Update", description= "These are the valid fields for >user update [field] <arg>",color=0xff0000)
         embed.add_field(name="username <arg>", value="Updates your username.\nYou can put anything here, so go nuts", inline=False)
