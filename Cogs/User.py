@@ -10,7 +10,7 @@ dab = firestore.client()
 class User(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.client.valid_HMD = ["cv1","rift s","quest","quest 2","index","vive","wmr"]
+        self.client.valid_HMD = ["CV1","Rift S","Quest","Quest 2","Index","Vive","WMR"]
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -178,7 +178,7 @@ class User(commands.Cog):
     @update.command()
     async def hmd(self, ctx, *, argument):
         print(f'Recieved: >user update hmd {ctx.author.name}')
-        if argument.lower() not in self.client.valid_HMD:
+        if argument.lower() not in self.client.valid_HMD.lower():
             print (f"{argument} not in valid_HMD")
             return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >help update to check the valid HMDs``")
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
