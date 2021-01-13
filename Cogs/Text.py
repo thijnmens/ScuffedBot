@@ -74,14 +74,14 @@ class Text(commands.Cog):
     @help.command()
     async def update(self, ctx):
         embed=discord.Embed(title="Help User Update", color=0xff0000)
-        embed.add_field(name="Username <value>", value="Updates your username.\nYou can put anything here, so go nuts", inline=True)
-        embed.add_field(name="Scoresaber <value>", value="Updates your Scoresaber.\nUse a valid scoresaber link, otherwise the scoresaber command won't work!", inline=True)
+        embed.add_field(name="Username <value>", value="Updates your username.\nYou can put anything here, so go nuts", inline=False)
+        embed.add_field(name="Scoresaber <value>", value="Updates your Scoresaber.\nUse a valid scoresaber link, otherwise the scoresaber command won't work!", inline=False)
         message = ""
         for x in self.client.valid_HMD:
-            message = message+x
-        embed.add_field(name="HMD <value>", value=f"Updates your Head Mounted Display.\nValid values are: {message}", inline=True)
-        embed.add_field(name="Birthday <values>", value="Updates your birthday.\nOnly the format of DD/MM or DD/MM/YYYY will be accepted", inline=True)
-        embed.add_field(name="Status <values>", value="Updates your status.\nYou can put anything here, so go nuts", inline=True)
+            message = message+x+", "
+        embed.add_field(name="HMD <value>", value=f"Updates your Head Mounted Display.\nValid values are: ``{message}``", inline=False)
+        embed.add_field(name="Birthday <values>", value="Updates your birthday.\nOnly the format of DD/MM or DD/MM/YYYY will be accepted", inline=False)
+        embed.add_field(name="Status <values>", value="Updates your status.\nYou can put anything here, so go nuts", inline=False)
         #embed.add_field(name="Colour", value="", inline=True) I'll add this once I actually get it working :pepelaff:
         await ctx.send(embed=embed)
 
