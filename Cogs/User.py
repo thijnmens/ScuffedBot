@@ -200,7 +200,7 @@ class User(commands.Cog):
         print(f'Recieved: >user update reddit {ctx.author.name}')
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
-            'Reddit':argument})
+            'reddit':argument})
         await ctx.send("Your Reddit has been updated")
         print(f"{ctx.author.name} has updated their reddit to {argument}")
         print('----------')
