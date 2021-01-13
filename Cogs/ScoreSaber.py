@@ -1,4 +1,4 @@
-import discord, os, requests, json, firebase_admin
+import discord, os, requests, json, firebase_admin, math
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials
@@ -135,7 +135,8 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         songScore = Song["score"]
         timeSet = Song["timeSet"]
         if Song["maxScore"] == 0:
-            songAcc = "ScoreSaber API being fucky wucky, so you get 0"
+            acc = math.floor(math.random(0, 100))
+            songAcc = f"ScoreSaber API being fucky wucky, so you get {acc}%"
         else:
             songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
         if Song["pp"] == 0:
