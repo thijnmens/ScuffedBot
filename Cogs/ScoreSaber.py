@@ -93,6 +93,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
     else:
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=Song["pp"], inline=False)
+        message.add_field(name="Weighted PP ⚖️<a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=(Song["weight"]*Song["pp"]), inline=False)
     message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
     return message
@@ -143,6 +144,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
             songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
         if Song["pp"] == 0:
             songPP = "Unranked"
+            songWeightedPP = (Song["weight"]*Song["pp"])
         else:
             songPP = Song["pp"]
         if Song["difficulty"] == 9:
@@ -157,7 +159,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
             difficulty = "Easy"
         else:
             difficulty = "Please ping Sirspam thanks uwu"
-        songMessage = (f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nTime Set: {timeSet[:10]}```")
+        songMessage = (f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nWeighted PP: {songWeightedPP}\nTime Set: {timeSet[:10]}```")
         songsMessage = songsMessage+songMessage
         count = count+1
     message = discord.Embed(
