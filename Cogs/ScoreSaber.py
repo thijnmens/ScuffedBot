@@ -92,8 +92,8 @@ def songEmbed(ctx, argument, SS_id, scoresaber): #Makes the embed message for to
     if Song["pp"] == 0:
         message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value="Unranked", inline=False)
     else:
-        message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=Song["pp"], inline=False)
-        message.add_field(name="Weighted PP ⚖️<a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=(Song["weight"]*Song["pp"]), inline=False)
+        message.add_field(name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=round(Song["pp"], 2), inline=False)
+        message.add_field(name="Weighted PP ⚖️<a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>", value=round((Song["weight"]*Song["pp"]), 2), inline=False)
     message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/"+Song["songHash"]+".png")
     return message
@@ -144,9 +144,11 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
             songAcc = round((int(songScore)/int(Song["maxScore"]))*100, 2)
         if Song["pp"] == 0:
             songPP = "Unranked"
-            songWeightedPP = (Song["weight"]*Song["pp"])
+            songWeightedPP = "Unranked"
         else:
             songPP = Song["pp"]
+            songPP == round(songPP, 2)
+            songWeightedPP = round((Song["weight"]*Song["pp"]), 2)
         if Song["difficulty"] == 9:
             difficulty = "Expert+"
         elif Song["difficulty"] == 7:
