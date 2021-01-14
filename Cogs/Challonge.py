@@ -78,6 +78,7 @@ class Challonge(commands.Cog):
                 colour = 0xff7324,
                 timestamp = ctx.message.created_at
             )
+        embed.set_image(url=tournament["live_image_url"])
         await ctx.send(embed=embed)
         print ("--------")
 
