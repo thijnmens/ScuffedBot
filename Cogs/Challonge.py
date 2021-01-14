@@ -1,4 +1,4 @@
-import discord, os, requests, json, challonge, cairosvg
+import discord, os, requests, json, challonge
 from discord.ext import commands
 from discord.utils import get
 
@@ -78,9 +78,7 @@ class Challonge(commands.Cog):
                 colour = 0xff7324,
                 timestamp = ctx.message.created_at
             )
-        svg_image = cairosvg.svg2png(url=tournament["live_image_url"])
         await ctx.send(embed=embed)
-        await ctx.send(file=discord.File(svg_image))
         print ("--------")
 
 def setup(client):    
