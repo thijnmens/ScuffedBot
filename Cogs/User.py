@@ -36,7 +36,7 @@ class User(commands.Cog):
         if username is None:
             print (f"User not found")
             if argument is None:
-                return await ctx.send("You're not in my database, Senapi! qwq\nYou should use ``>user add`` <w<")
+                return await ctx.send("You're not in my database, Senpai! qwq\nYou should use ``>user add`` <w<")
             elif argument is not None:
                 return await ctx.send("That person isn't in my database qwq")
         scoresaber = ref.get("scoresaber")
@@ -197,7 +197,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'scoresaber':argument})
-        await ctx.send("I've updated your Scoresaber, Senapi! >w<")
+        await ctx.send("I've updated your Scoresaber, Senpai! >w<")
         print(f"{ctx.author.name} has updated their scoresaber to {argument}")
         print('----------')
 
@@ -207,7 +207,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'steam':argument})
-        await ctx.send("I've updated your Steam, Senapi! >w<")
+        await ctx.send("I've updated your Steam, Senpai! >w<")
         print(f"{ctx.author.name} has updated their steam to {argument}")
         print('----------')
     
@@ -217,7 +217,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'twitch':argument})
-        await ctx.send("I've updated your Twitch, Senapi! >w<")
+        await ctx.send("I've updated your Twitch, Senpai! >w<")
         print(f"{ctx.author.name} has updated their twitch to {argument}")
         print('----------')
 
@@ -227,7 +227,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'youtube':argument})
-        await ctx.send("I've updated your Youtube, Senapi! >w<")
+        await ctx.send("I've updated your Youtube, Senpai! >w<")
         print(f"{ctx.author.name} has updated their youtube to {argument}")
         print('----------')
     
@@ -237,7 +237,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'twitter':argument})
-        await ctx.send("I've updated your Twitter, Senapi! >w<")
+        await ctx.send("I've updated your Twitter, Senpai! >w<")
         print(f"{ctx.author.name} has updated their twitter to {argument}")
         print('----------')
 
@@ -247,7 +247,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'reddit':argument})
-        await ctx.send("I've updated your Reddit, Senapi! >w<")
+        await ctx.send("I've updated your Reddit, Senpai! >w<")
         print(f"{ctx.author.name} has updated their reddit to {argument}")
         print('----------')
 
@@ -291,7 +291,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'pfp':argument})
-        await ctx.send("I've updated your pfp, Senapi! >w<")
+        await ctx.send("I've updated your pfp, Senpai! >w<")
         print(f"{ctx.author.name} has updated their pfp to {argument}")
         print('----------')
     
@@ -301,7 +301,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'status':argument})
-        await ctx.send("I've updated your status, Senapi! >w<")
+        await ctx.send("I've updated your status, Senpai! >w<")
         print(f"{ctx.author.name} has updated their status to {argument}")
         print('----------')
     
@@ -314,7 +314,7 @@ class User(commands.Cog):
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'colour':argument})
-            await ctx.send("I've updated your colour, Senapi! >w<")
+            await ctx.send("I've updated your colour, Senpai! >w<")
             print(f"{ctx.author.name} has updated their colour to {argument}")
             print('----------')
 
