@@ -41,7 +41,7 @@ class Help(commands.Cog):
         embed.add_field(name="birthday <arg>", value="Updates your birthday.\nOnly the format of ``DD/MM`` or ``DD/MM/YYYY`` will be accepted", inline=False)
         embed.add_field(name="status <arg>", value="Updates your status.\nYou can put anything here, so go nuts", inline=False)
         embed.add_field(name="pfp <arg>", value="Updates your profile picture.\nMake sure this argument is a link going to an image!\nLil' secret: You can post a saved image to discord and use the link which discord generates.", inline=False)
-        #embed.add_field(name="Colour", value="", inline=False) I'll add this once I actually get it working :pepelaff:
+        embed.add_field(name="colour <arg>", value="Updates your profile's embed colour\nMake sure to use a hex code. You can use a site [like this](https://www.color-hex.com/) to find the colour you want!", inline=False)
         await ctx.send(embed=embed)
 
 def setup(client):    
