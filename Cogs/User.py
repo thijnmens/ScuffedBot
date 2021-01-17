@@ -21,9 +21,12 @@ class User(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def user(self, ctx, argument=None):
         if argument is not None:
-            ID = argument[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
+            if argument.isdigit():
+                ctx.author = self.client.get_user(int(ID))
+            else:
+                ID = argument[3:]
+                ID = ID[:-1]
+                ctx.author = self.client.get_user(int(ID))
         print(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get("username")
