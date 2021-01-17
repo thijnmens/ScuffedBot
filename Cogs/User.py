@@ -23,6 +23,9 @@ class User(commands.Cog):
         if argument is not None:
             if argument.isdigit():
                 ctx.author = self.client.get_user(int(argument))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senapi, I can't find anyone with that ID qwq")
+
             else:
                 ID = argument[3:]
                 ID = ID[:-1]
