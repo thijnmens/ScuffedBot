@@ -35,6 +35,10 @@ class User(commands.Cog):
                 return await ctx.send("That person isn't in my database qwq")
         scoresaber = ref.get("scoresaber")
         try:
+            steam = ref.get("steam")
+        except:
+            steam = None
+        try:
             twitch = ref.get("twitch")
         except:
             twitch = None
@@ -59,12 +63,18 @@ class User(commands.Cog):
         except:
             birthday = None
         try:
+            pfp = ref.get("pfp")
+        except:
+            pfp = None
+        try:
             status = ref.get("status")
         except:
             status = None
         #try: 
         #   this on for size, Mister
         links_Message = f"[Scoresaber]({scoresaber}) "
+        if steam is not None:
+            links_Message = links_Message+f"| [Steam]({steam}) "
         if twitch is not None:
             links_Message = links_Message+f"| [Twitch]({twitch}) "
         if youtube is not None:
@@ -86,19 +96,44 @@ class User(commands.Cog):
             embed.add_field(name="Birthday", value=birthday, inline=True)
         if status is not None:
             embed.add_field(name="Status", value=status, inline=False)
-        embed.set_thumbnail(url=ctx.author.avatar_url)
+        if pfp is not None:
+            embed.set_thumbnail(url=pfp)
+        else:
+            embed.set_thumbnail(url=ctx.author.avatar_url)
         await ctx.send(embed=embed)
         print('Response: user embed')
         print('----------')
         
     #User Add
     @user.command()
-    async def add (self, ctx):
+    async def add (self, ctx, argument=None):
         print(f'Recieved: >user add {ctx.author.name}')
         sent = await ctx.send('What is your scoresaber link?')
-        try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-            scoresaber = msg.content
+        if argument is None:
+            try:
+                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                scoresaber = msg.content
+                scoresaber = scoresaber.split("?", 1)[0]
+                scoresaber = scoresaber.split("&", 1)[0]
+                doc_ref = dab.collection(str(ctx.author.id)).document('data')
+                doc_ref.set({
+                    'a':False,
+                    'username':ctx.author.name,
+                    'scoresaber':scoresaber,})
+                try:
+                    col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+                    col_ref.append(str(ctx.author.id))
+                    dab.collection('collectionlist').document('data').update({
+                        'collectionarray':col_ref})
+                except Exception as e:
+                    print(e)
+            except asyncio.TimeoutError:
+                await sent.delete()
+                await ctx.send('You did not reply in time, please restart the process')
+                print ("Timed out")
+                return print ("----------")
+        else: #haha lazy copy and paste
+            scoresaber = argument
             scoresaber = scoresaber.split("?", 1)[0]
             scoresaber = scoresaber.split("&", 1)[0]
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
@@ -113,11 +148,6 @@ class User(commands.Cog):
                     'collectionarray':col_ref})
             except Exception as e:
                 print(e)
-        except asyncio.TimeoutError:
-            await sent.delete()
-            await ctx.send('You did not reply in time, please restart the process')
-            print ("Timed out")
-            return print ("----------")
         await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
         print(f'Response: {ctx.author.name} has sucessfully been added to the database')
         print('----------')
@@ -165,6 +195,16 @@ class User(commands.Cog):
         print(f"{ctx.author.name} has updated their scoresaber to {argument}")
         print('----------')
 
+    @update.command()
+    async def steam(self, ctx, argument):
+        print(f'Recieved: >user update steam {ctx.author.name}')
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'steam':argument})
+        await ctx.send("Your steam has been updated")
+        print(f"{ctx.author.name} has updated their steam to {argument}")
+        print('----------')
+    
     @update.command()
     async def twitch(self, ctx, argument):
         print(f'Recieved: >user update twitch {ctx.author.name}')
@@ -237,6 +277,16 @@ class User(commands.Cog):
             'hmd':argument})
         await ctx.send(f"Your hmd has been updated to {argument}")
         print(f"{ctx.author.name} has updated their status to {argument}")
+        print('----------')
+    
+    @update.command()
+    async def pfp(self, ctx, argument):
+        print (f"Recieved: >user update pfp {ctx.author.name}")
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'pfp':argument})
+        await ctx.send("Your pfp has been updated")
+        print(f"{ctx.author.name} has updated their pfp to {argument}")
         print('----------')
     
     @update.command()
