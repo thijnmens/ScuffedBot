@@ -25,11 +25,11 @@ class Text(commands.Cog):
         print('----------')
 
     @commands.command(aliases=["no"]) #Keep this out of the help embed ;)
-    @commands.cooldown(1, 120, commands.BucketType.guild)
+    @commands.cooldown(1, 600, commands.BucketType.guild)
     async def nope(self, ctx):
         print("Recieved >nope")
         await ctx.send("Join the NOPE clan <:GunChamp:796047943966523432>\nhttps://discord.gg/xH7AGnGXkf")
-        print ("Response: Certainly not a link to the NOPE discord")
+        print("Response: Certainly not a link to the NOPE discord")
         print('----------')
     
     #Quote

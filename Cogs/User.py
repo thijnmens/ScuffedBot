@@ -91,7 +91,7 @@ class User(commands.Cog):
             links_Message = links_Message+f"| [Reddit]({reddit})"
         try:
             colour = int(ref.get("colour"))
-            embed=discord.Embed(title=username, colour=discord.Colour(colour))
+            embed=discord.Embed(title=username, colour=discord.Colour.colour())
         except Exception as e:
             embed=discord.Embed(title=username, colour=discord.Colour.random())
             print (f"Funny colour exception: {e}")
