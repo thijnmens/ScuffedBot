@@ -101,7 +101,7 @@ class User(commands.Cog):
             embed.set_thumbnail(url=pfp)
         else:
             embed.set_thumbnail(url=ctx.author.avatar_url)
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed, replied_user=False)
         print('Response: user embed')
         print('----------')
         
