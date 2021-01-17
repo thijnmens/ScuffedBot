@@ -22,7 +22,7 @@ class User(commands.Cog):
     async def user(self, ctx, argument=None):
         if argument is not None:
             if argument.isdigit():
-                ctx.author = self.client.get_user(int(ID))
+                ctx.author = self.client.get_user(int(argument))
             else:
                 ID = argument[3:]
                 ID = ID[:-1]
