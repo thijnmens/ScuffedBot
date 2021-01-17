@@ -31,12 +31,13 @@ class Help(commands.Cog):
 
     @help.command(aliases=["up"])
     async def update(self, ctx):
-        embed=discord.Embed(title="Help User Update", description= "These are the valid fields for >user update [field] <arg>",color=0xff0000)
+        embed=discord.Embed(title="Help User Update", description= "__These are the valid fields for >user update [field] <arg>__",color=0xff0000)
         embed.add_field(name="username <arg>", value="Updates your username.\nYou can put anything here, so go nuts", inline=False)
         embed.add_field(name="scoresaber/steam/twitch/youtube/twitter/reddit <arg>", value="Updates one of your links.\nUse a valid scoresaber link, otherwise the scoresaber command won't work!\nYou can go nuts with the other links though >w<", inline=False)
         message = ""
         for x in self.client.valid_HMD:
             message = message+x+", "
+            message = message[:-2]
         embed.add_field(name="HMD <arg>", value=f"Updates your Head Mounted Display.\nValid arguments are: ``{message}``", inline=False)
         embed.add_field(name="birthday <arg>", value="Updates your birthday.\nOnly the format of ``DD/MM`` or ``DD/MM/YYYY`` will be accepted", inline=False)
         embed.add_field(name="status <arg>", value="Updates your status.\nYou can put anything here, so go nuts", inline=False)
