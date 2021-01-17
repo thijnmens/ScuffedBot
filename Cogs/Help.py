@@ -22,7 +22,7 @@ class Help(commands.Cog):
         embed.add_field(name=">scoresaber topsong [mention]", value="gets a user's top song from ScoreSaber,", inline=False)
         embed.add_field(name=">scoresaber recentsong [mention]", value="gets a user's most recent song from ScoreSaber,", inline=False)
         embed.add_field(name=">challonge", value="Posts an embed of previous scuffed tournaments.", inline=False)
-        embed.add_field(name=">quote", value="Posts a random quote", inline=False)
+        embed.add_field(name=">links", value="Posts important links for Scuffed Tourneys!", inline=False)
         embed.add_field(name=">ping", value="Pings Scuffed Bot", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         await ctx.send(embed=embed)

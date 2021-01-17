@@ -24,7 +24,7 @@ class User(commands.Cog):
             if argument.isdigit():
                 ctx.author = self.client.get_user(int(argument))
                 if ctx.author is None:
-                    return await ctx.send("Sorry Senapi, I can't find anyone with that ID qwq")
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
 
             else:
                 ID = argument[3:]
@@ -33,7 +33,6 @@ class User(commands.Cog):
         print(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection(str(ctx.author.id)).document('data').get()
         username = ref.get("username")
-        print (username)
         if username is None:
             print (f"User not found")
             if argument is None:

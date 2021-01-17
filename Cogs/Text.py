@@ -2,13 +2,6 @@ import discord, os, json, requests
 from discord.ext import commands, tasks
 from discord.utils import get
 
-#Get Random Quote
-def get_quote():
-    response = requests.get('https://zenquotes.io/api/random')
-    json_data = json.loads(response.text)
-    quote = (f"{json_data[0]['q']} - {json_data[0]['a']}")
-    return(quote)
-
 class Text(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -41,11 +34,11 @@ class Text(commands.Cog):
     
     #Quote
     @commands.command()
-    async def quote(self, ctx):
-        print('Recieved: >quote')
-        final = get_quote()
-        await ctx.send(final)
-        print(f'Response: {final}')
+    async def links(self, ctx):
+        print('Recieved: >links')
+        embed=discord.Embed(title="Important Scuffed Links", description= "[Discord](https://discord.gg/4bF8JAGeB3)\n[Challonge](https://challonge.com/users/scuffedtourney/tournaments)\n[Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)",color=0xff0000)
+        await ctx.send(embed=embed)
+        print(f'Response: embed')
         print('----------')
 
 def setup(client):    
