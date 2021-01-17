@@ -15,6 +15,7 @@ intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix=">", intents=intents, case_insensitive=True)
 client.remove_command('help')
+client.allowed_mentions(replied_user=False)
 cwd = os.getcwd()
 funniList = ["Join the NOPE clan", "Aso kinda cute 😳", "I'm wowking vewy hawd!! uwu", "Grinding PP", "Doin' ur mom", "Scuffed code goes brrr", "Do >NOPE", "Hi cutie owo", "Scuffed Saber","Scuffed Walls","Shiny Happy Days"]
 
