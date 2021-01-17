@@ -36,7 +36,7 @@ class Text(commands.Cog):
     @commands.command()
     async def links(self, ctx):
         print('Recieved: >links')
-        embed=discord.Embed(title="Important Scuffed Links", description= "[Discord](https://discord.gg/4bF8JAGeB3)\n[Challonge](https://challonge.com/users/scuffedtourney/tournaments)\n[Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)",color=0xff0000)
+        embed=discord.Embed(title="Important Scuffed Links", description= "[Discord](https://discord.gg/4bF8JAGeB3) | [Challonge](https://challonge.com/users/scuffedtourney/tournaments) | [Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)",color=0xff0000)
         embed.set_image(url="https://cdn.discordapp.com/attachments/792019305755181057/797267487905021952/scuffed_as_hell.png")
         await ctx.send(embed=embed)
         print(f'Response: embed')
