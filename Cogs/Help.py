@@ -37,8 +37,7 @@ class Help(commands.Cog):
         message = ""
         for x in self.client.valid_HMD:
             message = message+x+", "
-            message = message[:-2]
-        embed.add_field(name="HMD <arg>", value=f"Updates your Head Mounted Display.\nValid arguments are: ``{message}``", inline=False)
+        embed.add_field(name="HMD <arg>", value=f"Updates your Head Mounted Display.\nValid arguments are: ``{message[:-2]}``", inline=False)
         embed.add_field(name="birthday <arg>", value="Updates your birthday.\nOnly the format of ``DD/MM`` or ``DD/MM/YYYY`` will be accepted", inline=False)
         embed.add_field(name="status <arg>", value="Updates your status.\nYou can put anything here, so go nuts", inline=False)
         embed.add_field(name="pfp <arg>", value="Updates your profile picture.\nMake sure this argument is a link going to an image!\nLil' secret: You can post a saved image to discord and use the link which discord generates.", inline=False)
