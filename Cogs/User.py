@@ -309,15 +309,17 @@ class User(commands.Cog):
     @update.command(aliases=["color"]) #Americans ew
     async def colour(self, ctx, argument):
         print(f"Recieved: >user update colour {ctx.author.name}")
-        if len(argument) != 6:
+        try:
+            await commands.ColourConverter().convert(ctx, argument)
+        except Exception as e:
             await ctx.send("Please use a valid hexadecimal colour value. uwu")
-        else:
-            doc_ref = dab.collection(str(ctx.author.id)).document('data')
-            doc_ref.update({
-                'colour':argument})
-            await ctx.send("I've updated your colour, Senpai! >w<")
-            print(f"{ctx.author.name} has updated their colour to {argument}")
-            print('----------')
+            return print (f"expect triggered: {e}")
+        doc_ref = dab.collection(str(ctx.author.id)).document('data')
+        doc_ref.update({
+            'colour':argument})
+        await ctx.send("I've updated your colour, Senpai! >w<")
+        print(f"{ctx.author.name} has updated their colour to {argument}")
+        print('----------')
 
 def setup(client):    
     client.add_cog(User(client))
