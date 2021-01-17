@@ -90,7 +90,7 @@ class User(commands.Cog):
         if reddit is not None:
             links_Message = links_Message+f"| [Reddit]({reddit})"
         try:
-            colour = (ref.get("colour"))
+            colour = int(ref.get("colour"))
             embed=discord.Embed(title=username, colour=colour)
         except Exception as e:
             embed=discord.Embed(title=username, colour=discord.Colour.random())
