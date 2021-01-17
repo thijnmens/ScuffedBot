@@ -18,6 +18,7 @@ class User(commands.Cog):
 
     #User
     @commands.group(invoke_without_command=True, case_insensitive=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def user(self, ctx, argument=None):
         if argument is not None:
             ID = argument[3:]
@@ -179,7 +180,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'username':argument})
-        await ctx.send(f"Your username has been updated to {argument}")
+        await ctx.send(f"I've updated Senpai's username to {argument}! >w<")
         print(f"{ctx.author.name} has updated their username to {argument}")
         print('----------')
     
@@ -191,7 +192,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'scoresaber':argument})
-        await ctx.send("Your scoresaber has been updated")
+        await ctx.send("I've updated your Scoresaber, Senapi! >w<")
         print(f"{ctx.author.name} has updated their scoresaber to {argument}")
         print('----------')
 
@@ -201,7 +202,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'steam':argument})
-        await ctx.send("Your steam has been updated")
+        await ctx.send("I've updated your Steam, Senapi! >w<")
         print(f"{ctx.author.name} has updated their steam to {argument}")
         print('----------')
     
@@ -211,7 +212,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'twitch':argument})
-        await ctx.send("Your twich has been updated")
+        await ctx.send("I've updated your Twitch, Senapi! >w<")
         print(f"{ctx.author.name} has updated their twitch to {argument}")
         print('----------')
 
@@ -221,7 +222,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'youtube':argument})
-        await ctx.send("Your Youtube has been updated")
+        await ctx.send("I've updated your Youtube, Senapi! >w<")
         print(f"{ctx.author.name} has updated their youtube to {argument}")
         print('----------')
     
@@ -231,7 +232,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'twitter':argument})
-        await ctx.send("Your Twitter has been updated")
+        await ctx.send("I've updated your Twitter, Senapi! >w<")
         print(f"{ctx.author.name} has updated their twitter to {argument}")
         print('----------')
 
@@ -241,7 +242,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'reddit':argument})
-        await ctx.send("Your Reddit has been updated")
+        await ctx.send("I've updated your Reddit, Senapi! >w<")
         print(f"{ctx.author.name} has updated their reddit to {argument}")
         print('----------')
 
@@ -261,7 +262,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'birthday':argument})
-        await ctx.send(f"Your birthday has been updated to {argument}")
+        await ctx.send(f"I've updated Senpai's birthday to {argument}! >w<")
         print(f"{ctx.author.name} has updated their birthday to {argument}")
         print('----------')
     
@@ -275,7 +276,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'hmd':argument})
-        await ctx.send(f"Your hmd has been updated to {argument}")
+        await ctx.send(f"I've updated Senpai's HMD to {argument}! >w<")
         print(f"{ctx.author.name} has updated their status to {argument}")
         print('----------')
     
@@ -285,7 +286,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'pfp':argument})
-        await ctx.send("Your pfp has been updated")
+        await ctx.send("I've updated your pfp, Senapi! >w<")
         print(f"{ctx.author.name} has updated their pfp to {argument}")
         print('----------')
     
@@ -295,7 +296,7 @@ class User(commands.Cog):
         doc_ref = dab.collection(str(ctx.author.id)).document('data')
         doc_ref.update({
             'status':argument})
-        await ctx.send("Your status has been updated")
+        await ctx.send("I've updated your status, Senapi! >w<")
         print(f"{ctx.author.name} has updated their status to {argument}")
         print('----------')
     
@@ -308,7 +309,7 @@ class User(commands.Cog):
             doc_ref = dab.collection(str(ctx.author.id)).document('data')
             doc_ref.update({
                 'colour':argument})
-            await ctx.send("Your colour has been updated")
+            await ctx.send("I've updated your colour, Senapi! >w<")
             print(f"{ctx.author.name} has updated their colour to {argument}")
             print('----------')
 
