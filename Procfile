@@ -1,1 +1,1 @@
-worker: python3 ScuffedBot.py
+worker: python3 scuffed_bot.py
