@@ -4,8 +4,9 @@ import logging
 from discord.ext import commands
 
 devs = [
-    490534335884165121,
-    232574143818760192
+    490534335884165121, #thijn
+    232574143818760192, #sirspam
+    303017061637160961 #magical (Not even an actual dev smh)
 ]
 
 
@@ -22,14 +23,15 @@ class dev(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["d"])
     async def dev (self, ctx):
         #I'll add something here when I have more time
+        if ctx.invoked_subcommand is None:
+            await ctx.send("haha look at this handling the error! yep, it's doing a great job!!\nHey user, be better and stop raising errors. k thanks uwu")
         return logging.info(f"dev ran by {ctx.author.name}")
 
     @dev.command()
     async def load_cog (self, ctx, argument):
         logging.info(f"dev load_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
-            logging.info("is_dev check returned invalid")
-            return
+            return logging.info("is_dev check returned invalid")
         argument = "cogs." + argument
         try:
             self.client.load_extension(argument)
@@ -43,7 +45,7 @@ class dev(commands.Cog):
     async def unload_cog (self, ctx, argument):
         logging.info(f"dev unload_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
-            logging.info("is_dev check returned invalid")
+            return logging.info("is_dev check returned invalid")
         argument = "cogs." + argument
         try:
             self.client.unload_extension(argument)
@@ -57,7 +59,7 @@ class dev(commands.Cog):
     async def shutdown (self, ctx):
         logging.info(f"dev shutdown ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
-            logging.info("is_dev check returned invalid")
+            return logging.info("is_dev check returned invalid")
         await ctx.send("Shutting down")
         logging.info("Shutting down")
         await self.client.close()
