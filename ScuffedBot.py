@@ -7,6 +7,7 @@
 
 import discord
 import os
+import logging
 import firebase_admin
 from random import randint
 from discord.ext import commands, tasks
@@ -15,14 +16,10 @@ from firebase_admin import credentials
 
 intents = discord.Intents.default()
 intents.members = True
-client = commands.Bot(
-    command_prefix=">",
-    intents=intents,
-    case_insensitive=True,
-    allowed_mentions=discord.AllowedMentions(
-        replied_user=False))
+client = commands.Bot(command_prefix=">",intents=intents,case_insensitive=True,allowed_mentions=discord.AllowedMentions(replied_user=False))
 client.remove_command('help')
 cwd = os.getcwd()
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 funniList = [
     "Join the NOPE clan",
     "Aso kinda cute 😳",
@@ -50,13 +47,23 @@ cred = credentials.Certificate({
 })
 default_app = firebase_admin.initialize_app(cred)
 
-try:  # literally copy and pasted this from one of my discord bots lol
-    for filename in os.listdir(f'{cwd}/Cogs/'):  # Heroku weird
-        if filename.endswith(".py"):
-            client.load_extension(f"Cogs.{filename[:-3]}")
-except Exception as e:
-    print(
-        f"Possible fatal error:\n{e}\nThis means that the cogs have not started correctly!")
+initial_cogs = [
+    "cogs.birthdaycheck",
+    "cogs.chain_enforcement",
+    "cogs.challonge",
+    "cogs.error_handler",
+    "cogs.help",
+    "cogs.scoresaber",
+    "cogs.text",
+    "cogs.user"
+]
+
+for cog in initial_cogs:
+    try:
+        client.load_extension(cog)
+        logging.info(f"Successfully loaded {cog}")
+    except Exception as e:
+        logging.error(f"Failed to load cog {cog}: {e}")
 
 
 @tasks.loop(hours=1)
@@ -64,14 +71,12 @@ async def status():
     value = randint(0, len(funniList))
     value = value - 1
     await client.change_presence(activity=discord.Game(name=funniList[value]))
-    print(f"Status set to: {funniList[value]}")
+    logging.info(f"Status set to: {funniList[value]}")
 
 # Bot Startup
-
-
 @client.event
 async def on_ready():
-    print('Bot has successfully launched as {0.user}'.format(client))
+    logging.info('Bot has successfully launched as {0.user}'.format(client))
     status.start()
 
 # Login to discord

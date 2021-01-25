@@ -1,9 +1,9 @@
-requests
+requests==2.23.0
 discord.py==1.6.0
-firebase-admin
-discord-ext-alternatives
-DiscordUtils
-asyncio
-datetime
-pychal
-git+https://github.com/Rapptz/discord-ext-menus
+firebase-admin==4.5.1
+discord-ext-alternatives==2020.10.11
+DiscordUtils==1.2.6
+asyncio==3.4.3
+datetime==4.3
+pychal==1.10.0
+git+https://github.com/Rapptz/discord-ext-menus==1.0.0a27+g6f2b873

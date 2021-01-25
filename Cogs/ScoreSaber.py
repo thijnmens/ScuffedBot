@@ -3,6 +3,7 @@ import os
 import requests
 import json
 import firebase_admin
+import logging
 from random import randint
 from discord.ext import commands, menus
 from discord.utils import get
@@ -32,8 +33,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber):
     elif argument == "topSong":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-    print(URL)
-    print(URL1)
+    logging.info(URL+"\n"+URL1)
     response = requests.get(URL, headers=header)
     json_data = json.loads(response.text)
     if "error" in json_data:
@@ -141,8 +141,7 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
         requestType = ("Top Songs")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-    print(URL)
-    print(URL1)
+    logging.info(URL+"\n"+URL1)
     response = requests.get(URL, headers=header)
     json_data = json.loads(response.text)
     if "error" in json_data:
@@ -209,29 +208,25 @@ def songsEmbed(ctx, argument, SS_id, scoresaber):
     return message
 
 
-class ScoreSaber(commands.Cog):
+class scoresaber(commands.Cog):
     def __init__(self, client):
         self.client = client
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print("ScoreSaber cog loaded")
 
     @commands.group(invoke_without_command=True,
                     case_insensitive=True, aliases=["ss"])
     async def scoresaber(self, ctx, argument1=None):
-        print(f"Recieved >scoresaber {ctx.author.name}")
+        logging.info(f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
             ID = argument1[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-            print(f"Argument given, now {ctx.author.name}")
+            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-            print(URL)
+            logging.info(URL)
             response = requests.get(URL, headers=header)
             json_data = json.loads(response.text)
             if "error" in json_data:
@@ -276,12 +271,11 @@ class ScoreSaber(commands.Cog):
                 url="https://new.scoresaber.com" +
                 playerInfo["avatar"])
         await ctx.send(embed=embed)
-        print("Response: ScoreSaber UserData embed")
-        print('----------')
+        logging.info("Response: ScoreSaber UserData embed\n----------")
 
     @scoresaber.command(aliases=["rs"])
     async def recentsong(self, ctx, argument1=None):
-        print(f"Recieved >scoresaber recentsong {ctx.author.name}")
+        logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
         if argument1 is not None:
             ID = argument1[3:]
             ID = ID[:-1]
@@ -293,12 +287,11 @@ class ScoreSaber(commands.Cog):
             SS_id = scoresaber[25:]
             argument = "recentSong"
         await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
-        print("Response: ScoreSaber RecentSong embed")
-        print('----------')
+        logging.info("Response: ScoreSaber RecentSong embed\n----------")
 
     @scoresaber.command(aliases=["ts"])
     async def topsong(self, ctx, argument1=None):
-        print(f"Recieved >scoresaber topsong {ctx.author.name}")
+        logging.info(f"Recieved >scoresaber topsong {ctx.author.name}")
         if argument1 is not None:
             ID = argument1[3:]
             ID = ID[:-1]
@@ -310,8 +303,7 @@ class ScoreSaber(commands.Cog):
             SS_id = scoresaber[25:]
             argument = "topSong"
         await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
-        print("Response: ScoreSaber TopSong embed")
-        print('----------')
+        logging.info("Response: ScoreSaber TopSong embed\n----------")
 
     @scoresaber.command(aliases=["rss"])
     async def recentsongs(self, ctx, argument1=None):
@@ -326,8 +318,7 @@ class ScoreSaber(commands.Cog):
             SS_id = scoresaber[25:]
             argument = "recentSongs"
         await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
-        print("Response: ScoreSaber RecentSongs embed")
-        print('----------')
+        logging.info("Response: ScoreSaber RecentSongs embed\n----------")
 
     @scoresaber.command(aliases=["tss"])
     async def topsongs(self, ctx, argument1=None):
@@ -335,15 +326,14 @@ class ScoreSaber(commands.Cog):
             ID = argument1[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-            print(f"Argument given, now {ctx.author.name}")
+            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "topSongs"
         await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
-        print("Response: ScoreSaber TopSongs embed")
-        print('----------')
+        logging.info("Response: ScoreSaber TopSongs embed\n----------")
 
     @scoresaber.command()
     async def compare(self, ctx, argument1=None, argument2=None):
@@ -354,4 +344,4 @@ class ScoreSaber(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(ScoreSaber(client))
+    client.add_cog(scoresaber(client))

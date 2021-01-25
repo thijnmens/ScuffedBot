@@ -6,6 +6,7 @@ import firebase_admin
 import asyncio
 import time
 import re
+import logging
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials, firestore, db

@@ -1,5 +1,6 @@
 import discord
 import os
+import logging
 from discord.ext import commands, tasks
 from discord.utils import get
 
@@ -12,7 +13,7 @@ class Help(commands.Cog):
     @commands.group(invoke_without_command=True,
                     case_insensitive=True, aliases=["he"])
     async def help(self, ctx):
-        print('Recieved: >help ')
+        logging.info('Recieved: >help ')
         embed = discord.Embed(
             title="Help",
             url="https://www.youtube.com/watch?v=7LnQRFh_knk",
@@ -24,7 +25,10 @@ class Help(commands.Cog):
             icon_url="https://cdn.discordapp.com/avatars/490534335884165121/eaeff60636ebf53040d8d5c0761c6c67.png?size=256")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
-        embed.add_field(name=">help", value="this fancy page", inline=False)
+        embed.add_field(
+            name=">help",
+            value="this fancy page",
+            inline=False)
         embed.add_field(
             name=">user [mention]",
             value="get the info of a user",
@@ -64,8 +68,7 @@ class Help(commands.Cog):
         embed.add_field(name=">ping", value="Pings Scuffed Bot", inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
         await ctx.send(embed=embed)
-        print('Response: help embed')
-        print('----------')
+        logging.info('Response: help embed\n----------')
 
     @help.command(aliases=["up"])
     async def update(self, ctx):
