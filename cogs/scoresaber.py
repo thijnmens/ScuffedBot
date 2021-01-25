@@ -283,9 +283,16 @@ class scoresaber(commands.Cog):
     async def recentsong(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
         if argument1 is not None:
-            ID = argument1[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
+            if argument1.isdigit():
+                ctx.author = self.client.get_user(int(argument1))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            else:
+                ID = argument1[3:]
+                ID = ID[:-1]
+                ctx.author = self.client.get_user(int(ID))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
@@ -299,9 +306,16 @@ class scoresaber(commands.Cog):
     async def topsong(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber topsong {ctx.author.name}")
         if argument1 is not None:
-            ID = argument1[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
+            if argument1.isdigit():
+                ctx.author = self.client.get_user(int(argument1))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            else:
+                ID = argument1[3:]
+                ID = ID[:-1]
+                ctx.author = self.client.get_user(int(ID))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
@@ -314,9 +328,16 @@ class scoresaber(commands.Cog):
     @scoresaber.command(aliases=["rss"])
     async def recentsongs(self, ctx, argument1=None):
         if argument1 is not None:
-            ID = argument1[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
+            if argument1.isdigit():
+                ctx.author = self.client.get_user(int(argument1))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            else:
+                ID = argument1[3:]
+                ID = ID[:-1]
+                ctx.author = self.client.get_user(int(ID))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
@@ -329,9 +350,16 @@ class scoresaber(commands.Cog):
     @scoresaber.command(aliases=["tss"])
     async def topsongs(self, ctx, argument1=None):
         if argument1 is not None:
-            ID = argument1[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
+            if argument1.isdigit():
+                ctx.author = self.client.get_user(int(argument1))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            else:
+                ID = argument1[3:]
+                ID = ID[:-1]
+                ctx.author = self.client.get_user(int(ID))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
