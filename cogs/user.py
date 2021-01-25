@@ -36,7 +36,6 @@ class user(commands.Cog):
                 ctx.author = self.client.get_user(int(argument))
                 if ctx.author is None:
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-
             else:
                 ID = argument[3:]
                 ID = ID[:-1]

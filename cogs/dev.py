@@ -55,7 +55,6 @@ class dev(commands.Cog):
             await ctx.send(f"Failed to unload cog {argument}: {e}")
             logging.error(f"Failed to unload cog {argument}: {e}")
 
-    #Basically a restart command thanks to Heroku
     @dev.command()
     async def shutdown (self, ctx):
         logging.info(f"dev shutdown ran by {ctx.author.name}")

@@ -212,14 +212,20 @@ class scoresaber(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.group(invoke_without_command=True,
-                    case_insensitive=True, aliases=["ss"])
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["ss"])
     async def scoresaber(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
-            ID = argument1[3:]
-            ID = ID[:-1]
-            ctx.author = self.client.get_user(int(ID))
+            if argument1.isdigit():
+                ctx.author = self.client.get_user(int(argument1))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            else:
+                ID = argument1[3:]
+                ID = ID[:-1]
+                ctx.author = self.client.get_user(int(ID))
+                if ctx.author is None:
+                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
