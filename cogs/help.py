@@ -5,13 +5,12 @@ from discord.ext import commands, tasks
 from discord.utils import get
 
 
-class Help(commands.Cog):
+class helpClient(commands.Cog):
     def __init__(self, client):
         self.client = client
 
     # Help
-    @commands.group(invoke_without_command=True,
-                    case_insensitive=True, aliases=["he"])
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["he"])
     async def help(self, ctx):
         logging.info('Recieved: >help ')
         embed = discord.Embed(
@@ -111,4 +110,4 @@ class Help(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(Help(client))
+    client.add_cog(helpClient(client))

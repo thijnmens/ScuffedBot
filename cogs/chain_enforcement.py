@@ -18,8 +18,10 @@ class chain_enforcement(commands.Cog):
             return
         if message.channel.id != chain_channel:
             return
+        logging.info("chain_enforcement triggered")
         ref = dab.collection(str("chain_data")).document("chain_data").get()
         current_chain_message = ref.get("message")
+        
         if message.content != current_chain_message:
             await message.channel.send("oi oi! you got a licence to post that message 'ere?")
 
