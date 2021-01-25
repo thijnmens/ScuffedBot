@@ -14,7 +14,7 @@ from firebase_admin import credentials, firestore, db
 dab = firestore.client()
 
 
-class User(commands.Cog):
+class user(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.client.valid_HMD = [
@@ -26,9 +26,6 @@ class User(commands.Cog):
             "Vive",
             "WMR"]
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print("User cog loaded")
 
     # User
     @commands.group(invoke_without_command=True, case_insensitive=True)
@@ -344,4 +341,4 @@ class User(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(User(client))
+    client.add_cog(user(client))

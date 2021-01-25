@@ -48,10 +48,11 @@ cred = credentials.Certificate({
 default_app = firebase_admin.initialize_app(cred)
 
 initial_cogs = [
-    "cogs.birthdaycheck",
+    "cogs.dev",
+    "cogs.error_handler",
     "cogs.chain_enforcement",
     "cogs.challonge",
-    "cogs.error_handler",
+    "cogs.birthdaycheck",
     "cogs.help",
     "cogs.scoresaber",
     "cogs.text",
