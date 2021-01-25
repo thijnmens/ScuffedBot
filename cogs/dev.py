@@ -30,7 +30,7 @@ class dev(commands.Cog):
         if is_dev(ctx.author.id) == "invalid":
             logging.info("is_dev check returned invalid")
             return
-        argument = "cog." + argument
+        argument = "cogs." + argument
         try:
             self.client.load_extension(argument)
             await ctx.send(f"loaded cog {argument}")
@@ -44,7 +44,7 @@ class dev(commands.Cog):
         logging.info(f"dev unload_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
             logging.info("is_dev check returned invalid")
-        argument = "cog." + argument
+        argument = "cogs." + argument
         try:
             self.client.unload_extension(argument)
             await ctx.send(f"unloaded cog {argument}")
