@@ -22,11 +22,11 @@ class dev(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["d"])
     async def dev (self, ctx):
         #I'll add something here when I have more time
-        return
+        return logging.info(f"dev ran by {ctx.author.name}")
 
     @dev.command
     async def load_cog (self, ctx, argument):
-        logging.info(f"load_cog ran by {ctx.author.name}")
+        logging.info(f"dev load_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
             logging.info("is_dev check returned invalid")
             return
@@ -41,7 +41,7 @@ class dev(commands.Cog):
 
     @dev.command
     async def unload_cog (self, ctx, argument):
-        logging.info(f"unload_cog ran by {ctx.author.name}")
+        logging.info(f"dev unload_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
             logging.info("is_dev check returned invalid")
         argument = "cog." + argument
@@ -55,7 +55,7 @@ class dev(commands.Cog):
 
     @dev.command
     async def shutdown (self, ctx):
-        logging.info(f"Shutdown ran by {ctx.author.name}")
+        logging.info(f"dev shutdown ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
             logging.info("is_dev check returned invalid")
         await ctx.send("Shutting down")
