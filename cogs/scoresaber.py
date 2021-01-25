@@ -280,7 +280,7 @@ class scoresaber(commands.Cog):
             ID = argument1[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-            print(f"Argument given, now {ctx.author.name}")
+            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
@@ -296,7 +296,7 @@ class scoresaber(commands.Cog):
             ID = argument1[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-            print(f"Argument given, now {ctx.author.name}")
+            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
@@ -311,7 +311,7 @@ class scoresaber(commands.Cog):
             ID = argument1[3:]
             ID = ID[:-1]
             ctx.author = self.client.get_user(int(ID))
-            print(f"Argument given, now {ctx.author.name}")
+            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection(str(ctx.author.id)).document('data').get()
             scoresaber = ref.get('scoresaber')
