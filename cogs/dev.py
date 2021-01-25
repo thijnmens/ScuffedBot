@@ -24,7 +24,7 @@ class dev(commands.Cog):
         #I'll add something here when I have more time
         return logging.info(f"dev ran by {ctx.author.name}")
 
-    @dev.command
+    @dev.command()
     async def load_cog (self, ctx, argument):
         logging.info(f"dev load_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
@@ -39,7 +39,7 @@ class dev(commands.Cog):
             await ctx.send(f"Failed to load cog {argument}: {e}")
             logging.error(f"Failed to load cog {argument}: {e}")
 
-    @dev.command
+    @dev.command()
     async def unload_cog (self, ctx, argument):
         logging.info(f"dev unload_cog ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
@@ -53,7 +53,7 @@ class dev(commands.Cog):
             await ctx.send(f"Failed to unload cog {argument}: {e}")
             logging.error(f"Failed to unload cog {argument}: {e}")
 
-    @dev.command
+    @dev.command()
     async def shutdown (self, ctx):
         logging.info(f"dev shutdown ran by {ctx.author.name}")
         if is_dev(ctx.author.id) == "invalid":
