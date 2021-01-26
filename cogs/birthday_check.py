@@ -35,6 +35,7 @@ class birthday_check(commands.Cog):
                 try:
                     birthday = dab.collection(str(ID)).document('data').get().get('birthday')
                 except Exception as e:
+                    count = count + 1
                     return logging.error(f"{ID}: {e}")
                 birthdaysplit = birthday.split('/')
                 try:
