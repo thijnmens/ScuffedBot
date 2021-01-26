@@ -135,7 +135,7 @@ class user(commands.Cog):
                 return await ctx.send('You did not reply in time, please restart the process')
             scoresaber = msg.content.split("?", 1)[0]
             scoresaber = scoresaber.split("&", 1)[0]
-            doc_ref = dab.collection("users").document(ctx.author.id)
+            doc_ref = dab.collection("users").document(str(ctx.author.id))
             doc_ref.set({
                 'a': False,
                 'chain_multi': 0,
@@ -153,7 +153,7 @@ class user(commands.Cog):
             scoresaber = argument
             scoresaber = scoresaber.split("?", 1)[0]
             scoresaber = scoresaber.split("&", 1)[0]
-            doc_ref = dab.collection("users").document(ctx.author.id)
+            doc_ref = dab.collection("users").document(str(ctx.author.id))
             doc_ref.set({
                 'a': False,
                 'username': ctx.author.name,
@@ -175,7 +175,7 @@ class user(commands.Cog):
         logging.info(f"User remove ran by {ctx.author.name}")
         try:
             dab.collection('collectionlist').document('data').get().get('collectionarray').delete(str(ctx.author.id))
-            dab.collection("users").document(ctx.author.id).delete()
+            dab.collection("users").document(str(ctx.author.id)).delete()
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.remove_roles(registered_role)
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
@@ -207,7 +207,7 @@ class user(commands.Cog):
     @update.command()
     async def username(self, ctx, *, argument):
         logging.info(f'Recieved: >user update username {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({'username': argument})
         await ctx.send(f"I've updated Senpai's username to {argument}! >w<")
         logging.info(f"{ctx.author.name} has updated their username to {argument}\n----------")
@@ -217,7 +217,7 @@ class user(commands.Cog):
         logging.info(f'Recieved: >user update scoresaber {ctx.author.name}')
         argument = argument.split("?", 1)[0]
         argument = argument.split("&", 1)[0]
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'scoresaber': argument})
         await ctx.send("I've updated your Scoresaber, Senpai! >w<")
@@ -226,7 +226,7 @@ class user(commands.Cog):
     @update.command()
     async def steam(self, ctx, argument):
         logging.info(f'Recieved: >user update steam {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'steam': argument})
         await ctx.send("I've updated your Steam, Senpai! >w<")
@@ -235,7 +235,7 @@ class user(commands.Cog):
     @update.command()
     async def twitch(self, ctx, argument):
         logging.info(f'Recieved: >user update twitch {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'twitch': argument})
         await ctx.send("I've updated your Twitch, Senpai! >w<")
@@ -244,7 +244,7 @@ class user(commands.Cog):
     @update.command()
     async def youtube(self, ctx, argument):
         logging.info(f'Recieved: >user update youtube {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'youtube': argument})
         await ctx.send("I've updated your Youtube, Senpai! >w<")
@@ -253,7 +253,7 @@ class user(commands.Cog):
     @update.command()
     async def twitter(self, ctx, argument):
         logging.info(f'Recieved: >user update twitter {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'twitter': argument})
         await ctx.send("I've updated your Twitter, Senpai! >w<")
@@ -262,7 +262,7 @@ class user(commands.Cog):
     @update.command()
     async def reddit(self, ctx, argument):
         logging.info(f'Recieved: >user update reddit {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'reddit': argument})
         await ctx.send("I've updated your Reddit, Senpai! >w<")
@@ -281,7 +281,7 @@ class user(commands.Cog):
         if(storer[1] > 12 or storer[1] < 1 or storer[0] > 31 or storer[0] < 1):
             logging.warning("Birthday legitimacy triggered")
             return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'birthday': argument})
         await ctx.send(f"I've updated Senpai's birthday to {argument}! >w<")
@@ -294,7 +294,7 @@ class user(commands.Cog):
         if argument.lower() not in valid_HMD_low:
             logging.warning(f"{argument} not in valid_HMD")
             return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >help update to check the valid HMDs``")
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'hmd': argument})
         await ctx.send(f"I've updated Senpai's HMD to {argument}! >w<")
@@ -303,7 +303,7 @@ class user(commands.Cog):
     @update.command()
     async def pfp(self, ctx, argument):
         logging.info(f"Recieved: >user update pfp {ctx.author.name}")
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'pfp': argument})
         await ctx.send("I've updated your pfp, Senpai! >w<")
@@ -312,7 +312,7 @@ class user(commands.Cog):
     @update.command()
     async def status(self, ctx, *, argument):
         logging.info(f'Recieved: >user update status {ctx.author.name}')
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'status': argument})
         await ctx.send("I've updated your status, Senpai! >w<")
@@ -326,7 +326,7 @@ class user(commands.Cog):
         except Exception as e:
             await ctx.send("Please use a valid hexadecimal colour value. uwu")
             return logging.error(f"expect triggered: {e}")
-        doc_ref = dab.collection("users").document(ctx.author.id)
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'colour': argument})
         await ctx.send("I've updated your colour, Senpai! >w<")
