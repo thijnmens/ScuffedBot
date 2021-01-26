@@ -34,7 +34,7 @@ class helpClient(commands.Cog):
             inline=False)
         embed.add_field(
             name=">user add",
-            value="add yourself to the userbase. If you don't want to fill something in, please use ``None``",
+            value="add yourself to the userbase.",
             inline=False)
         embed.add_field(
             name=">user update <field> <arg>",

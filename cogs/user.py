@@ -130,27 +130,26 @@ class user(commands.Cog):
         if argument is None:
             try:
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
-                scoresaber = msg.content
-                scoresaber = scoresaber.split("?", 1)[0]
-                scoresaber = scoresaber.split("&", 1)[0]
-                doc_ref = dab.collection(str(ctx.author.id)).document('data')
-                doc_ref.set({
-                    'a': False,
-                    'username': ctx.author.name,
-                    'scoresaber': scoresaber, })
-                try:
-                    col_ref = dab.collection('collectionlist').document(
-                        'data').get().get('collectionarray')
-                    col_ref.append(str(ctx.author.id))
-                    dab.collection('collectionlist').document('data').update({
-                        'collectionarray': col_ref})
-                except Exception as e:
-                    logging.error(e)
             except asyncio.TimeoutError:
                 await sent.delete()
-                await ctx.send('You did not reply in time, please restart the process')
-                logging.info("Timed out\n----------")
-                return
+                return await ctx.send('You did not reply in time, please restart the process')
+            scoresaber = msg.content.split("?", 1)[0]
+            scoresaber = scoresaber.split("&", 1)[0]
+            doc_ref = dab.collection(str(ctx.author.id)).document('data')
+            doc_ref.set({
+                'a': False,
+                'username': ctx.author.name,
+                'scoresaber': scoresaber, })
+            try:
+                col_ref = dab.collection('collectionlist').document(
+                    'data').get().get('collectionarray')
+                col_ref.append(str(ctx.author.id))
+                dab.collection('collectionlist').document('data').update({
+                    'collectionarray': col_ref})
+            except Exception as e:
+                logging.error(e)
+            logging.info("\n----------")
+            return
         else:  # haha lazy copy and paste
             scoresaber = argument
             scoresaber = scoresaber.split("?", 1)[0]
@@ -180,13 +179,30 @@ class user(commands.Cog):
         try:
             col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             col_ref.remove(str(ctx.author.id))
-            dab.collection('collectionlist').document('data').get
+            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            ref.remove(str(ctx.author.id))
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
-            await ctx.author.add_roles(registered_role)
+            await ctx.author.remove_roles(registered_role)
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
-            logging.info(f"Response: {ctx.author.id} has been successfully removed to the database----------")
+            logging.info(f"Response: {ctx.author.id} has been successfully removed to the database\n----------")
         except Exception as e:
             logging.error(e)
+        logging.info("---------")
+    
+    @commands.Cog.listener("on_member_remove")
+    async def on_member_remove(self, member):
+        logging.info(f"{member.name} ({member.id}) has left the server")
+        try:
+            col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+            col_ref.remove(str(member.id))
+            ref = dab.collection(str(member.id)).document('data').get()
+            ref.remove(str(member.id))
+            channel = self.client.get_channel("754625185306378271")
+            await channel.send(f"{member.name} has left the server and been successfully removed from the database")
+            logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
+        except Exception as e:
+            logging.error(e)
+        logging.info("---------")
 
     # User update
     @user.group(invoke_without_command=True, case_insensitive=True)

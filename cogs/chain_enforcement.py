@@ -30,6 +30,9 @@ class chain_enforcement(commands.Cog):
         if message.channel.id != chain_channel:
             return
         logging.info("chain_enforcement running")
+        if message.attachments:
+            await message.delete()
+            return logging.info("Image contained embed, chain_enforcement ended\n---------")
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
         current_chain_length = dab.collection(str("chain_data")).document("chain_data").get().get("length")
         chain_multi = dab.collection(str(message.author.id)).document('data').get().get("chain_multi")
@@ -40,7 +43,7 @@ class chain_enforcement(commands.Cog):
             await channel.send(f'The chain lasted {current_chain_length} messages. {message.author.name} has been muted for {time} seconds!\nThe new chain message is: {message.content}')
             dab.collection(str("chain_data")).document("chain_data").update({
                 'message': message.content,
-                'length': 0
+                'length': 1
             })
             dab.collection(str(message.author.id)).document('data').update({"chain_multi": float(chain_multi+0.5)})
             await mute(message, time)
