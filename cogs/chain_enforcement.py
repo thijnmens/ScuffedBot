@@ -43,7 +43,7 @@ class chain_enforcement(commands.Cog):
             await channel.send(f'The chain had {current_chain_length} messages. {message.author.name} has been muted for {time} seconds!\nThe new chain message is: {message.content}')
             dab.collection(str("chain_data")).document("chain_data").update({
                 'message': message.content,
-                'length': 0    
+                'length': 1    
             })
             dab.collection(str(message.author.id)).document('data').update({"chain_multi": int(chain_multi+0.5)})
             await mute(message, current_chain_length)
