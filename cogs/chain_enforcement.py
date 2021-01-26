@@ -21,8 +21,8 @@ class chain_enforcement(commands.Cog):
         logging.info("chain_enforcement triggered")
         ref = dab.collection(str("chain_data")).document("chain_data").get()
         current_chain_message = ref.get("message")
-        if ctx.message.content != current_chain_message:
-            await ctx.delete_message(ctx.message)
+        if ctx.content != current_chain_message:
+            await ctx.delete_message(ctx)
 
 def setup(client):
     client.add_cog(chain_enforcement(client))
