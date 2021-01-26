@@ -41,7 +41,7 @@ class user(commands.Cog):
                 ID = ID[:-1]
                 ctx.author = self.client.get_user(int(ID))
         logging.info(f'Recieved: >user {ctx.author.name}')
-        ref = dab.collection("users").document(ctx.author.id).get()
+        ref = dab.collection("users").document(str(ctx.author.id)).get()
         username = ref.get("username")
         if username is None:
             logging.info(f"User not found")
