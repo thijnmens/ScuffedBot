@@ -13,7 +13,7 @@ muted = set()
 
 async def mute(message, current_chain_lenght):
     print ("muted started")
-    mute_role = await commands.RoleConverter().convert(message, 783042590739529789)
+    mute_role = await commands.RoleConverter().convert(message, "783042590739529789")
     time = int(current_chain_lenght * 10)
     muted.add(message.author.id)
     print ("1")
