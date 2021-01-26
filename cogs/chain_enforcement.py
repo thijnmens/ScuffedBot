@@ -13,16 +13,36 @@ class chain_enforcement(commands.Cog):
         self.client = client
 
     @commands.Cog.listener('on_message')
-    async def on_message(self, message):
+    async def on_message(self, message, ctx):
         if message.author == self.client.user:
             return
         if message.channel.id != chain_channel:
             return
         logging.info("chain_enforcement triggered")
-        ref = dab.collection(str("chain_data")).document("chain_data").get()
-        current_chain_message = ref.get("message")
+        current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
+        current_chain_lenght = dab.collection(str("chain_data")).document("chain_data").get().get("lenght")
+        muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
+        ref = dab.collection(str("chain_data")).document('muted')
         if message.content != current_chain_message:
-            await message.delete()
+            channel = self.client.get_channel(803259546390888458)
+            await channel.send(f'The chain had {current_chain_lenght} messages')
+            member = ctx.message.author
+            role = get(member.server.roles, name="Muted")
+            await self.client.add_roles(member, role)
+            muted_list = muted_list.append(member)
+            ref.update({'muted': muted_list})
+        else:
+            lenght = current_chain_lenght + 1
+            dab.collection(str("chain_data")).document('chain_data').update({'lenght': lenght})
+
+    @tasks.loop(hours=12)
+    async def mutedcheck(self):
+        muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
+        amount = len(muted_list)
+        a = 0
+        if a < amount:
+            print(muted_list[a])
+            a = a + 1
 
 def setup(client):
     client.add_cog(chain_enforcement(client))
