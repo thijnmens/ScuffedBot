@@ -26,14 +26,13 @@ class birthday_check(commands.Cog):
     @tasks.loop(hours=12)
     async def birthdays(self):
         logging.info("Running birthdays")
-        print ("1")
         ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
-        print ("2")
         amount = len(ref)
         count = 0
-        print ("3")
+        print (amount)
+        asyncio.sleep(5) #Clench those butt cheeks
         while (count < amount):
-            print ("4")
+            print (count)
             try:
                 ID = ref[count]
                 try:
@@ -47,7 +46,6 @@ class birthday_check(commands.Cog):
                     birthdayfinal = '32/13'
                 current_time = now.strftime("%d-%m")
                 a = dab.collection(str(ID)).document('data').get().get('a')
-                print ("5")
                 if(birthdayfinal == current_time):
                     if(a == False):
                         channel = self.client.get_channel(793049781554642954)
