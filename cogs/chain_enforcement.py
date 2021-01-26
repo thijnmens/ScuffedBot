@@ -42,7 +42,7 @@ class chain_enforcement(commands.Cog):
                 'message': message.content,
                 'length': 0    
             })
-            dab.collection(str(message.author.id)).document('data').update({"chain_multi": (chain_multi+0.5)})
+            dab.collection(str(message.author.id)).document('data').update({"chain_multi": str(chain_multi+0.5)})
             await mute(message, current_chain_length)
         else:
             dab.collection(str("chain_data")).document('chain_data').update({'length': (current_chain_length + 1)})
