@@ -14,9 +14,9 @@ class chain_enforcement(commands.Cog):
 
     @commands.Cog.listener('on_message')
     async def on_message(self, ctx):
-        if ctx.message.author == self.client.user:
+        if ctx.author == self.client.user:
             return
-        if ctx.message.channel.id != chain_channel:
+        if ctx.channel.id != chain_channel:
             return
         logging.info("chain_enforcement triggered")
         ref = dab.collection(str("chain_data")).document("chain_data").get()
