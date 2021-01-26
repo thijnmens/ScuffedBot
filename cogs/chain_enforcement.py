@@ -39,14 +39,14 @@ class chain_enforcement(commands.Cog):
             channel = self.client.get_channel(chain_channel)
             print(current_chain_length)
             print(chain_multi)
-            time = int(current_chain_length * 10 * chain_multi)
+            time = float(current_chain_length * 10 * chain_multi)
             await channel.send(f'The chain had {current_chain_length} messages. {message.author.name} has been muted for {time} seconds!\nThe new chain message is: {message.content}')
             dab.collection(str("chain_data")).document("chain_data").update({
                 'message': message.content,
-                'length': 1    
+                'length': 0
             })
-            dab.collection(str(message.author.id)).document('data').update({"chain_multi": int(chain_multi+0.5)})
-            await mute(message, current_chain_length)
+            dab.collection(str(message.author.id)).document('data').update({"chain_multi": float(chain_multi+0.5)})
+            await mute(message, time)
         else:
             dab.collection(str("chain_data")).document('chain_data').update({'length': str(current_chain_length + 1)})
         logging.info("chain_enforcement ran\n---------")
