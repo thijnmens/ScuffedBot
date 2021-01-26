@@ -8,22 +8,22 @@ from firebase_admin import credentials, firestore, db
 
 dab = firestore.client()
 chain_channel = (796012513917272085)
-muted = set()
+#muted = set()
 
 
 async def mute(message, current_chain_lenght):
     print ("muted started")
     mute_role = await commands.RoleConverter().convert(message, "783042590739529789")
     time = int(current_chain_lenght * 10)
-    muted.add(message.author.id)
+    #muted.add(message.author.id)
     print ("1")
-    await message.add_roles(mute_role)
+    await message.author.add_roles(mute_role)
     logging.info(f"{message.author.id} placed in muted\n{muted}")
     print ("2")
     await asyncio.sleep(time)
-    muted.remove(message.author.id)
+    #muted.remove(message.author.id)
     print ("3")
-    await message.remove_roles(mute_role)
+    await message.author.remove_roles(mute_role)
     logging.info(f"{message.author.id} removed from muted\n{muted}")
 
 
