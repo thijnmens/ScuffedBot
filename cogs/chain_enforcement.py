@@ -13,7 +13,7 @@ class chain_enforcement(commands.Cog):
         self.client = client
 
     @commands.Cog.listener('on_message')
-    async def on_message(self, message, ctx):
+    async def on_message(self, message):
         if message.author == self.client.user:
             return
         if message.channel.id != chain_channel:
@@ -26,7 +26,7 @@ class chain_enforcement(commands.Cog):
         if message.content != current_chain_message:
             channel = self.client.get_channel(803259546390888458)
             await channel.send(f'The chain had {current_chain_lenght} messages')
-            member = ctx.message.author
+            member = message.message.author
             role = get(member.server.roles, name="Muted")
             await self.client.add_roles(member, role)
             muted_list = muted_list.append(member)
