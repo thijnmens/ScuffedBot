@@ -228,7 +228,7 @@ class scoresaber(commands.Cog):
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            ref = dab.collection("users").document(ctx.author.id).get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
@@ -295,7 +295,7 @@ class scoresaber(commands.Cog):
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            ref = dab.collection("users").document(ctx.author.id).get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "recentSong"
@@ -318,7 +318,7 @@ class scoresaber(commands.Cog):
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            ref = dab.collection("users").document(ctx.author.id).get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "topSong"
@@ -340,7 +340,7 @@ class scoresaber(commands.Cog):
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            ref = dab.collection("users").document(ctx.author.id).get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "recentSongs"
@@ -362,7 +362,7 @@ class scoresaber(commands.Cog):
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
+            ref = dab.collection("users").document(ctx.author.id).get()
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "topSongs"
