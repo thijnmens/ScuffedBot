@@ -175,8 +175,7 @@ class user(commands.Cog):
     @user.command()
     async def remove(self, ctx):
         try:
-            col_ref = dab.collection('collectionlist').document(
-                'data').get().get('collectionarray')
+            col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             col_ref.remove(str(ctx.author.id))
             dab.collection('collectionlist').document('data').get
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
