@@ -35,7 +35,7 @@ class birthday_check(commands.Cog):
                 try:
                     birthday = dab.collection(str(ID)).document('data').get().get('birthday')
                 except Exception as e:
-                    return logging.error(e)
+                    return logging.error(f"{ID}: {e}")
                 birthdaysplit = birthday.split('/')
                 try:
                     birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
@@ -50,7 +50,6 @@ class birthday_check(commands.Cog):
                         logging.info(f'Wished {ID} a happy birthday')
                         a = dab.collection(str(ID)).document('data').update({'a': True})
                 count = count + 1
-                print ("6")
             except Exception as e:
                 logging.error(e)
         logging.info("Birthdays Ended\n----------")
