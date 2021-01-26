@@ -27,8 +27,7 @@ class chain_enforcement(commands.Cog):
             channel = self.client.get_channel(803259546390888458)
             await channel.send(f'The chain had {current_chain_lenght} messages')
             member = message.author
-            role = get(member.server.roles, name="Muted")
-            await self.client.add_roles(member, role)
+            await message.add_roles('Muted')
             muted_list = muted_list.append(member)
             ref.update({'muted': muted_list})
         else:
