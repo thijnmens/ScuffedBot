@@ -29,8 +29,7 @@ class birthday_check(commands.Cog):
         ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
         amount = len(ref)
         count = 0
-        while (count < amount):
-            print (count)
+        while (count <= amount):
             try:
                 ID = ref[count]
                 try:
