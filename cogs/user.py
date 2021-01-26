@@ -180,8 +180,7 @@ class user(commands.Cog):
         try:
             #col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             #col_ref.delete(str(ctx.author.id))
-            ref = dab.collection(str(ctx.author.id))#.document('data').get()#.get(str(ctx.author.id))
-            ref.delete()
+            dab.collection(str(ctx.author.id)).delete()#.document('data').get()#.get(str(ctx.author.id))
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.remove_roles(registered_role)
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
