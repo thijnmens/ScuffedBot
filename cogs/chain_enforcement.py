@@ -17,11 +17,10 @@ class chain_enforcement(commands.Cog):
         if message.author == self.client.user:
             return
         
-        muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
-        if muted_list.count(message.author) == 1:
-            a = str(muted_list.index(message.author))
-            print(a)
-
+        # muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
+        # if muted_list.count(message.author) == 1:
+        #     a = str(muted_list.index(message.author))
+        #     print(a)
 
         if message.channel.id != chain_channel:
             return
