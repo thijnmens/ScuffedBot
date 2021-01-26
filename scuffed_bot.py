@@ -52,7 +52,7 @@ initial_cogs = [
     "cogs.error_handler",
     "cogs.chain_enforcement",
     "cogs.challonge",
-    "cogs.birthday_check",
+    #"cogs.birthday_check",
     "cogs.help",
     "cogs.scoresaber",
     "cogs.text",
