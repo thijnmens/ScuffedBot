@@ -31,18 +31,21 @@ class chain_enforcement(commands.Cog):
             return
         logging.info("chain_enforcement triggered")
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
-        current_chain_lenght = dab.collection(str("chain_data")).document("chain_data").get().get("lenght")
+        current_chain_length = dab.collection(str("chain_data")).document("chain_data").get().get("length")
+        chain_multi = dab.collection(str(message.author.id)).document('data').get("chain_multi")
         if message.content != current_chain_message:
-            if current_chain_lenght != 0:
-                channel = self.client.get_channel(chain_channel)
-                time = int(current_chain_lenght * 10)
-                await channel.send(f'The chain had {current_chain_lenght} messages. {message.author.name} has been muted for {time} seconds!\nThe new chain message is: {message.content}')
-                dab.collection(str("chain_data")).document("chain_data").update({'message': message.content})
-                dab.collection(str("chain_data")).document('chain_data').update({'lenght': 0})
-                await mute(message, current_chain_lenght)
+            #if current_chain_length != 0:
+            channel = self.client.get_channel(chain_channel)
+            time = int(current_chain_length * 10 * chain_multi)
+            await channel.send(f'The chain had {current_chain_length} messages. {message.author.name} has been muted for {time} seconds!\nThe new chain message is: {message.content}')
+            dab.collection(str("chain_data")).document("chain_data").update({
+                'message': message.content,
+                'length': 0    
+            })
+            dab.collection(str(message.author.id)).document('data').update({"chain_multi": (chain_multi+0.5)})
+            await mute(message, current_chain_length)
         else:
-            lenght = current_chain_lenght + 1
-            dab.collection(str("chain_data")).document('chain_data').update({'lenght': lenght})
+            dab.collection(str("chain_data")).document('chain_data').update({'length': (current_chain_length + 1)})
 
 def setup(client):
     client.add_cog(chain_enforcement(client))
