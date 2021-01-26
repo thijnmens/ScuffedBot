@@ -16,6 +16,13 @@ class chain_enforcement(commands.Cog):
     async def on_message(self, message):
         if message.author == self.client.user:
             return
+        
+        muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
+        if muted_list.count(message.author) == 1:
+            a = str(muted_list.index(message.author))
+            print(a)
+
+
         if message.channel.id != chain_channel:
             return
         logging.info("chain_enforcement triggered")
@@ -27,9 +34,9 @@ class chain_enforcement(commands.Cog):
             channel = self.client.get_channel(803259546390888458)
             await channel.send(f'The chain had {current_chain_lenght} messages')
             member = message.author
-            await message.add_roles('Muted')
             muted_list = muted_list.append(member)
             ref.update({'muted': muted_list})
+            dab.collection(str("chain_data")).document("chain_data").update({'message': message.content})
         else:
             lenght = current_chain_lenght + 1
             dab.collection(str("chain_data")).document('chain_data').update({'lenght': lenght})
@@ -39,7 +46,7 @@ class chain_enforcement(commands.Cog):
         muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
         amount = len(muted_list)
         a = 0
-        if a < amount:
+        while a < amount:
             print(muted_list[a])
             a = a + 1
 
