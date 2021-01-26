@@ -41,16 +41,16 @@ class chain_enforcement(commands.Cog):
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
         current_chain_lenght = dab.collection(str("chain_data")).document("chain_data").get().get("lenght")
         print ("1")
-        if ctx.content != current_chain_message:
+        if ctx.message.content != current_chain_message:
             if current_chain_lenght != 0:
                 print ("2")
                 channel = self.client.get_channel(chain_channel)
                 print ("3")
-                await channel.send(f'The chain had {current_chain_lenght} messages. {ctx.author.name} has been muted!\nThe new chain message is: {ctx.content}')
+                await channel.send(f'The chain had {current_chain_lenght} messages. {ctx.author.name} has been muted!\nThe new chain message is: {ctx.message.content}')
                 print ("4")
                 await mute(ctx, current_chain_lenght)
                 print ("5")
-                dab.collection(str("chain_data")).document("chain_data").update({'message': ctx.content})
+                dab.collection(str("chain_data")).document("chain_data").update({'message': ctx.message.content})
                 dab.collection(str("chain_data")).document('chain_data').update({'lenght': 0})
                 print ("6")
         else:
