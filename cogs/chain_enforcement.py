@@ -32,7 +32,7 @@ class chain_enforcement(commands.Cog):
         if message.content != current_chain_message:
             channel = self.client.get_channel(803259546390888458)
             await channel.send(f'The chain had {current_chain_lenght} messages')
-            member = message.author
+            member = message.author.id
             muted_list = muted_list.append(member)
             ref.update({'muted': muted_list})
             dab.collection(str("chain_data")).document("chain_data").update({'message': message.content})
