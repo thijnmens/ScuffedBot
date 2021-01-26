@@ -168,16 +168,21 @@ class user(commands.Cog):
                     'collectionarray': col_ref})
             except Exception as e:
                 logging.error(e)
+        registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
+        await ctx.author.add_roles(registered_role)
         await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
         logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
 
     # User Remove
     @user.command()
     async def remove(self, ctx):
+        logging.info(f"User remove ran by {ctx.author.name}")
         try:
             col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             col_ref.remove(str(ctx.author.id))
             dab.collection('collectionlist').document('data').get
+            registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
+            await ctx.author.add_roles(registered_role)
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
             logging.info(f"Response: {ctx.author.id} has been successfully removed to the database----------")
         except Exception as e:
