@@ -27,7 +27,7 @@ class chain_enforcement(commands.Cog):
         logging.info("chain_enforcement triggered")
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
         current_chain_lenght = dab.collection(str("chain_data")).document("chain_data").get().get("lenght")
-        muted_list = dab.collection(str("chain_data")).document("muted").get().get("muted")
+        muted_list = [dab.collection(str("chain_data")).document("muted").get().get("muted")]
         ref = dab.collection(str("chain_data")).document('muted')
         if message.content != current_chain_message:
             channel = self.client.get_channel(803259546390888458)
