@@ -6,7 +6,7 @@ from discord.utils import get
 from firebase_admin import credentials, firestore, db
 
 dab = firestore.client()
-chain_channel = (796012513917272085)
+chain_channel = (803259546390888458)
 
 class chain_enforcement(commands.Cog):
     def __init__(self, client):
