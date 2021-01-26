@@ -50,9 +50,9 @@ default_app = firebase_admin.initialize_app(cred)
 initial_cogs = [
     "cogs.dev",
     "cogs.error_handler",
-    #"cogs.chain_enforcement",
+    "cogs.chain_enforcement",
     "cogs.challonge",
-    #"cogs.birthday_check",
+    "cogs.birthday_check",
     "cogs.help",
     "cogs.scoresaber",
     "cogs.text",
