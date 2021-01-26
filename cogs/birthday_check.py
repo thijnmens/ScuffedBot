@@ -34,7 +34,7 @@ class birthday_check(commands.Cog):
                 'data').get().get('collectionarray')
             amount = len(ref)
             count = 0
-            while await (count < amount):
+            while (count < amount):
                 ID = ref[count]
                 birthday = dab.collection(
                     str(ID)).document('data').get().get('birthday')
