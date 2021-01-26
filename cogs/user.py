@@ -180,8 +180,8 @@ class user(commands.Cog):
         try:
             col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             col_ref.delete(str(ctx.author.id))
-            ref = dab.collection(str(ctx.author.id)).document('data').get()
-            ref.delete(str(ctx.author.id))
+            ref = dab.collection(str(ctx.author.id)).document('data').get().get(str(ctx.author.id))
+            ref.delete()
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.remove_roles(registered_role)
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
@@ -196,8 +196,8 @@ class user(commands.Cog):
         try:
             col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
             col_ref.delete(str(member.id))
-            ref = dab.collection(str(member.id)).document('data').get()
-            ref.delete(str(member.id))
+            ref = dab.collection(str(ctx.author.id)).document('data').get().get(str(ctx.author.id))
+            ref.delete()
             channel = self.client.get_channel("754625185306378271")
             await channel.send(f"{member.name} has left the server and been successfully removed from the database")
             logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
