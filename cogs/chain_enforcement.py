@@ -18,13 +18,13 @@ async def mute(message, current_chain_lenght):
     #muted.add(message.author.id)
     print ("1")
     await message.author.add_roles(mute_role)
-    logging.info(f"{message.author.id} placed in muted\n{muted}")
+    logging.info(f"{message.author.id} placed in muted for: {time} seconds")
     print ("2")
     await asyncio.sleep(time)
     #muted.remove(message.author.id)
     print ("3")
     await message.author.remove_roles(mute_role)
-    logging.info(f"{message.author.id} removed from muted\n{muted}")
+    logging.info(f"{message.author.id} removed from muted")
 
 
 class chain_enforcement(commands.Cog):
