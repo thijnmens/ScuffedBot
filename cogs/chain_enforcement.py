@@ -32,7 +32,7 @@ class chain_enforcement(commands.Cog):
         logging.info("chain_enforcement triggered")
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
         current_chain_length = dab.collection(str("chain_data")).document("chain_data").get().get("length")
-        chain_multi = dab.collection(str(message.author.id)).document('data').get("chain_multi")
+        chain_multi = dab.collection(str(message.author.id)).document('data').get().get("chain_multi")
         if message.content != current_chain_message:
             #if current_chain_length != 0:
             channel = self.client.get_channel(chain_channel)
