@@ -29,8 +29,6 @@ class birthday_check(commands.Cog):
         ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
         amount = len(ref)
         count = 0
-        print (amount)
-        asyncio.sleep(5) #Clench those butt cheeks
         while (count < amount):
             print (count)
             try:
@@ -52,7 +50,7 @@ class birthday_check(commands.Cog):
                         await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
                         logging.info(f'Wished {ID} a happy birthday')
                         a = dab.collection(str(ID)).document('data').update({'a': True})
-                    count = count + 1
+                count = count + 1
                 print ("6")
             except Exception as e:
                 logging.error(e)
