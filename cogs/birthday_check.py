@@ -35,27 +35,24 @@ class birthday_check(commands.Cog):
             amount = len(ref)
             count = 0
             while(count < amount):
+                ID = ref[count]
+                birthday = dab.collection(
+                    str(ID)).document('data').get().get('birthday')
+                birthdaysplit = birthday.split('/')
                 try:
-                    ID = ref[count]
-                    birthday = dab.collection(
-                        str(ID)).document('data').get().get('birthday')
-                    birthdaysplit = birthday.split('/')
-                    try:
-                        birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
-                    except Exception:
-                        birthdayfinal = '32/13'
-                    current_time = now.strftime("%d-%m")
-                    a = dab.collection(str(ID)).document('data').get().get('a')
-                    if(birthdayfinal == current_time):
-                        if(a == False):
-                            channel = self.client.get_channel(793049781554642954)
-                            await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
-                            logging.info(f'Wished {ID} a happy birthday')
-                            a = dab.collection(str(ID)).document(
-                                'data').update({'a': True})
+                    birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
+                except Exception:
+                    birthdayfinal = '32/13'
+                current_time = now.strftime("%d-%m")
+                a = dab.collection(str(ID)).document('data').get().get('a')
+                if(birthdayfinal == current_time):
+                    if(a == False):
+                        channel = self.client.get_channel(793049781554642954)
+                        await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
+                        logging.info(f'Wished {ID} a happy birthday')
+                        a = dab.collection(str(ID)).document(
+                            'data').update({'a': True})
                     count = count + 1
-                except Exception as e:
-                    logging.error(e)
         except Exception as e:
             logging.error(e)
         logging.info("Birthdays Ended\n----------")
