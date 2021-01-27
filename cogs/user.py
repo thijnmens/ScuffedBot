@@ -142,6 +142,7 @@ class user(commands.Cog):
             doc_ref.set({
                 'a': False,
                 'chain_multi': 0,
+                'birthday': None,
                 'username': ctx.author.name,
                 'scoresaber': scoresaber, })
             try:
