@@ -133,38 +133,27 @@ class user(commands.Cog):
             sent = await ctx.send('What is your scoresaber link?')
             try:
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                scoresaber = msg.content
             except asyncio.TimeoutError:
                 await sent.delete()
                 return await ctx.send("You didn't reply in time, please restart the process")
-            scoresaber = msg.content.split("?", 1)[0]
-            scoresaber = scoresaber.split("&", 1)[0]
-            doc_ref = dab.collection("users").document(str(ctx.author.id))
-            doc_ref.set({
-                'a': False,
-                'chain_multi': 0,
-                'username': ctx.author.name,
-                'scoresaber': scoresaber, })
-            try:
-                col_ref.append(str(ctx.author.id))
-                col_ref.sort()
-                dab.collection('users').document('collectionlist').update({'array': col_ref})
-            except Exception as e:
-                return logging.error(e+"\n----------")
-        else:  # haha lazy copy and paste
+        elif argument is not None:
             scoresaber = argument
-            scoresaber = scoresaber.split("?", 1)[0]
-            scoresaber = scoresaber.split("&", 1)[0]
-            doc_ref = dab.collection("users").document(str(ctx.author.id))
-            doc_ref.set({
-                'a': False,
-                'username': ctx.author.name,
-                'scoresaber': scoresaber, })
-            try:
-                col_ref = dab.collection('users').document('collectionlist').get().get('array')
-                col_ref.append(str(ctx.author.id))
-                dab.collection('users').document('collectionlist').update({'array': col_ref})
-            except Exception as e:
-                return logging.error(e+"\n----------")
+        scoresaber = scoresaber.split("?", 1)[0]
+        scoresaber = scoresaber.split("&", 1)[0]
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.set({
+            'a': False,
+            'chain_multi': 0,
+            'username': ctx.author.name,
+            'scoresaber': scoresaber
+        })
+        try:
+            col_ref.append(str(ctx.author.id))
+            col_ref.sort()
+            dab.collection('users').document('collectionlist').update({'array': col_ref})
+        except Exception as e:
+            return logging.error(e+"\n----------")
         registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
         await ctx.author.add_roles(registered_role)
         await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
