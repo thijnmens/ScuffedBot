@@ -124,7 +124,7 @@ class user(commands.Cog):
 
     # User Add
     @user.command()
-    async def add(self, ctx, argument=None):
+    async def add(self, ctx, *, argument=None):
         logging.info(f'Recieved: >user add {ctx.author.name}')
         sent = await ctx.send('What is your scoresaber link?')
         if argument is None:
@@ -142,9 +142,9 @@ class user(commands.Cog):
                 'username': ctx.author.name,
                 'scoresaber': scoresaber, })
             try:
-                col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+                col_ref = dab.collection('users').document('collectionlist').get().get('array')
                 col_ref.append(str(ctx.author.id))
-                dab.collection('collectionlist').document('data').update({'collectionarray': col_ref})
+                dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
                 logging.error(e)
             logging.info("\n----------")
@@ -159,9 +159,9 @@ class user(commands.Cog):
                 'username': ctx.author.name,
                 'scoresaber': scoresaber, })
             try:
-                col_ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+                col_ref = dab.collection('users').document('collectionlist').get().get('array')
                 col_ref.append(str(ctx.author.id))
-                dab.collection('collectionlist').document('data').update({'collectionarray': col_ref})
+                dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
                 logging.error(e)
         registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
@@ -174,7 +174,9 @@ class user(commands.Cog):
     async def remove(self, ctx):
         logging.info(f"User remove ran by {ctx.author.name}")
         try:
-            dab.collection('collectionlist').document('data').get().get('collectionarray').delete(str(ctx.author.id))
+            col_ref = dab.collection('users').document('collectionlist').get().get('array')
+            col_ref.remove(str(ctx.author.id))
+            dab.collection('users').document('collectionlist').update({'array': col_ref})
             dab.collection("users").document(str(ctx.author.id)).delete()
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.remove_roles(registered_role)
@@ -188,7 +190,9 @@ class user(commands.Cog):
     async def on_member_remove(self, member):
         logging.info(f"{member.name} ({member.id}) has left the server")
         try:
-            dab.collection('collectionlist').document('data').get().get('collectionarray').delete(str(member.id))
+            col_ref = dab.collection('users').document('collectionlist').get().get('array')
+            col_ref.remove(str(member.id))
+            dab.collection('users').document('collectionlist').update({'array': col_ref})
             dab.collection("users").document(member.id).delete()
             channel = self.client.get_channel("754625185306378271")
             await channel.send(f"{member.name} has left the server and been successfully removed from the database")
