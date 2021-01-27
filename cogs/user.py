@@ -146,9 +146,7 @@ class user(commands.Cog):
                 col_ref.append(str(ctx.author.id))
                 dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
-                logging.error(e)
-            logging.info("\n----------")
-            return
+                return logging.error(e+"\n----------")
         else:  # haha lazy copy and paste
             scoresaber = argument
             scoresaber = scoresaber.split("?", 1)[0]
@@ -163,7 +161,7 @@ class user(commands.Cog):
                 col_ref.append(str(ctx.author.id))
                 dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
-                logging.error(e)
+                return logging.error(e+"\n----------")
         registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
         await ctx.author.add_roles(registered_role)
         await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
@@ -189,7 +187,8 @@ class user(commands.Cog):
     #@commands.Cog.listener("on_member_remove")
     #async def on_member_remove(self, member):
     @commands.command()
-    async def asdf(self, member):
+    async def asdf(self, ctx):
+        member = ctx.author
         logging.info(f"{member.name} ({member.id}) has left the server")
         try:
             col_ref = dab.collection('users').document('collectionlist').get().get('array')
