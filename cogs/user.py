@@ -181,25 +181,20 @@ class user(commands.Cog):
             await ctx.send(f"{ctx.author.name} has been successfully removed from the database")
             logging.info(f"Response: {ctx.author.id} has been successfully removed to the database\n----------")
         except Exception as e:
-            logging.error(e)
-        logging.info("---------")
+            logging.error(e+"\n----------")
     
-    #@commands.Cog.listener("on_member_remove")
-    #async def on_member_remove(self, member):
-    @commands.command()
-    async def asdf(self, ctx):
-        member = ctx.author
+    @commands.Cog.listener("on_member_remove")
+    async def on_member_remove(self, member):
         logging.info(f"{member.name} ({member.id}) has left the server")
         try:
             col_ref = dab.collection('users').document('collectionlist').get().get('array')
             col_ref.remove(str(member.id))
             dab.collection('users').document('collectionlist').update({'array': col_ref})
             dab.collection("users").document(str(member.id)).delete()
-            await self.client.get_channel(796012513917272085).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
+            await self.client.get_channel(754625185306378271).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
             logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
         except Exception as e:
             logging.error(e)
-        logging.info("---------")
 
     # User update
     @user.group(invoke_without_command=True, case_insensitive=True)
