@@ -7,7 +7,7 @@ from discord.utils import get
 from firebase_admin import credentials, firestore, db
 
 dab = firestore.client()
-chain_channel = (803259546390888458)
+chain_channel = (796012513917272085)
 
 
 async def mute(message, time):
@@ -32,7 +32,7 @@ class chain_enforcement(commands.Cog):
         logging.info("chain_enforcement running")
         if message.attachments:
             await message.delete()
-            return logging.info("Image contained embed, chain_enforcement ended\n---------")
+            return logging.info("Message contained attachment and has been deleted. chain_enforcement ended\n---------")
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
         current_chain_length = dab.collection(str("chain_data")).document("chain_data").get().get("length")
         chain_multi = dab.collection(str(message.author.id)).document('data').get().get("chain_multi")

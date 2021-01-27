@@ -28,7 +28,7 @@ class user(commands.Cog):
 
 
     # User
-    @commands.group(invoke_without_command=True, case_insensitive=True)
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["u"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def user(self, ctx, argument=None):
         if argument is not None:
