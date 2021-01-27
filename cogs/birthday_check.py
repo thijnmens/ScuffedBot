@@ -26,14 +26,14 @@ class birthday_check(commands.Cog):
     @tasks.loop(hours=12)
     async def birthdays(self):
         logging.info("Running birthdays")
-        ref = dab.collection('collectionlist').document('data').get().get('collectionarray')
+        ref = dab.collection('users').document('collectionlist').get().get('array')
         amount = len(ref)
         count = 0
         while (count <= amount):
             try:
                 ID = ref[count]
                 try:
-                    birthday = dab.collection(str(ID)).document('data').get().get('birthday')
+                    birthday = dab.collection("users").document(str(ID)).get().get('birthday')
                 except Exception as e:
                     count = count + 1
                     return logging.error(f"{ID}: {e}")
@@ -43,16 +43,16 @@ class birthday_check(commands.Cog):
                 except Exception:
                     birthdayfinal = '32/13'
                 current_time = now.strftime("%d-%m")
-                a = dab.collection(str(ID)).document('data').get().get('a')
+                a = dab.collection("users").document(str(ID)).get().get('a')
                 if(birthdayfinal == current_time):
                     if(a == False):
                         channel = self.client.get_channel(793049781554642954)
                         await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
                         logging.info(f'Wished {ID} a happy birthday')
-                        a = dab.collection(str(ID)).document('data').update({'a': True})
-                count = count + 1
+                        a = dab.collection("users").document(str(ID)).update({'a': True})
             except Exception as e:
                 logging.error(e)
+            count = count + 1
         logging.info("Birthdays Ended\n----------")
 
 
