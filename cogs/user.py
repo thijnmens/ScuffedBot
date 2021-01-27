@@ -127,6 +127,7 @@ class user(commands.Cog):
     async def add(self, ctx, argument=None):
         logging.info(f'Recieved: >user add {ctx.author.name}')
         col_ref = dab.collection('users').document('collectionlist').get().get('array')
+        print(col_ref)
         if ctx.author.id in col_ref:
             return await ctx.send("Baka! You're already in the database!\nUse ``>user update`` instead")
         elif argument is None:
@@ -135,7 +136,7 @@ class user(commands.Cog):
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
             except asyncio.TimeoutError:
                 await sent.delete()
-                return await ctx.send('You did not reply in time, please restart the process')
+                return await ctx.send("You didn't reply in time, please restart the process")
             scoresaber = msg.content.split("?", 1)[0]
             scoresaber = scoresaber.split("&", 1)[0]
             doc_ref = dab.collection("users").document(str(ctx.author.id))
