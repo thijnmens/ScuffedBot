@@ -127,8 +127,7 @@ class user(commands.Cog):
     async def add(self, ctx, argument=None):
         logging.info(f'Recieved: >user add {ctx.author.name}')
         col_ref = dab.collection('users').document('collectionlist').get().get('array')
-        print(col_ref)
-        if ctx.author.id in col_ref:
+        if str(ctx.author.id) in col_ref:
             return await ctx.send("Baka! You're already in the database!\nUse ``>user update`` instead")
         elif argument is None:
             sent = await ctx.send('What is your scoresaber link?')
