@@ -195,7 +195,7 @@ class user(commands.Cog):
             col_ref.remove(str(member.id))
             dab.collection('users').document('collectionlist').update({'array': col_ref})
             dab.collection("users").document(str(member.id)).delete()
-            await self.client.get_channel("796012513917272085").send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
+            await self.client.get_channel(796012513917272085).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
             logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
         except Exception as e:
             logging.error(e)
