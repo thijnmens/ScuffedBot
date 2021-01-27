@@ -124,10 +124,10 @@ class user(commands.Cog):
 
     # User Add
     @user.command()
-    async def add(self, ctx, *, argument=None):
+    async def add(self, ctx, argument=None):
         logging.info(f'Recieved: >user add {ctx.author.name}')
-        sent = await ctx.send('What is your scoresaber link?')
         if argument is None:
+            sent = await ctx.send('What is your scoresaber link?')
             try:
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
             except asyncio.TimeoutError:
@@ -186,15 +186,17 @@ class user(commands.Cog):
             logging.error(e)
         logging.info("---------")
     
-    @commands.Cog.listener("on_member_remove")
-    async def on_member_remove(self, member):
+    #@commands.Cog.listener("on_member_remove")
+    #async def on_member_remove(self, member):
+    @commands.command()
+    async def asdf(self, member):
         logging.info(f"{member.name} ({member.id}) has left the server")
         try:
             col_ref = dab.collection('users').document('collectionlist').get().get('array')
             col_ref.remove(str(member.id))
             dab.collection('users').document('collectionlist').update({'array': col_ref})
             dab.collection("users").document(str(member.id)).delete()
-            await self.client.get_channel("754625185306378271").send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
+            await self.client.get_channel("796012513917272085").send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
             logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
         except Exception as e:
             logging.error(e)
