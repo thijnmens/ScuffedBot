@@ -126,7 +126,10 @@ class user(commands.Cog):
     @user.command()
     async def add(self, ctx, argument=None):
         logging.info(f'Recieved: >user add {ctx.author.name}')
-        if argument is None:
+        col_ref = dab.collection('users').document('collectionlist').get().get('array')
+        if ctx.author.id in col_ref:
+            return await ctx.send("Baka! You're already in the database!\nUse ``>user update`` instead")
+        elif argument is None:
             sent = await ctx.send('What is your scoresaber link?')
             try:
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
@@ -142,7 +145,6 @@ class user(commands.Cog):
                 'username': ctx.author.name,
                 'scoresaber': scoresaber, })
             try:
-                col_ref = dab.collection('users').document('collectionlist').get().get('array')
                 col_ref.append(str(ctx.author.id))
                 dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
