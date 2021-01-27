@@ -146,6 +146,7 @@ class user(commands.Cog):
                 'scoresaber': scoresaber, })
             try:
                 col_ref.append(str(ctx.author.id))
+                col_ref.sort()
                 dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
                 return logging.error(e+"\n----------")

@@ -27,6 +27,8 @@ class chain_enforcement(commands.Cog):
     async def on_message(self, message):
         if message.author == self.client.user:
             return
+        if message.valid is True:
+            return
         if message.channel.id != chain_channel:
             return
         logging.info("chain_enforcement running")
@@ -35,7 +37,7 @@ class chain_enforcement(commands.Cog):
             return logging.info("Message contained attachment and has been deleted. chain_enforcement ended\n---------")
         current_chain_message = dab.collection(str("chain_data")).document("chain_data").get().get("message")
         current_chain_length = dab.collection(str("chain_data")).document("chain_data").get().get("length")
-        chain_multi = dab.collection(str(message.author.id)).document('data').get().get("chain_multi")
+        chain_multi = dab.collection("users").document(str(message.author.id)).get().get("chain_multi")
         if message.content != current_chain_message:
             logging.info("chain_enforcement triggered")
             channel = self.client.get_channel(chain_channel)
@@ -45,7 +47,7 @@ class chain_enforcement(commands.Cog):
                 'message': message.content,
                 'length': 1
             })
-            dab.collection(str(message.author.id)).document('data').update({"chain_multi": float(chain_multi+0.5)})
+            dab.collection("users").document(str(message.author.id)).update({"chain_multi": float(chain_multi+0.5)})
             await mute(message, time)
         else:
             dab.collection(str("chain_data")).document('chain_data').update({'length': int(current_chain_length + 1)})
