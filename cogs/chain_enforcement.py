@@ -25,8 +25,6 @@ class chain_enforcement(commands.Cog):
 
     @commands.Cog.listener('on_message')
     async def on_message(self, message):
-        if message.author == self.client.user:
-            return
         if message.valid is True:
             return
         if message.channel.id != chain_channel:
