@@ -45,7 +45,7 @@ class tourn_app(commands.Cog):
                 return logging.error(e+"\n----------")
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.add_roles(registered_role)
-            logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
+            logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database')
             new = True
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
@@ -101,7 +101,7 @@ class tourn_app(commands.Cog):
             )
         embed.add_field(
             name="Scores",
-            value=f"**Who's Got Your Love?**\n``{love_score}``\n**Himitsu Cult\n``{cult_score}``\n**Total**\n{love_score+cult_score}",
+            value=f"Who's Got Your Love?\n``{love_score}``\nHimitsu Cult\n``{cult_score}``\nTotal\n``{love_score+cult_score}``",
             inline=False
         )
         embed.add_field(
