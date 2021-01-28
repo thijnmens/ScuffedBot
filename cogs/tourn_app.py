@@ -19,7 +19,7 @@ class tourn_app(commands.Cog):
         logging.info(f'Recieved: >application: {ctx.author.name}')
         col_ref = dab.collection('users').document('collectionlist').get().get('array')
         if str(ctx.author.id) not in col_ref:
-            await ctx.send_message(ctx.author, "What is your scoresaber link?")
+            await ctx.author.send("What is your scoresaber link?")
             try:
                 msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
                 scoresaber = msg.content
@@ -43,25 +43,25 @@ class tourn_app(commands.Cog):
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.add_roles(registered_role)
             logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
-        await ctx.send_message(ctx.author, "What score did you get on ``Who's got Your Love - Stonebank``?")
+        await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
-                return await ctx.send_message(ctx.author, "Only include numbers in your scores!\nPlease restart the process")
+                return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
         except asyncio.TimeoutError:
             return await ctx.send("You didn't reply in time, please restart the process")
-        await ctx.send_message(ctx.author, "What score did you get on ``Himitsu Cult``?")
+        await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
             if msg.content.isdigit():
                 cult_score = int(msg.content)
             else:
-                return await ctx.send_message(ctx.author, "Only include numbers in your scores!\nPlease restart the process")
+                return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
         except asyncio.TimeoutError:
             return await ctx.send("You didn't reply in time, please restart the process")
-        await ctx.send_message(ctx.author, "Can you post the link/links to your gameplay?")
+        await ctx.author.send("Can you post the link/links to your gameplay?")
         try:
             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
             video_link = msg.content
