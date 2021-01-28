@@ -100,13 +100,8 @@ class tourn_app(commands.Cog):
                 inline=True
             )
         embed.add_field(
-            name="Who's Got Your Love?",
-            value=love_score,
-            inline=False
-        )
-        embed.add_field(
-            name="Himitsu Cult",
-            value=cult_score,
+            name="Scores",
+            value=f"**Who's Got Your Love?**\n``{love_score}``\n**Himitsu Cult\n``{cult_score}``\n**Total**\n{love_score+cult_score}",
             inline=False
         )
         embed.add_field(
