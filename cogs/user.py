@@ -126,6 +126,9 @@ class user(commands.Cog):
     @user.command()
     async def add(self, ctx, argument=None):
         logging.info(f'Recieved: >user add {ctx.author.name}')
+        if ctx.guild is None:
+            logging.info("ctx.guild is None\n----------")
+            return await ctx.send("Please only use this command within the Scuffed Tourneys server! >w<")
         col_ref = dab.collection('users').document('collectionlist').get().get('array')
         if str(ctx.author.id) in col_ref:
             return await ctx.send("Baka! You're already in the database!\nUse ``>user update`` instead")
@@ -163,6 +166,9 @@ class user(commands.Cog):
     @user.command()
     async def remove(self, ctx):
         logging.info(f"User remove ran by {ctx.author.name}")
+        if ctx.guild is None:
+            logging.info("ctx.guild is None\n----------")
+            return await ctx.send("Please only use this command within the Scuffed Tourneys server! >w<")
         try:
             col_ref = dab.collection('users').document('collectionlist').get().get('array')
             col_ref.remove(str(ctx.author.id))
