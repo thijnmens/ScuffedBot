@@ -78,7 +78,7 @@ class tourn_app(commands.Cog):
         })
         embed = discord.Embed(
             title=f"Application ID:``{apps_count+1}``",
-            colour=discord.Colour.green,
+            colour=discord.Colour.green(),
             timestamp=ctx.message.created_at
         )
         embed.add_field(
