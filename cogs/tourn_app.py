@@ -45,28 +45,28 @@ class tourn_app(commands.Cog):
             logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author) #and ctx.guild is None)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
                 return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
         except asyncio.TimeoutError:
-            return await ctx.send("You didn't reply in time, please restart the process")
+            return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.guild is None)
             if msg.content.isdigit():
                 cult_score = int(msg.content)
             else:
                 return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
         except asyncio.TimeoutError:
-            return await ctx.send("You didn't reply in time, please restart the process")
+            return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Can you post the link/links to your gameplay?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.guild is None)
             video_link = msg.content
         except asyncio.TimeoutError:
-            return await ctx.send("You didn't reply in time, please restart the process")
+            return await ctx.author.send("You didn't reply in time, please restart the process")
         apps_count = dab.collection(str("applications")).document("count").get().get("val")
         app_ref = dab.collection("applications").document(str(apps_count+1))
         app_ref.set({
