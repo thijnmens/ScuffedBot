@@ -31,6 +31,8 @@ funniList = [
     "Hi cutie owo",
     "Scuffed Saber",
     "Scuffed Walls",
+    "01101000 01101001",
+    "Scuffing your mum",
     "Shiny Happy Days"]
 
 cred = credentials.Certificate({
@@ -56,6 +58,7 @@ initial_cogs = [
     "cogs.help",
     "cogs.scoresaber",
     "cogs.text",
+    "cogs.tourn_app",
     "cogs.user"
 ]
 

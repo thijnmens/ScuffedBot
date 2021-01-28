@@ -2,7 +2,7 @@ import discord
 import os
 import logging
 import asyncio
-from discord.ext import commands, tasks
+from discord.ext import commands
 from discord.utils import get
 from firebase_admin import credentials, firestore, db
 

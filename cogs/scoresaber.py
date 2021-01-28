@@ -121,15 +121,10 @@ def songEmbed(ctx, argument, SS_id, scoresaber):
             inline=False)
         message.add_field(
             name="Weighted PP ⚖️<a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>",
-            value=round(
-                (Song["weight"] * Song["pp"]),
-                2),
+            value=round((Song["weight"] * Song["pp"]),2),
             inline=False)
     message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
-    message.set_image(
-        url="https://new.scoresaber.com/api/static/covers/" +
-        Song["songHash"] +
-        ".png")
+    message.set_image(url="https://new.scoresaber.com/api/static/covers/" + Song["songHash"] + ".png")
     return message
 
 
@@ -274,8 +269,7 @@ class scoresaber(commands.Cog):
                 value=scoreStats["rankedPlayCount"],
                 inline=True)
             embed.set_thumbnail(
-                url="https://new.scoresaber.com" +
-                playerInfo["avatar"])
+                url="https://new.scoresaber.com" + playerInfo["avatar"])
         await ctx.send(embed=embed)
         logging.info("Response: ScoreSaber UserData embed\n----------")
 

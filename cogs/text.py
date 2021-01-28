@@ -18,13 +18,13 @@ class text(commands.Cog):
             return
 
     # ping
-    @commands.command()
+    @commands.command(case_insensitive=True)
     async def ping(self, ctx):
         logging.info('Recieved: >ping')
         await ctx.send(f'uwu *notices your ping* <w< ``{round(self.client.latency * 1000)}ms``')
         logging.info(f'Response: {round(self.client.latency * 1000)}ms\n----------')
 
-    @commands.command(aliases=["no"])  # Keep this out of the help embed ;)
+    @commands.command(case_insensitive=True, aliases=["no"])  # Keep this out of the help embed ;)
     @commands.cooldown(1, 600, commands.BucketType.guild)
     async def nope(self, ctx):
         logging.info("Recieved >nope")
@@ -32,7 +32,7 @@ class text(commands.Cog):
         logging.info("Response: Certainly not a link to the NOPE discord----------")
 
     # Quote
-    @commands.command()
+    @commands.command(case_insensitive=True)
     async def links(self, ctx):
         logging.info('Recieved: >links')
         embed = discord.Embed(
