@@ -17,6 +17,9 @@ class tourn_app(commands.Cog):
     @commands.command(case_insensitive=True, aliases=["app"])
     async def application(self, ctx):
         logging.info(f'Recieved: >application: {ctx.author.name}')
+        await ctx.delete()
+        await ctx.send("Check your DMs, Senpai! >w<", delete_after=10)
+        new = False
         col_ref = dab.collection('users').document('collectionlist').get().get('array')
         if str(ctx.author.id) not in col_ref:
             await ctx.author.send("What is your scoresaber link?")
@@ -43,6 +46,7 @@ class tourn_app(commands.Cog):
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.add_roles(registered_role)
             logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
+            new = True
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
             msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
@@ -78,15 +82,23 @@ class tourn_app(commands.Cog):
             'status': "open"
         })
         embed = discord.Embed(
-            title=f"Application ID: ``{apps_count+1}``",
+            title=f"Application ID: ``{apps_count}``",
             colour=discord.Colour.green(),
             timestamp=ctx.message.created_at
         )
-        embed.add_field(
-            name=ctx.author.name,
-            value=ctx.author.id,
-            inline=True
-        )
+        if new is True:
+            embed.add_field(
+                name=ctx.author.name,
+                value=ctx.author.id+f"\n[scoresaber]({scoresaber})",
+                inline=True
+            )
+        else:
+            scoresaber = dab.collection('users').document(str(ctx.author.id)).get().get('scoresaber')
+            embed.add_field(
+                name=ctx.author.name,
+                value=ctx.author.id+f"\n[scoresaber]({scoresaber})",
+                inline=True
+            )
         embed.add_field(
             name="Who's Got Your Love?",
             value=love_score,
