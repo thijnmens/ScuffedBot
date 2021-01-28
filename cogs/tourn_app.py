@@ -21,7 +21,7 @@ class tourn_app(commands.Cog):
         if str(ctx.author.id) not in col_ref:
             await ctx.author.send("What is your scoresaber link?")
             try:
-                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author) #and ctx.guild is None)
+                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
                 scoresaber = msg.content
             except asyncio.TimeoutError:
                 return await ctx.author.send("You didn't reply in time, please restart the process")
@@ -45,7 +45,7 @@ class tourn_app(commands.Cog):
             logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
@@ -54,7 +54,7 @@ class tourn_app(commands.Cog):
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.isdigit():
                 cult_score = int(msg.content)
             else:
@@ -63,12 +63,13 @@ class tourn_app(commands.Cog):
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Can you post the link/links to your gameplay?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
             video_link = msg.content
         except asyncio.TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
-        apps_count = dab.collection(str("applications")).document("count").get().get("val")
-        app_ref = dab.collection("applications").document(str(apps_count+1))
+        apps_count = (dab.collection("applications").document("count").get().get("val") + 1)
+        dab.collection("applications").document("count").update({'val': apps_count})
+        app_ref = dab.collection("applications").document(str(apps_count))
         app_ref.set({
             'user_id': ctx.author.id,
             'love_score': love_score,
@@ -77,7 +78,7 @@ class tourn_app(commands.Cog):
             'status': "open"
         })
         embed = discord.Embed(
-            title=f"Application ID:``{apps_count+1}``",
+            title=f"Application ID: ``{apps_count+1}``",
             colour=discord.Colour.green(),
             timestamp=ctx.message.created_at
         )
@@ -103,6 +104,8 @@ class tourn_app(commands.Cog):
         )
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await self.client.get_channel(mod_app_channel).send(embed=embed)
+        await ctx.author.send("Thank you! We'll ping you once we've determined your level")
+        logging.info("application finished and sent to #applications\n---------")
 
 def setup(client):
     client.add_cog(tourn_app(client))

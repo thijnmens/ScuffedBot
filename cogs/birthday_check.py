@@ -50,7 +50,7 @@ class birthday_check(commands.Cog):
                         channel = self.client.get_channel(793049781554642954)
                         await channel.send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
                         logging.info(f'Wished {ID} a happy birthday')
-                        a = dab.collection("users").document(str(ID)).update({'a': True})
+                        dab.collection("users").document(str(ID)).update({'a': True})
             except Exception as e:
                 logging.error(e)
             count = count + 1
