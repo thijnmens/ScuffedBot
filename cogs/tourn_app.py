@@ -45,7 +45,7 @@ class tourn_app(commands.Cog):
             logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.guild is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
@@ -54,7 +54,7 @@ class tourn_app(commands.Cog):
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.guild is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author)
             if msg.content.isdigit():
                 cult_score = int(msg.content)
             else:
@@ -63,7 +63,7 @@ class tourn_app(commands.Cog):
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Can you post the link/links to your gameplay?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.guild is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author)
             video_link = msg.content
         except asyncio.TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
