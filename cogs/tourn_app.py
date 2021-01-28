@@ -74,13 +74,27 @@ class tourn_app(commands.Cog):
         apps_count = (dab.collection("applications").document("count").get().get("val") + 1)
         dab.collection("applications").document("count").update({'val': apps_count})
         app_ref = dab.collection("applications").document(str(apps_count))
+        total_score = int(love_score + cult_score)
         app_ref.set({
             'user_id': ctx.author.id,
             'love_score': love_score,
             'cult_score': cult_score,
+            'total_score': total_score,
             'video_link': video_link,
             'status': "open"
         })
+        if total_score >= 0 and total_score <= 200000:
+            level = 1
+        elif total_score >= 200001  and total_score <= 450000:
+            level = 2
+        elif total_score >= 450001  and total_score <= 700000:
+            level = 3
+        elif total_score >= 700001  and total_score <= 1000000:
+            level = 4
+        elif total_score >= 1000001  and total_score <= 1200000:
+            level = 5
+        elif total_score >= 1200001:
+            level = 6
         embed = discord.Embed(
             title=f"Application ID: ``{apps_count}``",
             colour=discord.Colour.green(),
@@ -89,19 +103,19 @@ class tourn_app(commands.Cog):
         if new is True:
             embed.add_field(
                 name=ctx.author.name,
-                value=f"{ctx.author.id}\n[scoresaber]({scoresaber})",
+                value=f"{ctx.author.id}\n[ScoreSaber]({scoresaber})",
                 inline=True
             )
         else:
             scoresaber = dab.collection('users').document(str(ctx.author.id)).get().get('scoresaber')
             embed.add_field(
                 name=ctx.author.name,
-                value=f"{ctx.author.id}\n[scoresaber]({scoresaber})",
+                value=f"{ctx.author.id}\n[ScoreSaber]({scoresaber})",
                 inline=True
             )
         embed.add_field(
             name="Scores",
-            value=f"Who's Got Your Love?: ``{love_score}``\nHimitsu Cult: ``{cult_score}``\nTotal: ``{love_score+cult_score}``",
+            value=f"Who's Got Your Love?: ``{love_score}``\nHimitsu Cult: ``{cult_score}``\nTotal: ``{total_score}`` - ``level {level}``",
             inline=False
         )
         embed.add_field(
