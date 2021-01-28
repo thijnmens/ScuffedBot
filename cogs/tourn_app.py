@@ -21,10 +21,10 @@ class tourn_app(commands.Cog):
         if str(ctx.author.id) not in col_ref:
             await ctx.author.send("What is your scoresaber link?")
             try:
-                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.channel is None)
+                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author) #and ctx.guild is None)
                 scoresaber = msg.content
             except asyncio.TimeoutError:
-                return await ctx.send("You didn't reply in time, please restart the process")
+                return await ctx.author.send("You didn't reply in time, please restart the process")
             scoresaber = scoresaber.split("?", 1)[0]
             scoresaber = scoresaber.split("&", 1)[0]
             doc_ref = dab.collection("users").document(str(ctx.author.id))
@@ -45,7 +45,7 @@ class tourn_app(commands.Cog):
             logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author) #and ctx.guild is None)
+            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and ctx.guild is None)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
