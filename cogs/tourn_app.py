@@ -101,7 +101,7 @@ class tourn_app(commands.Cog):
             )
         embed.add_field(
             name="Scores",
-            value=f"Who's Got Your Love?\n``{love_score}``\nHimitsu Cult\n``{cult_score}``\nTotal\n``{love_score+cult_score}``",
+            value=f"Who's Got Your Love?: ``{love_score}``\nHimitsu Cult: ``{cult_score}``\nTotal: ``{love_score+cult_score}``",
             inline=False
         )
         embed.add_field(
