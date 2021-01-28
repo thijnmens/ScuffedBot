@@ -94,7 +94,7 @@ class tourn_app(commands.Cog):
         elif total_score >= 1000001  and total_score <= 1200000:
             level = 5
         elif total_score >= 1200001:
-            level = 6
+            level = "6 or 7"
         embed = discord.Embed(
             title=f"Application ID: ``{apps_count}``",
             colour=discord.Colour.green(),
@@ -115,7 +115,7 @@ class tourn_app(commands.Cog):
             )
         embed.add_field(
             name="Scores",
-            value=f"Who's Got Your Love?: ``{love_score}``\nHimitsu Cult: ``{cult_score}``\nTotal: ``{total_score}`` - ``level {level}``",
+            value=f"Who's Got Your Love?: ``{love_score}``\nHimitsu Cult: ``{cult_score}``\nTotal: ``{total_score}`` - Level {level}",
             inline=False
         )
         embed.add_field(

@@ -6,16 +6,21 @@ import logging
 from discord.ext import commands, tasks
 from discord.utils import get
 
+aso = (580425653325791272)
+
 
 class text(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    # Commands List
     @commands.Cog.listener('on_message')
     async def on_message(self, message):
         if message.author == self.client.user:
             return
+        if self.client.user.mentioned_in(message):
+            logging.info("Got pinged and annoyed Aso\n----------")
+            await message.channel.send("<a:WeirdChamping:754632380219916319>")
+            await self.client.get_user(aso).send("<a:MomoLewd:754632378701316179>")
 
     # ping
     @commands.command(case_insensitive=True)
