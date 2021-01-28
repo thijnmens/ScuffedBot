@@ -17,7 +17,7 @@ class tourn_app(commands.Cog):
     @commands.command(case_insensitive=True, aliases=["app"])
     async def application(self, ctx):
         logging.info(f'Recieved: >application: {ctx.author.name}')
-        await ctx.delete()
+        await ctx.message.delete()
         await ctx.send("Check your DMs, Senpai! >w<", delete_after=10)
         new = False
         col_ref = dab.collection('users').document('collectionlist').get().get('array')
