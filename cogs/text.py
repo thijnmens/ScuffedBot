@@ -42,10 +42,10 @@ class text(commands.Cog):
         logging.info('Recieved: >links')
         embed = discord.Embed(
             title="Important Scuffed Links",
-            description="[Discord](https://discord.gg/4bF8JAGeB3) | [Challonge](https://challonge.com/users/scuffedtourney/tournaments) | [Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)",
+            description="[Discord](https://discord.gg/4bF8JAGeB3) | [Challonge](https://challonge.com/users/scuffedtourney/tournaments) | [Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot) | [https://beatkhana.com/]() (because we're there sometimes)",
             color=0xff0000)
         embed.set_image(
-            url="https://cdn.discordapp.com/attachments/792019305755181057/797267487905021952/scuffed_as_hell.png")
+            url="https://cdn.discordapp.com/attachments/796012513917272085/804784985961005073/hmm_yes_transparency.png")
         await ctx.send(embed=embed)
         logging.info(f'Response: embed----------')
 
