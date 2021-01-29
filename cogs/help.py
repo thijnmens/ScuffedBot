@@ -18,10 +18,6 @@ class helpClient(commands.Cog):
             url="https://www.youtube.com/watch?v=7LnQRFh_knk",
             description="You can find all kinds of commands here, most of them are probably broken",
             color=0xff0000)
-        embed.set_author(
-            name="Thijnmens",
-            url="https://github.com/thijnmens/",
-            icon_url="https://cdn.discordapp.com/avatars/490534335884165121/eaeff60636ebf53040d8d5c0761c6c67.png?size=256")
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
         embed.add_field(
@@ -65,7 +61,7 @@ class helpClient(commands.Cog):
             value="Posts important links for Scuffed Tourneys!",
             inline=False)
         embed.add_field(name=">ping", value="Pings Scuffed Bot", inline=False)
-        embed.set_footer(text="this code was ruined by ThiJNmEnS#6059")
+        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: help embed\n----------')
 
