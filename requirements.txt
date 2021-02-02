@@ -6,4 +6,5 @@ DiscordUtils==1.2.6
 asyncio==3.4.3
 datetime==4.3
 pychal==1.10.0
+NHentai-API==0.0.15
 git+https://github.com/Rapptz/discord-ext-menus
