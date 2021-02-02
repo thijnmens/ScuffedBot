@@ -42,7 +42,7 @@ class error_handler(commands.Cog):
         elif isinstance(error, commands.CheckFailure) or isinstance(error, commands.MissingPermissions):
             logging.info("MissingPermissions handler ran\n----------")
             return await ctx.send("Sorry Senpai, you don't have the permissions for this command qwq")
-        logging.error(error)
+        logging.error(f"{error}\n----------")
 
 
 def setup(client):
