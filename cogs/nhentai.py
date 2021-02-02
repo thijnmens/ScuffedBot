@@ -26,10 +26,13 @@ class nhen(commands.Cog):
         if argument is None:
             sauce = nhentai.get_random()
             logging.info(sauce)
+            desc = "Tags: "
+            for x in getattr(sauce, "tags"):
+                desc = desc + x + ", "
             embed = discord.Embed(
                 title=getattr(sauce,"title"),
                 url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
-                description=getattr(sauce,"tags"),
+                description=desc,
                 colour=0xec2753,
             )
             embed.set_footer(text=str(getattr(sauce,"total_pages"))+" total pages")
