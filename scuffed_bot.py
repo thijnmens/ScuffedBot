@@ -59,6 +59,7 @@ initial_cogs = [
     "cogs.scoresaber",
     "cogs.text",
     "cogs.tourn_app",
+    "cogs.neko",
     "cogs.user"
 ]
 

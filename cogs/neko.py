@@ -29,13 +29,13 @@ class neko(commands.Cog):
         await ctx.send(file=discord.File(await image("https://nekos.life/api/v2/img/neko"), "neko.png"))
         logging.info("attachment sent\n----------")
         
-    @neko.command()
+    @neko.command(invoke_without_command=True, case_insensitive=True)
     async def gif(self, ctx):
         logging.info("neko gif ran")
         await ctx.send(file=discord.File(await image("https://nekos.life/api/v2/img/ngif"), "neko.gif"))
         logging.info("attachment sent\n----------")
 
-    @neko.group(invoke_without_command=True)
+    @neko.group(invoke_without_command=True, case_insensitive=True)
     async def lewd(self, ctx):
         logging.info("neko lewd ran")
         if ctx.channel.is_nsfw() is False:
@@ -44,8 +44,8 @@ class neko(commands.Cog):
         await ctx.send(file=discord.File(await image("https://nekos.life/api/v2/img/lewd"), "neko.png"))
         logging.info("attachment sent\n----------")
 
-    @lewd.command()
-    async def ohboyihopethelinterwasntright (self, ctx):
+    @lewd.command(invoke_without_command=True, case_insensitive=True)
+    async def lewd_gif(self, ctx):
         logging.info("neko lewd gif ran")
         if ctx.channel.is_nsfw() is False:
             logging.info("Ran outside of nsfw channel")
