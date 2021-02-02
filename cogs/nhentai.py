@@ -1,4 +1,5 @@
 # I made a bot for a bunch of horny retards
+# https://pypi.org/project/NHentai-API/
 
 import discord
 import logging
@@ -8,9 +9,20 @@ from NHentai import NHentai
 
 nhentai = NHentai()
 
-#killme = (nhentai.get_random())
-#print (getattr(killme, "title"))
 
+def sauce_embed(sauce):
+    desc = "Tags: "
+    for x in getattr(sauce, "tags"):
+        desc = desc + x + ", "
+    embed = discord.Embed(
+        title=getattr(sauce,"title"),
+        url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
+        description=desc,
+        colour=0xec2753,
+    )
+    embed.set_footer(text=str(getattr(sauce,"total_pages"))+" total pages")
+    embed.set_image(url=(getattr(sauce,"images"))[0])
+    return embed
 
 
 class nhen(commands.Cog):
@@ -26,36 +38,14 @@ class nhen(commands.Cog):
         elif argument is None:
             sauce = nhentai.get_random()
             logging.info(sauce)
-            desc = "Tags: "
-            for x in getattr(sauce, "tags"):
-                desc = desc + x + ", "
-            embed = discord.Embed(
-                title=getattr(sauce,"title"),
-                url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
-                description=desc,
-                colour=0xec2753,
-            )
-            embed.set_footer(text=str(getattr(sauce,"total_pages"))+" total pages")
-            embed.set_image(url=(getattr(sauce,"images"))[0])
-            await ctx.send(embed=embed)
+            await ctx.send(embed=sauce_embed(sauce))
             logging.info("Posted embed\n----------")
         elif argument.isdigit():
             sauce = nhentai._get_doujin(id=argument)
             logging.info(sauce)
             if sauce is None:
                 return await ctx.send("S-Sorry, I can't find that id qwq")
-            desc = "Tags: "
-            for x in getattr(sauce, "tags"):
-                desc = desc + x + ", "
-            embed = discord.Embed(
-                title=getattr(sauce,"title"),
-                url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
-                description=desc,
-                colour=0xec2753,
-            )
-            embed.set_footer(text=str(getattr(sauce,"total_pages"))+" total pages")
-            embed.set_image(url=(getattr(sauce,"images"))[0])
-            await ctx.send(embed=embed)
+            await ctx.send(embed=sauce_embed(sauce))
             logging.info("Posted embed\n----------")
 
 def setup(client):

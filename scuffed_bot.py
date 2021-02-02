@@ -59,6 +59,7 @@ initial_cogs = [
     "cogs.text",
     "cogs.tourn_app",
     "cogs.neko",
+    "cogs.nhentai",
     "cogs.user"
 ]
 
