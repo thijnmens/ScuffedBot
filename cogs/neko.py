@@ -44,8 +44,8 @@ class neko(commands.Cog):
         await ctx.send(file=discord.File(await image("https://nekos.life/api/v2/img/lewd"), "neko.png"))
         logging.info("attachment sent\n----------")
 
-    @lewd.command()
-    async def gif(self, ctx):
+    @lewd.command(aliases=["gif"])
+    async def lewd_gif(self, ctx):
         logging.info("neko lewd gif ran")
         if ctx.channel.is_nsfw() is False:
             logging.info("Ran outside of nsfw channel")
