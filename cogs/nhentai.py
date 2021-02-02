@@ -40,7 +40,7 @@ class nhen(commands.Cog):
             await ctx.send(embed=embed)
             logging.info("Posted embed\n----------")
         elif argument.isdigit():
-            sauce = nhentai.get_doujin(id=argument)
+            sauce = nhentai._get_doujin(id=argument)
             logging.info(sauce)
             desc = "Tags: "
             for x in getattr(sauce, "tags"):
