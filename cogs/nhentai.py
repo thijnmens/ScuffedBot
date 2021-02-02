@@ -42,6 +42,8 @@ class nhen(commands.Cog):
         elif argument.isdigit():
             sauce = nhentai._get_doujin(id=argument)
             logging.info(sauce)
+            if sauce is None:
+                return await ctx.send("S-Sorry, I can't find that id qwq")
             desc = "Tags: "
             for x in getattr(sauce, "tags"):
                 desc = desc + x + ", "
