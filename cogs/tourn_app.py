@@ -14,7 +14,7 @@ class tourn_app(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(case_insensitive=True, aliases=["app"])
+    @commands.group(case_insensitive=True, aliases=["app"])
     async def application(self, ctx):
         logging.info(f'Recieved: >application: {ctx.author.name}')
         await ctx.message.delete()
@@ -127,6 +127,21 @@ class tourn_app(commands.Cog):
         await self.client.get_channel(mod_app_channel).send(embed=embed)
         await ctx.author.send("Thank you! We'll ping you once we've determined your level")
         logging.info("application finished and sent to #applications\n---------")
+
+    @application.command()
+    async def id(self, ctx, arg1=None, *, arg2=None):
+        if ctx.channel != mod_app_channel:
+            return
+        if arg1 or arg2 is None:
+            return await ctx.send("args 1 and/or 2 are invalid\n``>app id <application id> <1-7 or decline reason>")
+        app_ref = dab.collection("applications").document(str(arg1))
+        app_user = self.client.get_user(app_ref.get("user_id"))
+        if arg2 == "1" or arg2 == "2" or arg2 == "3" or arg2 == "4" or arg2 == "5" or arg2 == "6" or arg2 == "7":
+           await ctx.send(f"You're about to give {app_user.name} level {arg2}. Confirm?")
+
+        else:
+            await ctx.send(f"You're about to decline {app_user.name} with reason: ``{arg2}``. Confirm?")
+
 
 def setup(client):
     client.add_cog(tourn_app(client))
