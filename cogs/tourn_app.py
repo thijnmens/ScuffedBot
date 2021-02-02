@@ -14,7 +14,7 @@ class tourn_app(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.group(case_insensitive=True, aliases=["app"])
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["app"])
     async def application(self, ctx):
         logging.info(f'Recieved: >application: {ctx.author.name}')
         await ctx.message.delete()
