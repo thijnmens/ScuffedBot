@@ -31,8 +31,8 @@ class nhen(commands.Cog):
                 url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
                 description=getattr(sauce,"tags"),
                 colour=0xec2753,
-                timestamp=str(getattr(sauce,"total_pages"))+" total pages"
             )
+            embed.set_footer(text=str(getattr(sauce,"total_pages"))+" total pages")
             embed.set_image(url=(getattr(sauce,"images"))[0])
             await ctx.send(embed=embed)
             logging.info("Posted embed\n----------")
