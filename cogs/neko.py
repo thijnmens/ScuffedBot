@@ -45,7 +45,7 @@ class neko(commands.Cog):
         logging.info("attachment sent\n----------")
 
     @lewd.command()
-    async def agif(self, ctx):
+    async def gif(self, ctx):
         logging.info("neko lewd gif ran")
         if ctx.channel.is_nsfw() is False:
             logging.info("Ran outside of nsfw channel")
