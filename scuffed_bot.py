@@ -21,18 +21,17 @@ client.remove_command('help')
 cwd = os.getcwd()
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 funniList = [
-    "Join the NOPE clan",
     "Aso kinda cute 😳",
     "I'm wowking vewy hawd!! uwu",
     "Grinding PP",
     "Doin' ur mom",
-    "Scuffed code goes brrr",
     "Do >NOPE",
     "Hi cutie owo",
     "Scuffed Saber",
     "Scuffed Walls",
     "01101000 01101001",
     "Scuffing your mum",
+    "My sister is a dumbass",
     "Shiny Happy Days"]
 
 cred = credentials.Certificate({
