@@ -19,6 +19,9 @@ class shop(commands.Cog):
             description="Come and see, come and see! We have more then enough scams for you!",
             color=0xff0000)
         embed.add_field(name="<:gun:806977756277375027> Gun", value='Are we in texas or something?\nCost: 1000 Scuffed Coins', inline=False)
+        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
+        await ctx.send(embed=embed)
+        logging.info('Response: shop embed\n----------')
 
 def setup(client):
     client.add_cog(shop(client))
