@@ -18,7 +18,7 @@ class text(commands.Cog):
         if message.author == self.client.user:
             return
         if "uk" in message.content.lower() or "england" in message.content.lower() or "britain" in message.content.lower():
-            await message.send("God save the Queen <a:PeepoClap:754632378307182632>")
+            await message.channel.send("God save the Queen <a:PeepoClap:754632378307182632>")
             logging.info("Bri'ish\n----------")
         elif self.client.user.mentioned_in(message):
             logging.info("Got pinged and annoyed Aso\n----------")
