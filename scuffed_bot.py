@@ -60,7 +60,8 @@ initial_cogs = [
     "cogs.tourn_app",
     "cogs.neko",
     "cogs.nhentai",
-    "cogs.user"
+    "cogs.user",
+    "cogs.shop"
 ]
 
 for cog in initial_cogs:
