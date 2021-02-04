@@ -25,7 +25,8 @@ class shop(commands.Cog):
             logging.info('Response: shop embed\n----------')
         elif(argument.lower()=='buy'):
             if(argument2.lower()=='gun'):
-                ctx.send('Your mom')
+                await ctx.send('Your mom')
+                logging.info('Response: your mom\n----------')
         elif(argument.lower()=='gun'):
             embed = discord.Embed(
                 title="<:PixelGun:806984027520761856> Gun",
