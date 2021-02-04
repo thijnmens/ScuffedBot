@@ -17,8 +17,6 @@ class text(commands.Cog):
     async def on_message(self, message):
         if message.author == self.client.user:
             return
-        elif message.guild is None:
-            return
         elif self.client.user.mentioned_in(message):
             logging.info("Got pinged and annoyed Aso\n----------")
             await message.channel.send("<a:WeirdChamping:754632380219916319>")
