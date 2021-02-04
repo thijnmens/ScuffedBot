@@ -24,7 +24,7 @@ class shop(commands.Cog):
             await ctx.send(embed=embed)
             logging.info('Response: shop embed\n----------')
         elif(argument.lower()=='buy'):
-            if(argument2.lower()==gun):
+            if(argument2.lower()=='gun'):
                 ctx.send('Your mom')
         elif(argument.lower()=='gun'):
             embed = discord.Embed(
