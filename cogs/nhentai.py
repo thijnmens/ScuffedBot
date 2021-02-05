@@ -14,8 +14,14 @@ def sauce_embed(sauce):
     desc = "Tags: "
     for x in getattr(sauce, "tags"):
         desc = desc + x + ", "
+    if "english" in getattr(sauce, "languages"):
+        lang = "🇬🇧"
+    elif "japanese" in getattr(sauce, "languages"):
+        lang = "🇯🇵"
+    elif "chinese" in getattr(sauce, "languages"):
+        lang = "🇨🇳"
     embed = discord.Embed(
-        title=getattr(sauce,"title"),
+        title=f"{lang} "+getattr(sauce,"title"),
         url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
         description=desc,
         colour=0xec2753,
