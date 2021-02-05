@@ -20,6 +20,8 @@ def sauce_embed(sauce):
         lang = "🇯🇵"
     elif "chinese" in getattr(sauce, "languages"):
         lang = "🇨🇳"
+    else: 
+        lang = "❔"
     embed = discord.Embed(
         title=f"{lang} "+getattr(sauce,"title"),
         url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
