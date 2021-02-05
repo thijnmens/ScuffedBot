@@ -32,10 +32,11 @@ class nhen(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["nh"])
     async def nhentai(self, ctx, *, argument=None):
         logging.info("nhentai ran")
-        if ctx.guild:
-            if ctx.channel.is_nsfw() is False:
-                logging.info("Ran outside of nsfw channel\n----------")
-                return await ctx.send("P-Pervert! <a:LoliTriggered:754632379397570620>")
+        if not ctx.guild:
+            await self.client.get_channel(754632208257515541).send(f"{ctx.author.name} is being lewd in my DMs <a:GabiEmbarrased:807384551646560286>")
+        if ctx.channel.is_nsfw() is False:
+            logging.info("Ran outside of nsfw channel\n----------")
+            return await ctx.send("P-Pervert! <a:LoliTriggered:754632379397570620>")
         elif argument is None:
             sauce = nhentai.get_random()
             logging.info(sauce)
