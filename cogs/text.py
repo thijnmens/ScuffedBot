@@ -22,7 +22,7 @@ class text(commands.Cog):
             logging.info("Bri'ish\n----------")
         elif self.client.user.mentioned_in(message):
             logging.info("Got pinged and annoyed Aso\n----------")
-            await message.channel.send("<a:WeirdChamping:754632380219916319>")
+            await message.add_reaction("<a:WeirdChamping:754632380219916319>")
             await self.client.get_user(aso).send("<a:MomoLewd:754632378701316179>")
 
     # ping
