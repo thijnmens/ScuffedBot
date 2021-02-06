@@ -61,7 +61,8 @@ initial_cogs = [
     "cogs.neko",
     "cogs.nhentai",
     "cogs.user",
-    "cogs.shop"
+    "cogs.shop",
+    "jishaku"
 ]
 
 for cog in initial_cogs:
