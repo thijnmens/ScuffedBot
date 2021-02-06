@@ -94,11 +94,11 @@ class user(commands.Cog):
         if twitch is not None:
             links_Message = links_Message + f"| [Twitch]({twitch}) "
         if youtube is not None:
-            links_Message = links_Message + f"| [Youtube]({youtube})"
+            links_Message = links_Message + f"| [Youtube]({youtube}) "
         if twitter is not None:
-            links_Message = links_Message + f"| [Twitter]({twitter})"
+            links_Message = links_Message + f"| [Twitter]({twitter}) "
         if reddit is not None:
-            links_Message = links_Message + f"| [Reddit]({reddit})"
+            links_Message = links_Message + f"| [Reddit]({reddit}) "
         try:
             colourRaw = ref.get("colour")
             colour = await commands.ColourConverter().convert(ctx, colourRaw)
