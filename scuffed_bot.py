@@ -13,6 +13,7 @@ from random import randint
 from discord.ext import commands, tasks
 from discord.utils import get
 from firebase_admin import credentials
+from utils import jskp
 
 intents = discord.Intents.default()
 intents.members = True
