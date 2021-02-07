@@ -288,14 +288,16 @@ class user(commands.Cog):
     async def hmd(self, ctx, *, argument):
         logging.info(f'Recieved: >user update hmd {ctx.author.name}')
         valid_HMD_low = [x.lower() for x in self.client.valid_HMD]
-        if argument.lower() not in valid_HMD_low:
+        try:
+            pos = valid_HMD_low.index(argument.lower()) 
+        except:
             logging.warning(f"{argument} not in valid_HMD")
             return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >help update to check the valid HMDs``")
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
-            'hmd': argument})
-        await ctx.send(f"I've updated Senpai's HMD to {argument}! >w<")
-        logging.info(f"{ctx.author.name} has updated their status to {argument}\n----------")
+            'hmd': self.client.valid_HMD[pos]})
+        await ctx.send(f"I've updated Senpai's HMD to {self.client.valid_HMD[pos]}! >w<")
+        logging.info(f"{ctx.author.name} has updated their status to {self.client.valid_HMD[pos]}\n----------")
 
     @update.command()
     async def pfp(self, ctx, argument):
