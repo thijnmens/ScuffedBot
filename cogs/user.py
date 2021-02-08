@@ -142,8 +142,11 @@ class user(commands.Cog):
                 return await ctx.send("You didn't reply in time, please restart the process")
         elif argument is not None:
             scoresaber = argument
-        scoresaber = scoresaber.split("?", 1)[0]
-        scoresaber = scoresaber.split("&", 1)[0]
+        if scoresaber.isdigit():
+            scoresaber = "https://scoresaber.com/u/"+scoresaber
+        else:
+            scoresaber = scoresaber.split("?", 1)[0]
+            scoresaber = scoresaber.split("&", 1)[0]
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.set({
             'a': False,
@@ -212,8 +215,11 @@ class user(commands.Cog):
     @update.command()
     async def scoresaber(self, ctx, argument):
         logging.info(f'Recieved: >user update scoresaber {ctx.author.name}')
-        argument = argument.split("?", 1)[0]
-        argument = argument.split("&", 1)[0]
+        if argument.isdigit():
+            argument = "https://scoresaber.com/u/"+argument
+        else:
+            argument = argument.split("?", 1)[0]
+            argument = argument.split("&", 1)[0]
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'scoresaber': argument})
