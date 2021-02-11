@@ -1,5 +1,4 @@
 import discord
-import os
 import logging
 from discord.ext import commands
 
@@ -10,7 +9,7 @@ class dev(commands.Cog):
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["d"])
     @commands.has_role(797422816584007720)
-    async def dev (self, ctx):
+    async def dev(self, ctx):
         #I'll add something here when I have more time
         if ctx.invoked_subcommand is None:
             await ctx.send("haha look at this handling the error! yep, it's doing a great job!!\nHey user, be better and stop raising errors. k thanks uwu")
@@ -18,7 +17,7 @@ class dev(commands.Cog):
 
     @dev.command()
     @commands.has_role(797422816584007720)
-    async def load_cog (self, ctx, argument):
+    async def load_cog(self, ctx, argument):
         logging.info(f"dev load_cog ran by {ctx.author.name}")
         argument = "cogs." + argument
         try:
@@ -31,7 +30,7 @@ class dev(commands.Cog):
 
     @dev.command()
     @commands.has_role(797422816584007720)
-    async def unload_cog (self, ctx, argument):
+    async def unload_cog(self, ctx, argument):
         logging.info(f"dev unload_cog ran by {ctx.author.name}")
         argument = "cogs." + argument
         try:
@@ -44,7 +43,7 @@ class dev(commands.Cog):
 
     @dev.command()
     @commands.has_role(797422816584007720)
-    async def shutdown (self, ctx):
+    async def shutdown(self, ctx):
         logging.info(f"dev shutdown ran by {ctx.author.name}")
         await ctx.send("Shutting down")
         logging.info("Shutting down")
