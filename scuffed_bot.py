@@ -33,7 +33,8 @@ funniList = [
     "01101000 01101001",
     "Scuffing your mum",
     "My sister is a dumbass",
-    "Shiny Happy Days"]
+    "Shiny Happy Days"
+]
 
 cred = credentials.Certificate({
     "type": "service_account",
@@ -50,7 +51,7 @@ cred = credentials.Certificate({
 default_app = firebase_admin.initialize_app(cred)
 
 initial_cogs = [
-    "cogs.dev",
+    "jishaku",
     "cogs.error_handler",
     #"cogs.chain_enforcement",
     "cogs.challonge",
@@ -63,8 +64,7 @@ initial_cogs = [
     "cogs.nhentai",
     "cogs.user",
     "cogs.shop",
-    "cogs.coord",
-    "jishaku"
+    "cogs.coord"
 ]
 
 for cog in initial_cogs:
