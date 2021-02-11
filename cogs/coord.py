@@ -26,6 +26,7 @@ class coord(commands.Cog):
             member = ctx.guild.get_member(x.id)
             await member.edit(mute=True, deafen=True)
             logging.info(f"{x.name} muted")
+        await ctx.message.delete()
         logging.info("Finished muting\n-------------")
 
     @coordinator.command(aliases=["um"])
@@ -42,6 +43,7 @@ class coord(commands.Cog):
             member = ctx.guild.get_member(x.id)
             await member.edit(mute=False, deafen=False)
             logging.info(f"{x.name} unmuted")
+        await ctx.message.delete()
         logging.info("Finished unmuting\n-------------")
     
 
