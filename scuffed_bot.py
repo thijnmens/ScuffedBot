@@ -63,6 +63,7 @@ initial_cogs = [
     "cogs.nhentai",
     "cogs.user",
     "cogs.shop",
+    "cogs.coord",
     "jishaku"
 ]
 
