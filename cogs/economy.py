@@ -25,19 +25,22 @@ class economy(commands.Cog):
             logging.info('Response: shop embed\n----------')
         elif(argument.lower()=='buy'):
             if(argument2.lower()=='gun'):
-                inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
-                inv_len = len(inv) - 1
-                a = 0
-                while a < inv_len:
-                    item = str(inv[a]).split('~')
-                    if item[0] == 'gun':
-                        count = item[1] + 1
-                        b = a + 1
-                        inv[b] = count
-                        dab.collection('users').document('collectionlist').update({'inv': inv})
-                        await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
-                    a = a + 1
-                logging.info('Response: Gun has been bought\n----------')
+                try:
+                    inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+                    inv_len = len(inv) - 1
+                    a = 0
+                    while a < inv_len:
+                        item = str(inv[a]).split('~')
+                        if item[0] == 'gun':
+                            count = item[1] + 1
+                            b = a + 1
+                            inv[b] = count
+                            dab.collection('users').document('collectionlist').update({'inv': inv})
+                            await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
+                        a = a + 1
+                    logging.info('Response: Gun has been bought\n----------')
+                except Exception as e:
+                    await ctx.send(e)
         elif(argument.lower()=='gun'):
             embed = discord.Embed(
                 title="<:PixelGun:806977728094928906> Gun",
