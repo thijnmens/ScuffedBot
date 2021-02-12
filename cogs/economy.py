@@ -33,12 +33,10 @@ class economy(commands.Cog):
                         item = str(inv[a]).split('~')
                         if item[0] == 'gun':
                             print(item[0])
-                            count = item[1] + '1'
+                            count = item[1] + 1
                             print(count)
-                            b = a + 1
-                            print(b)
-                            inv[b] = count
-                            print (inv[b])
+                            inv[a] = count
+                            print (inv[a])
                             print(inv)
                             dab.collection('users').document('collectionlist').update({'inv': inv})
                             await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
