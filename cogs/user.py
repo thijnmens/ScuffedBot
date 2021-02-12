@@ -50,7 +50,6 @@ class user(commands.Cog):
             elif argument is not None:
                 return await ctx.send("That person isn't in my database qwq")
         scoresaber = ref.get("scoresaber")
-        print (ref.get("steam"))
         try:
             steam = ref.get("steam")
         except BaseException:
