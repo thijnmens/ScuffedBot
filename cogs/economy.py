@@ -51,7 +51,7 @@ class economy(commands.Cog):
                 item = str(inv[a]).split('~')
                 if item[0] == 'gun':
                     print(item[0])
-                    count = item[1] + 1
+                    count = int(item[1]) + 1
                     print(count)
                     inv[a] = count
                     print (inv[a])
