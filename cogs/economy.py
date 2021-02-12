@@ -27,7 +27,8 @@ class economy(commands.Cog):
             if(argument2.lower()=='gun'):
                 try:
                     inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
-                    inv_len = len(inv) - 1
+                    inv_len = len(inv)
+                    print(inv_len)
                     a = 0
                     while a < inv_len:
                         item = str(inv[a]).split('~')
