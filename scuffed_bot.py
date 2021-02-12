@@ -58,7 +58,7 @@ initial_cogs = [
     "cogs.birthday_check",
     "cogs.help",
     "cogs.scoresaber",
-    #"cogs.text",
+    "cogs.text",
     "cogs.tourn_app",
     "cogs.neko",
     "cogs.nhentai",
