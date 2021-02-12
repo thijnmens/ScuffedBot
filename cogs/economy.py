@@ -43,23 +43,23 @@ class economy(commands.Cog):
         
     @buy.command(aliases=["gun"])
     async def buy_gun(self, ctx):
-        try:
-            inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
-            inv_len = len(inv)
-            a = 0
-            while a < inv_len:
-                item = str(inv[a]).split('~')
-                if item[0] == 'gun':
+        inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+        inv_len = len(inv)
+        a = 0
+        while a < inv_len:
+            item = str(inv[a]).split('~')
+            if item[0] == 'gun':
+                if bal > '1000':
                     count = int(item[1]) + 1
                     inv[a] = f'gun~{count}'
-                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv})
+                    bal = bal - 1000
+                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
                     await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
-                a = a + 1
-            logging.info('Response: Gun has been bought\n----------')
-        except Exception as e:
-            print(e)
-
-
-
+                    logging.info('Response: Gun has been bought\n----------')
+                else:
+                    await ctx.send(f'I didnt know you where poor master OwO, you need at least 100 coins, you only have {bal}')
+            a = a + 1
+        
 def setup(client):
     client.add_cog(economy(client))
