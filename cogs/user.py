@@ -53,7 +53,8 @@ class user(commands.Cog):
         try:
             steam = ref.get("steam")
         except BaseException:
-            steam = None
+            #steam = None
+            print (steam)
         try:
             twitch = ref.get("twitch")
         except BaseException:

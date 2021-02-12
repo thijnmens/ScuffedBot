@@ -58,7 +58,7 @@ class economy(commands.Cog):
                     await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
                     logging.info('Response: Gun has been bought\n----------')
                 else:
-                    await ctx.send(f'I didnt know you where poor master OwO, you need at least 100 coins, you only have {bal}')
+                    await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
             a = a + 1
         
 def setup(client):

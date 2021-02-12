@@ -336,6 +336,9 @@ class scoresaber(commands.Cog):
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
             scoresaber = ref.get('scoresaber')
+            if scoresaber is None:
+                await ctx.send("Sorry Senpai, that user isn't in my database!")
+                return logging.info("scoresaber is None\n----------")
             SS_id = scoresaber[25:]
             argument = "recentSongs"
         await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
@@ -357,9 +360,10 @@ class scoresaber(commands.Cog):
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
-            print (ref)
             scoresaber = ref.get('scoresaber')
-            print (scoresaber)
+            if scoresaber is None:
+                await ctx.send("Sorry Senpai, that user isn't in my database!")
+                return logging.info("scoresaber is None\n----------")
             SS_id = scoresaber[25:]
             argument = "topSongs"
         await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
