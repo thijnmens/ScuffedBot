@@ -10,7 +10,7 @@ class economy(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.group(invoke_without_command=True, case_insensitive=True)
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["s"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def shop(self, ctx):
         logging.info('Recieved: >shop') 
@@ -23,8 +23,8 @@ class economy(commands.Cog):
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
     
-    @shop.group()
-    async def gun(self, ctx):
+    @shop.group(aliases=["gun"])
+    async def shop_gun(self, ctx):
         embed = discord.Embed(
             title="<:PixelGun:806977728094928906> Gun",
             description="Are we in texas or something?",
@@ -41,8 +41,8 @@ class economy(commands.Cog):
     async def buy(self, ctx):
         return #put some message here or something :)
         
-    @buy.command()
-    async def gun(self, ctx):
+    @buy.command(aliases=["gun"])
+    async def buy_gun(self, ctx):
         try:
             inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
             inv_len = len(inv)
