@@ -28,13 +28,11 @@ class economy(commands.Cog):
                 try:
                     inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
                     inv_len = len(inv)
-                    print(inv_len)
                     a = 0
                     while a < inv_len:
                         item = str(inv[a]).split('~')
-                        print(item)
                         if item[0] == 'gun':
-                            count = item[1] + 1
+                            count = item[1] + '1'
                             b = a + 1
                             inv[b] = count
                             print(inv)
@@ -43,7 +41,7 @@ class economy(commands.Cog):
                         a = a + 1
                     logging.info('Response: Gun has been bought\n----------')
                 except Exception as e:
-                    await ctx.send(e)
+                    print(e)
         elif(argument.lower()=='gun'):
             embed = discord.Embed(
                 title="<:PixelGun:806977728094928906> Gun",
