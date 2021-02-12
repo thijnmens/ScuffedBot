@@ -23,7 +23,7 @@ class economy(commands.Cog):
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
     
-    @shop.command()
+    @shop.group()
     async def gun(self, ctx):
         embed = discord.Embed(
             title="<:PixelGun:806977728094928906> Gun",
@@ -37,7 +37,7 @@ class economy(commands.Cog):
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
     
-    @shop.command()
+    @shop.group()
     async def buy(self, ctx):
         return #put some message here or something :)
         
