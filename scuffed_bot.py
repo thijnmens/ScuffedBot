@@ -62,7 +62,8 @@ initial_cogs = [
     "cogs.nhentai",
     "cogs.user",
     "cogs.economy",
-    "cogs.coord"
+    "cogs.coord",
+    "cogs.items"
 ]
 
 for cog in initial_cogs:

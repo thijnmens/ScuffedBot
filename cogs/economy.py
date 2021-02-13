@@ -39,7 +39,8 @@ class economy(commands.Cog):
     
     @shop.group()
     async def buy(self, ctx):
-        return #put some message here or something :)
+        await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
+        logging.info('Response: Missing item to buy\n----------')
         
     @buy.command(aliases=["gun"])
     async def buy_gun(self, ctx):
