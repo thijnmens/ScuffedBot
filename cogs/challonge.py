@@ -25,9 +25,10 @@ class challongeClient(commands.Cog):
             async with ctx.channel.typing():
                 messages = ""
                 tournaments = challonge.tournaments.index()
-                count = 0
+                count = (len(tournaments) - 4)
                 par_count = 0
-                for x in (tournaments):
+                #for x in (tournaments):
+                for x in range(0, 4):
                     tournament = tournaments[count]
                     if tournament["state"] == "pending" or tournament["state"] == "underway":
                         message = ("{} - ID: {}\nStatus: Tourney currently {}\n".format(
@@ -52,7 +53,8 @@ class challongeClient(commands.Cog):
                                 tournament["id"],
                                 first,
                                 second,
-                                third))
+                                third)
+                            )
                     messages = "\n" + message + messages
                     count = count + 1
                 embed = discord.Embed(

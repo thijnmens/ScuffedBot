@@ -1,25 +1,23 @@
-#########################
-#      Scuffed Bot      #
-#########################
-# Created by: Thijnmens #
-#    Version: 1.0.0     #
-#########################
-
 import discord
 import os
 import logging
 import firebase_admin
+from dotenv import load_dotenv
 from random import randint
 from discord.ext import commands, tasks
 from discord.utils import get
 from firebase_admin import credentials
 from utils import jskp
 
+
+cwd = os.getcwd()
+load_dotenv(f"{cwd}/config.env")
+
+
 intents = discord.Intents.default()
 intents.members = True
 client = commands.Bot(command_prefix=">",intents=intents,case_insensitive=True,allowed_mentions=discord.AllowedMentions(replied_user=False))
 client.remove_command('help')
-cwd = os.getcwd()
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 funniList = [
     "Aso kinda cute 😳",

@@ -26,6 +26,15 @@ page = int(0)
 # Ranking Pages
 
 
+# Returns the ID for the user given
+def userID(self, ctx, argument):
+    if argument.isdigit():
+        return self.client.get_user(int(argument))
+    else:
+        ID = argument[3:]
+        ID = ID[:-1]
+        return self.client.get_user(int(ID))
+
 # Makes the embed message for topSong and recentSong
 def songEmbed(ctx, argument, SS_id, scoresaber):
     if argument == "recentSong":
@@ -211,16 +220,9 @@ class scoresaber(commands.Cog):
     async def scoresaber(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
-            if argument1.isdigit():
-                ctx.author = self.client.get_user(int(argument1))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            else:
-                ID = argument1[3:]
-                ID = ID[:-1]
-                ctx.author = self.client.get_user(int(ID))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            ctx.author = userID(self, ctx, argument1)
+            if ctx.author is None:
+                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
@@ -277,16 +279,9 @@ class scoresaber(commands.Cog):
     async def recentsong(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
         if argument1 is not None:
-            if argument1.isdigit():
-                ctx.author = self.client.get_user(int(argument1))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            else:
-                ID = argument1[3:]
-                ID = ID[:-1]
-                ctx.author = self.client.get_user(int(ID))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            ctx.author = userID(self, ctx, argument1)
+            if ctx.author is None:
+                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
@@ -300,16 +295,9 @@ class scoresaber(commands.Cog):
     async def topsong(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber topsong {ctx.author.name}")
         if argument1 is not None:
-            if argument1.isdigit():
-                ctx.author = self.client.get_user(int(argument1))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            else:
-                ID = argument1[3:]
-                ID = ID[:-1]
-                ctx.author = self.client.get_user(int(ID))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            ctx.author = userID(self, ctx, argument1)
+            if ctx.author is None:
+                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
@@ -322,16 +310,9 @@ class scoresaber(commands.Cog):
     @scoresaber.command(aliases=["rss"])
     async def recentsongs(self, ctx, argument1=None):
         if argument1 is not None:
-            if argument1.isdigit():
-                ctx.author = self.client.get_user(int(argument1))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            else:
-                ID = argument1[3:]
-                ID = ID[:-1]
-                ctx.author = self.client.get_user(int(ID))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            ctx.author = userID(self, ctx, argument1)
+            if ctx.author is None:
+                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
@@ -347,16 +328,9 @@ class scoresaber(commands.Cog):
     @scoresaber.command(aliases=["tss"])
     async def topsongs(self, ctx, argument1=None):
         if argument1 is not None:
-            if argument1.isdigit():
-                ctx.author = self.client.get_user(int(argument1))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            else:
-                ID = argument1[3:]
-                ID = ID[:-1]
-                ctx.author = self.client.get_user(int(ID))
-                if ctx.author is None:
-                    return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+            ctx.author = userID(self, ctx, argument1)
+            if ctx.author is None:
+                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
@@ -371,11 +345,21 @@ class scoresaber(commands.Cog):
 
     @scoresaber.command()
     async def compare(self, ctx, argument1=None, argument2=None):
-        if argument1 is None or argument2 is None:
-            await ctx.send("You need to mention two people for me to compare!")
-            return
-        return
-
+        if argument1 is None:
+            return await ctx.send("You need to mention someone for me to compare you against!")
+        if argument1 is not None:
+            argument1 = userID(self, ctx, argument1)
+            if argument1 is None:
+                return await ctx.send("Sorry Senpai, I can't find the first user qwq")
+            argument2 = userID(self, ctx, argument2)
+            if argument2 is None:
+                return await ctx.send("Sorry Senpai, I can't find the second user qwq")
+        if argument1 is not None and argument2 is None:
+            argument2 = userID(self, ctx, argument1)
+            argument1 = ctx.author.id
+            if argument2 is None:
+                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+        URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
 
 def setup(client):
     client.add_cog(scoresaber(client))
