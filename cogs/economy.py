@@ -37,29 +37,28 @@ class economy(commands.Cog):
         logging.info('Response: shop embed\n----------')
     
     @shop.group()
-    async def buy(self, ctx):
-        await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
+    async def buy(self, ctx, argument=None):
+        if argument == 'gun':
+            inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+            bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+            inv_len = len(inv)
+            a = 0
+            while a < inv_len:
+                item = str(inv[a]).split('~')
+                if item[0] == 'gun':
+                    if bal > 1000:
+                        count = int(item[1]) + 1
+                        inv[a] = f'gun~{count}'
+                        bal = bal - 1000
+                        dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
+                        await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
+                        logging.info('Response: Gun has been bought\n----------')
+                    else:
+                        await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
+                a = a + 1
+            else:
+                await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
         logging.info('Response: Missing item to buy\n----------')
-        
-    @buy.command(aliases=["gun"])
-    async def buy_gun(self, ctx):
-        inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
-        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
-        inv_len = len(inv)
-        a = 0
-        while a < inv_len:
-            item = str(inv[a]).split('~')
-            if item[0] == 'gun':
-                if bal > 1000:
-                    count = int(item[1]) + 1
-                    inv[a] = f'gun~{count}'
-                    bal = bal - 1000
-                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
-                    await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
-                    logging.info('Response: Gun has been bought\n----------')
-                else:
-                    await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
-            a = a + 1
     
     @commands.command(case_insensitive=True)
     async def inv(self, ctx):
