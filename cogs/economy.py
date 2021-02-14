@@ -1,5 +1,4 @@
-import discord
-import logging
+import discord, logging
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import firestore
@@ -61,6 +60,33 @@ class economy(commands.Cog):
                 else:
                     await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
             a = a + 1
-        
+    
+    @commands.command(case_insensitive=True)
+    async def inv(self, ctx):
+        logging.info('Recieved: >inv')
+        embed = discord.Embed(
+            title=f"Inventory of {ctx.author}",
+            description="Look at all those great items!",
+            color=0xff0000)
+        inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+        inv_len = len(inv)
+        a = 0
+        b = 1
+        while a < inv_len:
+            item = str(inv[a]).split('~')
+            embed.add_field(name=item[a], value=item[b], inline=False)
+            a = a + 1
+            b = b + 1
+        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
+        await ctx.send(embed=embed)
+        logging.info('Response: inv embed\n----------')
+    
+    @commands.command(case_insensitive=True)
+    async def bal(self, ctx):
+        logging.info('Recieved: >bal')
+        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+        await ctx.send(f'You have {bal} Scuffed Coins')
+        logging.info(f'Response: {ctx.author} has a bal of {bal} \n----------')
+
 def setup(client):
     client.add_cog(economy(client))
