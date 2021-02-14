@@ -56,8 +56,8 @@ class economy(commands.Cog):
                     else:
                         await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
                 a = a + 1
-            else:
-                await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
+        else:
+            await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
         logging.info('Response: Missing item to buy\n----------')
     
     @commands.command(case_insensitive=True)
