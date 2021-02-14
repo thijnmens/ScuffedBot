@@ -87,6 +87,22 @@ class economy(commands.Cog):
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         await ctx.send(f'You have {bal} Scuffed Coins')
         logging.info(f'Response: {ctx.author} has a bal of {bal} \n----------')
+    
+    @commands.command(case_insensitive=True)
+    @commands.has_permissions(administrator=True)
+    async def gib(self, ctx, argument=None, argument2=None):
+        logging.info('Recieved: >gib')
+        if '@' in argument:
+                argument = argument.replace('<', '')
+                argument = argument.replace('@', '')
+                argument = argument.replace('!', '')
+                argument = argument.replace('>', '')
+        bal = dab.collection('users').document(argument).get().get('bal')
+        bal = bal + int(argument2)
+        dab.collection('users').document(str(ctx.author.id)).update({'bal': bal})
+        a = str(ctx.guild.get_member(int(argument))).split('#')
+        await ctx.send(f'Given {argument2} Coins to {a[0]}. their total is now {bal}')
+        logging.info('Response: inv embed\n----------')
 
 def setup(client):
     client.add_cog(economy(client))
