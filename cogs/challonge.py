@@ -1,7 +1,5 @@
 import discord
 import os
-import requests
-import json
 import challonge
 import logging
 from discord.ext import commands

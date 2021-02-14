@@ -1,9 +1,6 @@
 import discord
-import os
-import json
-import requests
 import logging
-from discord.ext import commands, tasks
+from discord.ext import commands
 from discord.utils import get
 
 

@@ -1,7 +1,4 @@
-import sys
-import discord
 import math
-import asyncio
 import logging
 from discord.ext import commands
 

@@ -2,8 +2,6 @@
 
 import discord
 import logging
-import requests
-import asyncio 
 import io
 import aiohttp
 import json

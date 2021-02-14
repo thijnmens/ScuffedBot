@@ -1,16 +1,9 @@
 import discord
-import os
-import requests
-import json
-import firebase_admin
-import asyncio
 import logging
 from datetime import datetime
 from discord.ext import commands, tasks
 from discord.utils import get
-from firebase_admin import credentials
 from firebase_admin import firestore
-from firebase_admin import db
 
 client = discord.Client()
 now = datetime.now()

@@ -1,5 +1,5 @@
-import discord, logging, asyncio
-from discord import client
+import logging
+import asyncio
 from discord.ext import commands
 from discord.utils import get
 from firebase_admin import firestore

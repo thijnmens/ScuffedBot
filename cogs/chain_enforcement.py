@@ -1,10 +1,8 @@
-import discord
-import os
 import logging
 import asyncio
 from discord.ext import commands
 from discord.utils import get
-from firebase_admin import credentials, firestore, db
+from firebase_admin import firestore
 
 dab = firestore.client()
 chain_channel = (796012513917272085)

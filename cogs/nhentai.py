@@ -3,7 +3,6 @@
 
 import discord
 import logging
-import json
 from discord.ext import commands
 from NHentai import NHentai
 

@@ -1,4 +1,3 @@
-import discord
 import logging
 from discord.ext import commands
 
@@ -24,6 +23,8 @@ class coord(commands.Cog):
             if x.id == ctx.author.id:
                 continue
             member = ctx.guild.get_member(x.id)
+            if "810492978816090173" in str(member.roles):
+                continue
             await member.edit(mute=True, deafen=True)
             logging.info(f"{x.name} muted")
         await ctx.message.delete()
