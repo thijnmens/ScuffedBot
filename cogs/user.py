@@ -148,8 +148,8 @@ class user(commands.Cog):
             'chain_multi': 0,
             'username': ctx.author.name,
             'scoresaber': scoresaber,
-            'bal': 0,
-            'inv': []
+            'bal': 666,
+            'inv': ['gun~0']
         })
         try:
             col_ref.append(str(ctx.author.id))
