@@ -20,16 +20,16 @@ class birthday_check(commands.Cog):
     async def birthdays(self):
         logging.info("Running birthdays")
         ref = dab.collection('users').document('collectionlist').get().get('array')
-        amount = len(ref)
+        amount = len(ref) - 1
         count = 0
         while (count <= amount):
             try:
                 ID = ref[count]
                 try:
                     birthday = dab.collection("users").document(str(ID)).get().get('birthday')
-                except Exception as e:
+                except Exception:
                     count = count + 1
-                    logging.error(f"{ID}: {e}")
+                    logging.info(f'The user with id {ID} did not add his b-day to the database yet')
                     continue
                 birthdaysplit = birthday.split('/')
                 try:
