@@ -225,6 +225,9 @@ class scoresaber(commands.Cog):
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
             scoresaber = ref.get('scoresaber')
+            if scoresaber is None:
+                await ctx.send("Sorry Senpai, that user isn't in my database!")
+                return logging.info("scoresaber is None\n----------")
             SS_id = scoresaber[25:]
             URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
             logging.info(URL)
@@ -234,12 +237,8 @@ class scoresaber(commands.Cog):
                 return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
             playerInfo = json_data["playerInfo"]
             scoreStats = json_data["scoreStats"]
-            playerCountry = playerInfo["country"]
-            playerName = playerInfo["playerName"]
-            playerCountryFlag = (f":flag_{playerCountry.lower()}:")
-            rankedAcc = round(scoreStats["averageRankedAccuracy"], 2)
             embed = discord.Embed(
-                title=f"{playerName}'s ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
+                title=playerInfo["playerName"]+"'s ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
                 url=scoresaber,
                 colour=0xffdc1b,
                 timestamp=ctx.message.created_at
@@ -249,7 +248,7 @@ class scoresaber(commands.Cog):
                 value=playerInfo["rank"],
                 inline=True)
             embed.add_field(
-                name=f"Country Rank {playerCountryFlag}",
+                name=f"Country Rank :flag_"+playerInfo["country"].lower()+":",
                 value=playerInfo["countryRank"],
                 inline=True)
             embed.add_field(
@@ -258,7 +257,7 @@ class scoresaber(commands.Cog):
                 inline=True)
             embed.add_field(
                 name="Ranked Acc <:PeepoAcc:792385194351001610>",
-                value=f"{rankedAcc}%",
+                value=str(round(scoreStats["averageRankedAccuracy"], 2))+"%",
                 inline=True)
             embed.add_field(
                 name="Total Play Count <a:ppJedi:754632378206388315>",
@@ -341,23 +340,94 @@ class scoresaber(commands.Cog):
         await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
         logging.info("Response: ScoreSaber TopSongs embed\n----------")
 
-    @scoresaber.command()
+    @scoresaber.command(aliases=["com"])
     async def compare(self, ctx, argument1=None, argument2=None):
         if argument1 is None:
             return await ctx.send("You need to mention someone for me to compare you against!")
-        if argument1 is not None:
+        elif argument1 is not None and argument2 is not None:
             argument1 = userID(self, ctx, argument1)
             if argument1 is None:
                 return await ctx.send("Sorry Senpai, I can't find the first user qwq")
             argument2 = userID(self, ctx, argument2)
             if argument2 is None:
                 return await ctx.send("Sorry Senpai, I can't find the second user qwq")
-        if argument1 is not None and argument2 is None:
+        elif argument1 is not None and argument2 is None:
             argument2 = userID(self, ctx, argument1)
-            argument1 = ctx.author.id
+            argument1 = ctx.author
             if argument2 is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-        URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
+        async with ctx.channel.typing():
+            user1 = dab.collection("users").document(str(argument1.id)).get()
+            user2 = dab.collection("users").document(str(argument2.id)).get()
+            scoresaber1 = user1.get('scoresaber')
+            scoresaber2 = user2.get('scoresaber')
+            if scoresaber1 is None or scoresaber2 is None:
+                await ctx.send("Sorry Senpai, that user isn't in my database!")
+                return logging.info("scoresaber is None\n----------")
+            SS_id1 = scoresaber1[25:]
+            SS_id2 = scoresaber2[25:]
+        URL1 = (f"https://new.scoresaber.com/api/player/{SS_id1}/full")
+        URL2 = (f"https://new.scoresaber.com/api/player/{SS_id2}/full")
+        logging.info(f"{URL1}\n{URL2}")
+        response1 = requests.get(URL1, headers=header)
+        response2 = requests.get(URL2, headers=header)
+        json_data1 = json.loads(response1.text)
+        json_data2 = json.loads(response2.text)
+        if "error" in json_data1 or "error" in json_data2:
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if both user's ScoreSaber links are valid <:AYAYASmile:789578607688417310>")
+        playerInfo1 = json_data1["playerInfo"]
+        scoreStats1 = json_data1["scoreStats"]
+        playerInfo2 = json_data2["playerInfo"]
+        scoreStats2 = json_data2["scoreStats"]
+        val1 = int(playerInfo1["rank"])
+        val2 = int(playerInfo2["rank"])
+        if val1 < val2:
+            val1 = f"__{val1}__"
+        elif val1 > val2:
+            val2 = f"__{val2}__"
+        message = f"{val1} - 🌐 **Global Rank** 🌐 - {val2}\n"
+        val1 = int(playerInfo1["countryRank"])
+        val2 = int(playerInfo2["countryRank"])
+        if val1 < val2:
+            val1 = f"__{val1}__"
+        elif val1 > val2:
+            val2 = f"__{val2}__"
+        message = message + f"{val1} - :flag_"+playerInfo1["country"].lower()+": **Country Rank** :flag_"+playerInfo2["country"].lower()+f": - {val2}\n"
+        val1 = int(playerInfo1["pp"])
+        val2 = int(playerInfo2["pp"])
+        if val1 < val2:
+            val1 = f"__{val1}__"
+        elif val1 > val2:
+            val2 = f"__{val2}__"
+        message = message + f"{val1} - <a:PogLick:792002791828357131> **Performance Points** <a:PogLick:792002791828357131> - {val2}\n"
+        val1 = float(round(scoreStats2["averageRankedAccuracy"], 2))
+        val2 = float(round(scoreStats1["averageRankedAccuracy"], 2))
+        if val1 < val2:
+            val1 = f"__{val1}__"
+        elif val1 > val2:
+            val2 = f"__{val2}__"
+        message = message + f"{val1}% - <:PeepoAcc:792385194351001610> **Ranked Acc** <:PeepoAcc:792385194351001610> - {val2}%\n"
+        val1 = int(scoreStats1["totalPlayCount"])
+        val2 = int(scoreStats2["totalPlayCount"])
+        if val1 < val2:
+            val1 = f"__{val1}__"
+        elif val1 > val2:
+            val2 = f"__{val2}__"
+        message = message + f"{val1} -  <a:ppJedi:754632378206388315> **Total Play Count**  <a:ppJedi:754632378206388315> - {val2}\n"
+        val1 = int(scoreStats1["rankedPlayCount"])
+        val2 = int(scoreStats2["rankedPlayCount"])
+        if val1 < val2:
+            val1 = f"__{val1}__"
+        elif val1 > val2:
+            val2 = f"__{val2}__"
+        message = message + f"{val1} -  🧑‍🌾 **Ranked Play Count**  🧑‍🌾 - {val2}\n"
+        embed = discord.Embed(
+            title=playerInfo1["playerName"]+" 🆚 "+playerInfo2["playerName"],
+            description=message,
+            colour=0xffdc1b,
+            timestamp=ctx.message.created_at
+        )
+        await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(scoresaber(client))

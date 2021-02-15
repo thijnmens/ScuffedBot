@@ -28,13 +28,12 @@ class text(commands.Cog):
         await ctx.send("Join the NOPE clan <:GunChamp:796047943966523432>\nhttps://discord.gg/xH7AGnGXkf")
         logging.info("Response: Certainly not a link to the NOPE discord----------")
 
-    # Quote
     @commands.command(case_insensitive=True)
     async def links(self, ctx):
         logging.info('Recieved: >links')
         embed = discord.Embed(
             title="Important Scuffed Links",
-            description="[Discord](https://discord.gg/4bF8JAGeB3) | [Challonge](https://challonge.com/users/scuffedtourney/tournaments) | [Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)\n[BeatKhana!](https://beatkhana.com/) (since we're there sometimes)",
+            description="[Discord](https://discord.gg/4bF8JAGeB3) | [Twitch](https://www.twitch.tv/scuffedtourneys) | [Challonge](https://challonge.com/users/scuffedtourney/tournaments) | [Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)\n[BeatKhana!](https://beatkhana.com/) (since we're there sometimes)",
             color=0xff0000)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/796012513917272085/804784985961005073/hmm_yes_transparency.png")
         await ctx.send(embed=embed)

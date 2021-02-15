@@ -20,7 +20,7 @@ class helpClient(commands.Cog):
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
         embed.add_field(
             name="Sub help commands",
-            value="**>help user** | command and subcommands for >user \n**>help update** | valid fields for >user update\n**>scoresaber** | command and subcommands for >help scoresaber\n**>help neko** | command and subcommands for neko <a:HyperNeko:754632378038747177>",
+            value="**>help user** | command and subcommands for >user \n**>help update** | valid fields for >user update\n**>help scoresaber** | command and subcommands for >help scoresaber\n**>help neko** | command and subcommands for neko <a:HyperNeko:754632378038747177>",
             inline=False
         )
         embed.add_field(
@@ -157,7 +157,8 @@ class helpClient(commands.Cog):
             description="These are the valid arguments for >neko",
             colour=0xff0000
         )
-        embed.set_thumbnail(url="https://i.imgur.com/7Whb3qK.png")
+        #embed.set_thumbnail(url="https://i.imgur.com/7Whb3qK.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/754643335511015505/810691863610523668/unknown.png")
         embed.add_field(
             name=">neko",
             value="Posts an image of a neko",
