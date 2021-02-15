@@ -27,9 +27,13 @@ class birthday_check(commands.Cog):
                 ID = ref[count]
                 try:
                     birthday = dab.collection("users").document(str(ID)).get().get('birthday')
-                except Exception:
+                except Exception as e:
+                    e = str(e)
                     count = count + 1
-                    logging.info(f'The user with id {ID} did not add his b-day to the database yet')
+                    if e.find('is not contained in the data') != -1:
+                        logging.info(f'user {ID} hasn\'t saved their birthday to the database')
+                    else:
+                        logging.error(f'{ID}: {e}')
                     continue
                 birthdaysplit = birthday.split('/')
                 try:
