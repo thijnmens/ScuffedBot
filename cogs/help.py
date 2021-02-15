@@ -125,7 +125,7 @@ class helpClient(commands.Cog):
     async def scoresaber(self, ctx):
         embed = discord.Embed(
             title="Help ScoreSaber",
-            description="These are the valid arguments for >ScoreSaber",
+            description="These are the valid arguments for >ScoreSaber\n~~certainly not a bad ripoff of bs bot~~",
             color=0xff0000
         )
         embed.add_field(

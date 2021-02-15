@@ -25,7 +25,7 @@ page = int(0)
 
 
 # Returns the ID for the user given
-def userID(self, ctx, argument):
+async def userID(self, ctx, argument):
     if argument.isdigit():
         return self.client.get_user(int(argument))
     else:
@@ -34,7 +34,7 @@ def userID(self, ctx, argument):
         return self.client.get_user(int(ID))
 
 # Makes the embed message for topSong and recentSong
-def songEmbed(ctx, argument, SS_id, scoresaber):
+async def songEmbed(ctx, argument, SS_id, scoresaber):
     if argument == "recentSong":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
     elif argument == "topSong":
@@ -135,7 +135,7 @@ def songEmbed(ctx, argument, SS_id, scoresaber):
     return message
 
 
-def songsEmbed(ctx, argument, SS_id, scoresaber):
+async def songsEmbed(ctx, argument, SS_id, scoresaber):
     if argument == "recentSongs":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
         requestType = ("Recent Songs")
@@ -218,7 +218,7 @@ class scoresaber(commands.Cog):
     async def scoresaber(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
-            ctx.author = userID(self, ctx, argument1)
+            ctx.author = await userID(self, ctx, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
@@ -276,7 +276,7 @@ class scoresaber(commands.Cog):
     async def recentsong(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
         if argument1 is not None:
-            ctx.author = userID(self, ctx, argument1)
+            ctx.author = await userID(self, ctx, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
@@ -285,14 +285,14 @@ class scoresaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "recentSong"
-        await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=await songEmbed(ctx, argument, SS_id, scoresaber))
         logging.info("Response: ScoreSaber RecentSong embed\n----------")
 
     @scoresaber.command(aliases=["ts"])
     async def topsong(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber topsong {ctx.author.name}")
         if argument1 is not None:
-            ctx.author = userID(self, ctx, argument1)
+            ctx.author = await userID(self, ctx, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
@@ -301,13 +301,13 @@ class scoresaber(commands.Cog):
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             argument = "topSong"
-        await ctx.send(embed=songEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=await songEmbed(ctx, argument, SS_id, scoresaber))
         logging.info("Response: ScoreSaber TopSong embed\n----------")
 
     @scoresaber.command(aliases=["rss"])
     async def recentsongs(self, ctx, argument1=None):
         if argument1 is not None:
-            ctx.author = userID(self, ctx, argument1)
+            ctx.author = await userID(self, ctx, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
@@ -319,13 +319,13 @@ class scoresaber(commands.Cog):
                 return logging.info("scoresaber is None\n----------")
             SS_id = scoresaber[25:]
             argument = "recentSongs"
-        await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=await songsEmbed(ctx, argument, SS_id, scoresaber))
         logging.info("Response: ScoreSaber RecentSongs embed\n----------")
 
     @scoresaber.command(aliases=["tss"])
     async def topsongs(self, ctx, argument1=None):
         if argument1 is not None:
-            ctx.author = userID(self, ctx, argument1)
+            ctx.author = await userID(self, ctx, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
@@ -337,7 +337,7 @@ class scoresaber(commands.Cog):
                 return logging.info("scoresaber is None\n----------")
             SS_id = scoresaber[25:]
             argument = "topSongs"
-        await ctx.send(embed=songsEmbed(ctx, argument, SS_id, scoresaber))
+        await ctx.send(embed=await songsEmbed(ctx, argument, SS_id, scoresaber))
         logging.info("Response: ScoreSaber TopSongs embed\n----------")
 
     @scoresaber.command(aliases=["com"])
@@ -345,14 +345,14 @@ class scoresaber(commands.Cog):
         if argument1 is None:
             return await ctx.send("You need to mention someone for me to compare you against!")
         elif argument1 is not None and argument2 is not None:
-            argument1 = userID(self, ctx, argument1)
+            argument1 = await userID(self, ctx, argument1)
             if argument1 is None:
                 return await ctx.send("Sorry Senpai, I can't find the first user qwq")
-            argument2 = userID(self, ctx, argument2)
+            argument2 = await userID(self, ctx, argument2)
             if argument2 is None:
                 return await ctx.send("Sorry Senpai, I can't find the second user qwq")
         elif argument1 is not None and argument2 is None:
-            argument2 = userID(self, ctx, argument1)
+            argument2 = await userID(self, ctx, argument1)
             argument1 = ctx.author
             if argument2 is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")

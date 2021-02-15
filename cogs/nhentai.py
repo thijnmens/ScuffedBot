@@ -9,7 +9,7 @@ from NHentai import NHentai
 nhentai = NHentai()
 
 
-def sauce_embed(sauce):
+async def sauce_embed(sauce):
     desc = "Tags: "
     for x in getattr(sauce, "tags"):
         desc = desc + x + ", "
@@ -47,14 +47,14 @@ class nhen(commands.Cog):
         elif argument is None:
             sauce = nhentai.get_random()
             logging.info(sauce)
-            await ctx.send(embed=sauce_embed(sauce))
+            await ctx.send(embed=await sauce_embed(sauce))
             logging.info("Posted embed\n----------")
         elif argument.isdigit():
             sauce = nhentai._get_doujin(id=argument)
             logging.info(sauce)
             if sauce is None:
                 return await ctx.send("S-Sorry, I can't find that id qwq")
-            await ctx.send(embed=sauce_embed(sauce))
+            await ctx.send(embed=await sauce_embed(sauce))
             logging.info("Posted embed\n----------")
 
 def setup(client):
