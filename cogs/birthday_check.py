@@ -53,6 +53,5 @@ class birthday_check(commands.Cog):
             count = count + 1
         logging.info("Birthdays Ended\n----------")
 
-
 def setup(client):
     client.add_cog(birthday_check(client))

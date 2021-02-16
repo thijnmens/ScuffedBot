@@ -63,7 +63,8 @@ initial_cogs = [
     "cogs.user",
     "cogs.economy",
     "cogs.coord",
-    "cogs.items"
+    "cogs.items",
+    "cogs.work"
 ]
 
 for cog in initial_cogs:
