@@ -1,4 +1,4 @@
-#I can assure you, this cog is vital for the performance and useability of Scuffed Bot
+# I can assure you, this cog is vital for the performance and useability of Scuffed Bot
 
 import discord
 import logging
@@ -36,7 +36,9 @@ class neko(commands.Cog):
     @neko.group(invoke_without_command=True, case_insensitive=True)
     async def lewd(self, ctx):
         logging.info("neko lewd ran")
-        if ctx.channel.is_nsfw() is False:
+        if not ctx.guild:
+            await self.client.get_channel(754632208257515541).send(f"{ctx.author.name} is being lewd in my DMs! <a:GabiEmbarrased:807384551646560286>")
+        if ctx.guild and ctx.channel.is_nsfw() is False:
             logging.info("Ran outside of nsfw channel\n----------")
             return await ctx.send("P-Pervert! <a:LoliTriggered:754632379397570620>")
         await ctx.send(file=discord.File(await image("https://nekos.life/api/v2/img/lewd"), "neko.png"))
@@ -45,7 +47,9 @@ class neko(commands.Cog):
     @lewd.command(aliases=["gif"])
     async def lewd_gif(self, ctx):
         logging.info("neko lewd gif ran")
-        if ctx.channel.is_nsfw() is False:
+        if not ctx.guild:
+            await self.client.get_channel(754632208257515541).send(f"{ctx.author.name} is being lewd in my DMs! <a:GabiEmbarrased:807384551646560286>")
+        if ctx.guild and ctx.channel.is_nsfw() is False:
             logging.info("Ran outside of nsfw channel\n----------")
             return await ctx.send("P-Pervert! <a:LoliTriggered:754632379397570620>")
         await ctx.send(file=discord.File(await image("https://nekos.life/api/v2/img/nsfw_neko_gif"), "neko.gif"))
