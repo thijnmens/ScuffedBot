@@ -298,7 +298,7 @@ class scoresaber(commands.Cog):
         logging.info("Response: ScoreSaber UserData embed\n----------")
 
     @scoresaber.command(aliases=["rs"])
-    async def recentsong(self, ctx, argument1=None, argument2=None):
+    async def recentsong(self, ctx, argument1=1, argument2=None):
         logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
         async with ctx.channel.typing():
             await songEmbed(self, ctx, argument1, argument2, type="recentSong")
