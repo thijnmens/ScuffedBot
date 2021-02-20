@@ -64,7 +64,6 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
     except:
         logging.info(f"scoresaber api returned nothing, probably getting hammered lol")
         return await ctx.send("Sorry Senpai, ScoreSaber-chan is busy right now!\nTry again later ^w^")
-    print(f"json data: '{json_data}'")
     if "error" in json_data:
         logging.info(f"scoresaber api returned an error\n{json_data}")
         return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
