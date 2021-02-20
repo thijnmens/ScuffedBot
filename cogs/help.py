@@ -1,7 +1,6 @@
 import discord
 import logging
 from discord.ext import commands
-from discord.utils import get
 
 
 class helpClient(commands.Cog):
@@ -14,7 +13,7 @@ class helpClient(commands.Cog):
         logging.info('Recieved: >help ')
         embed = discord.Embed(
             title="Help",
-            description="-kwarg is a mandatory argument while arg is an optional argument.\n-[mention] is an optional arg where you can ping a user to run the command on them. the user's ID will also be accepted if you don't want to ping them.",
+            description="``<text> is a mandatory argument while [text] is an optional argument``",
             color=0xff0000
         )
         embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/790189114711605260/c6e486bab141b997eeceb42ac5c9a3c2.png?size=256")
@@ -39,7 +38,7 @@ class helpClient(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name=">nhentai <arg>",
+            name=">nhentai [id]",
             value="Posts a random doujin or fetches a certain doujin if an ID is provided. Only works in NSFW channels",
             inline=False
         )
@@ -58,7 +57,7 @@ class helpClient(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name=">user add",
+            name=">user add <ScoreSaber link>",
             value="add yourself to the userbase.",
             inline=False
         )
@@ -78,7 +77,7 @@ class helpClient(commands.Cog):
     async def update(self, ctx):
         embed = discord.Embed(
             title="Help User Update",
-            description="These are the valid fields for >user update [field] <kwarg>",
+            description="These are the valid fields for >user update <field> <kwarg>",
             color=0xff0000
         )
         embed.add_field(
@@ -134,18 +133,28 @@ class helpClient(commands.Cog):
             inline=False
         )
         embed.add_field(
-            name=">scoresaber topsong [mention]",
-            value="gets a user's top song from ScoreSaber,",
+            name=">scoresaber topsong [song number] [mention]",
+            value="gets a user's top song from ScoreSaber. **Song number has to be given if mention is given**",
             inline=False
         )
         embed.add_field(
-            name=">scoresaber recentsong [mention]",
-            value="gets a user's most recent song from ScoreSaber,",
+            name=">scoresaber recentsong [song number] [mention]",
+            value="gets a user's most recent song from ScoreSaber. **Song number has to be given if mention is given**",
             inline=False
         )
         embed.add_field(
-            name=">scoresaber compare <kwarg> <arg>",
-            value="Compare two users together. excluse the arg if you only want to compare yourself against someone else.",
+            name=">scoresaber topsongs [page] [mention]",
+            value="gets a user's page of top songs from ScoreSaber. **Page has to be given if mention is given**",
+            inline=False
+        )
+        embed.add_field(
+            name=">scoresaber recentsongs [page] [mention]",
+            value="gets a user's page of recent songs from ScoreSaber. **Page has to be given if mention is given**",
+            inline=False
+        )
+        embed.add_field(
+            name=">scoresaber compare <first user> [second user]",
+            value="Compare two users together. excluse the second user argument if you only want to compare yourself against someone else.",
             inline=False
         )
         await ctx.send(embed=embed)

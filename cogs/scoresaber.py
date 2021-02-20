@@ -1,19 +1,3 @@
-import discord
-import requests
-import json
-import logging
-from random import randint
-from discord.ext import commands
-from discord.utils import get
-from firebase_admin import firestore
-
-dab = firestore.client()
-header = {
-    "User-Agent": "Scuffed Bot (https://github.com/thijnmens/ScuffedBot)"
-}
-
-SS_id = None
-page = int(0)
 # https://new.scoresaber.com/api/player/76561198091128855/full
 # https://new.scoresaber.com/api/static/covers/69E494F4A295197BF03720029086FABE6856FBCE.png
 # URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full") - Get UserData
@@ -24,8 +8,25 @@ page = int(0)
 # Ranking Pages
 
 
+import discord
+import requests
+import json
+import logging
+from random import randint
+from discord.ext import commands
+from discord.utils import get
+from firebase_admin import firestore
+
+
+dab = firestore.client()
+header = {
+    "User-Agent": "Scuffed Bot (https://github.com/thijnmens/ScuffedBot)"
+}
+SS_id = None
+
+
 # Returns the ID for the user given
-async def userID(self, ctx, argument):
+async def userID(self, argument):
     if argument.isdigit():
         return self.client.get_user(int(argument))
     else:
@@ -34,46 +35,53 @@ async def userID(self, ctx, argument):
         return self.client.get_user(int(ID))
 
 # Makes the embed message for topSong and recentSong
-async def songEmbed(ctx, argument, SS_id, scoresaber):
-    if argument == "recentSong":
-        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
-    elif argument == "topSong":
-        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
+async def songEmbed(self, ctx, arg_page, arg_user, type):
+    if arg_user is not None:
+        ctx.author = await userID(self, arg_user)
+        logging.info(f"Argument given, now {ctx.author.name}")
+    if ctx.author is None:
+        logging.info("ctx.author is None")
+        return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+    ref = dab.collection("users").document(str(ctx.author.id)).get()
+    scoresaber = ref.get('scoresaber')
+    if scoresaber is None:
+        await ctx.send("Sorry Senpai, that user isn't in my database!")
+        return logging.info("scoresaber is None")
+    SS_id = scoresaber[25:]
+    page = (arg_page / 8)
+    if page.is_integer() is False:
+        page = int(page + 1)
+    else:
+        page = int(page)
+    if type == "recentSong":
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent/{page}")
+    elif type == "topSong":
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{page}")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
     logging.info(URL+"\n"+URL1)
-    response = requests.get(URL, headers=header)
-    json_data = json.loads(response.text)
+    try: 
+        json_data = json.loads(requests.get(URL, headers=header).text)
+    except:
+        logging.info(f"scoresaber api returned nothing, probably getting hammered lol")
+        return await ctx.send("Sorry Senpai, ScoreSaber-chan is busy right now!\nTry again later ^w^")
+    print(f"json data: '{json_data}'")
     if "error" in json_data:
-        message = discord.Embed(
-            title="Uh Oh, the codie wodie did an oopsie woopsie! uwu",
-            description="Check if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>",
-            colour=0xff0000)
-        return message
+        logging.info(f"scoresaber api returned an error\n{json_data}")
+        return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
     songsList = json_data["scores"]
-    response = requests.get(URL1, headers=header)
-    json_data = json.loads(response.text)
+    json_data = json.loads(requests.get(URL1, headers=header).text)
     playerInfo = json_data["playerInfo"]
-    playerName = playerInfo["playerName"]
-    Song = songsList[0]
-    songName = Song["songName"]
-    songSubName = Song["songSubName"]
-    songAuthorName = Song["songAuthorName"]
-    levelAuthorName = Song["levelAuthorName"]
-    timeSet = Song["timeSet"]
-    songHash = Song["songHash"]
-    URL2 = (f"https://beatsaver.com/api/maps/by-hash/{songHash}")  # Beat Saver
-    # URL2 = (f"https://maps.beatsaberplus.com/api/maps/by-hash/{songHash}")
-    # #HardCPP's Mirror
-    response = requests.get(URL2, headers=header)
-    json_data = json.loads(response.text)
-    songKey = json_data["key"]
-    songBSLink = (f"https://beatsaver.com/beatmap/{songKey}")
+    if page > 1:
+        while arg_page >= 8:
+            arg_page = (arg_page - 8)
+    Song = songsList[(arg_page - 1)]
+    URL2 = (f"https://beatsaver.com/api/maps/by-hash/"+Song["songHash"])
+    json_data = json.loads(requests.get(URL2, headers=header).text)
+    songBSLink = (f"https://beatsaver.com/beatmap/"+json_data["key"])
     if Song["maxScore"] == 0:
-        acc = randint(0, 100)
-        songAcc = f"ScoreSaber API being fucky wucky,\nso you get {acc}"
+        songAcc = f"ScoreSaber API being fucky wucky,\nso you get {randint(0, 100)}"
     else:
         songAcc = round((int(Song["score"]) / int(Song["maxScore"])) * 100, 2)
-    rank = Song["rank"]
     if Song["difficulty"] == 9:
         difficulty = "<:ExpertPlus1:794900253156442134><:ExpertPlus2:794900231883063297><:ExpertPlus3:794900212060520448>"
     elif Song["difficulty"] == 7:
@@ -86,61 +94,79 @@ async def songEmbed(ctx, argument, SS_id, scoresaber):
         difficulty = "<:Easy1:794899950713438239><:Easy2:794899950655111186>"
     else:
         difficulty = "Please ping Sirspam thanks uwu"
-    if songSubName == '':
-        title = f"{songName}"
+    if Song["songSubName"] == '':
+        title = Song["songName"]
     else:
-        title = f"{songName} - {songSubName}"
+        title = Song["songName"]+" - "+Song["songSubName"]
     message = discord.Embed(
         title=title,
         url=songBSLink,
-        description=f"**{songAuthorName} - {levelAuthorName}** {difficulty}",
+        description="**"+Song["songAuthorName"]+" - "+Song["levelAuthorName"]+f"** {difficulty}",
         colour=0xffdc1b,
         timestamp=ctx.message.created_at
     )
     message.set_author(
-        name=playerName,
+        name=playerInfo["playerName"],
         url=scoresaber,
         icon_url="https://new.scoresaber.com" +
-        playerInfo["avatar"])
+        playerInfo["avatar"]
+    )
     message.add_field(
         name="Rank <a:PeepoBoing1:792487937056571392><a:PeepoBoing2:792487937257766912><a:PeepoBoing3:792487937044512768>",
-        value=f"#{rank}",
-        inline=False)
+        value="#"+str(Song["rank"]),
+        inline=False
+    )
     message.add_field(
         name="Acc <:WideAcc1:792487936691535893><:WideAcc2:792487936640811028><:WideAcc3:792487936314572811><:WideAcc4:792487936636616826>",
         value=f"{songAcc}%",
-        inline=False)
+        inline=False
+    )
     message.add_field(
         name="Score <:AquaCollapsed1:792487936658243614><:AquaCollapsed2:792487936272367648><:AquaCollapsed3:792487936829816863>",
         value=Song["score"],
-        inline=False)
+        inline=False
+    )
     if Song["pp"] == 0:
         message.add_field(
             name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>",
             value="Unranked",
-            inline=False)
+            inline=False
+    )
     else:
         message.add_field(
             name="PP <a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>",
-            value=round(
-                Song["pp"],
-                2),
-            inline=False)
+            value=round(Song["pp"],2),
+            inline=False
+    )
         message.add_field(
             name="Weighted PP ⚖️<a:BurgerChamp1:792487936703725600><a:BurgerChamp2:792487936280756246><a:BurgerChamp3:792487936679215134><a:BurgerChamp4:792487936771489832>",
             value=round((Song["weight"] * Song["pp"]),2),
-            inline=False)
-    message.add_field(name="Time Set 🕕🕘", value=timeSet[:10], inline=False)
+            inline=False
+    )
+    message.add_field(name="Time Set 🕕🕘", value=(Song["timeSet"])[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/" + Song["songHash"] + ".png")
-    return message
+    await ctx.send(embed=message)
+    logging.info("embed message sent")
 
 
-async def songsEmbed(ctx, argument, SS_id, scoresaber):
-    if argument == "recentSongs":
-        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent")
+async def songsEmbed(self, ctx, arg_page, arg_user, type):
+    if arg_user is not None:
+        ctx.author = await userID(self, arg_user)
+        logging.info(f"Argument given, now {ctx.author.name}")
+    if ctx.author is None:
+        logging.info("ctx.author is None")
+        return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
+    ref = dab.collection("users").document(str(ctx.author.id)).get()
+    scoresaber = ref.get('scoresaber')
+    if scoresaber is None:
+        await ctx.send("Sorry Senpai, that user isn't in my database!")
+        return logging.info("scoresaber is None\n----------")
+    SS_id = scoresaber[25:]
+    if type == "recentSongs":
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent/{arg_page}")
         requestType = ("Recent Songs")
-    elif argument == "topSongs":
-        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top")
+    elif type == "topSongs":
+        URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{arg_page}")
         requestType = ("Top Songs")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
     logging.info(URL+"\n"+URL1)
@@ -153,25 +179,17 @@ async def songsEmbed(ctx, argument, SS_id, scoresaber):
             colour=0xff0000)
         return message
     songsList = json_data["scores"]
-    response = requests.get(URL1, headers=header)
-    json_data = json.loads(response.text)
+    json_data = json.loads(requests.get(URL1, headers=header).text)
     playerInfo = json_data["playerInfo"]
-    playerName = playerInfo["playerName"]
     songsMessage = ""
     count = 0
     while count != len(songsList):
         Song = songsList[count]
-        songName = Song["songName"]
-        songSubName = Song["songSubName"]
-        if songSubName == '':
-            songTitle = f"{songName}"
+        if Song["songSubName"] == '':
+            songTitle = Song["songName"]
         else:
-            songTitle = f"{songName} - {songSubName}"
-        songAuthorName = Song["songAuthorName"]
-        levelAuthorName = Song["levelAuthorName"]
-        rank = Song["rank"]
+            songTitle = Song["songName"]+" - "+Song["songSubName"]
         songScore = Song["score"]
-        timeSet = Song["timeSet"]
         if Song["maxScore"] == 0:
             acc = randint(0, 100)
             songAcc = f"ScoreSaber API being fucky wucky, so you get {acc}"
@@ -197,17 +215,18 @@ async def songsEmbed(ctx, argument, SS_id, scoresaber):
         else:
             difficulty = "Please ping Sirspam thanks uwu"
         songMessage = (
-            f"```Song: {songTitle}, {songAuthorName} - {levelAuthorName} ({difficulty})\nRank: #{rank}\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nWeighted PP: {songWeightedPP}\nTime Set: {timeSet[:10]}```")
+            f"```Song: {songTitle}, "+Song["songAuthorName"]+" - "+Song["levelAuthorName"]+f" ({difficulty})\nRank: #"+str(Song["rank"])+f"\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nWeighted PP: {songWeightedPP}\nTime Set: "+(Song["timeSet"])[:10]+"```")
         songsMessage = songsMessage + songMessage
         count = count + 1
     message = discord.Embed(
-        title=f"{playerName}'s {requestType}",
+        title=playerInfo["playerName"]+f"'s {requestType}",
         url=scoresaber,
         description=songsMessage,
         colour=0xffdc1b,
         timestamp=ctx.message.created_at
     )
-    return message
+    await ctx.send(embed=message)
+    logging.info("embed message sent")
 
 
 class scoresaber(commands.Cog):
@@ -218,7 +237,7 @@ class scoresaber(commands.Cog):
     async def scoresaber(self, ctx, argument1=None):
         logging.info(f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
-            ctx.author = await userID(self, ctx, argument1)
+            ctx.author = await userID(self, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             logging.info(f"Argument given, now {ctx.author.name}")
@@ -246,113 +265,80 @@ class scoresaber(commands.Cog):
             embed.add_field(
                 name="Global Rank 🌐",
                 value=playerInfo["rank"],
-                inline=True)
+                inline=True
+            )
             embed.add_field(
                 name=f"Country Rank :flag_"+playerInfo["country"].lower()+":",
                 value=playerInfo["countryRank"],
-                inline=True)
+                inline=True
+            )
             embed.add_field(
                 name="PP <a:PogLick:792002791828357131>",
                 value=playerInfo["pp"],
-                inline=True)
+                inline=True
+            )
             embed.add_field(
                 name="Ranked Acc <:PeepoAcc:792385194351001610>",
                 value=str(round(scoreStats["averageRankedAccuracy"], 2))+"%",
-                inline=True)
+                inline=True
+            )
             embed.add_field(
                 name="Total Play Count <a:ppJedi:754632378206388315>",
                 value=scoreStats["totalPlayCount"],
-                inline=True)
+                inline=True
+            )
             embed.add_field(
                 name="Ranked Play Count 🧑‍🌾",
                 value=scoreStats["rankedPlayCount"],
-                inline=True)
+                inline=True
+            )
             embed.set_thumbnail(
-                url="https://new.scoresaber.com" + playerInfo["avatar"])
+                url="https://new.scoresaber.com" + playerInfo["avatar"]
+            )
         await ctx.send(embed=embed)
         logging.info("Response: ScoreSaber UserData embed\n----------")
 
     @scoresaber.command(aliases=["rs"])
-    async def recentsong(self, ctx, argument1=None):
+    async def recentsong(self, ctx, argument1=None, argument2=None):
         logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
-        if argument1 is not None:
-            ctx.author = await userID(self, ctx, argument1)
-            if ctx.author is None:
-                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection("users").document(str(ctx.author.id)).get()
-            scoresaber = ref.get('scoresaber')
-            SS_id = scoresaber[25:]
-            argument = "recentSong"
-        await ctx.send(embed=await songEmbed(ctx, argument, SS_id, scoresaber))
-        logging.info("Response: ScoreSaber RecentSong embed\n----------")
+            await songEmbed(self, ctx, argument1, argument2, type="recentSong")
+        logging.info("Finished\n----------")
 
     @scoresaber.command(aliases=["ts"])
-    async def topsong(self, ctx, argument1=None):
+    async def topsong(self, ctx, argument1=1, argument2=None):
         logging.info(f"Recieved >scoresaber topsong {ctx.author.name}")
-        if argument1 is not None:
-            ctx.author = await userID(self, ctx, argument1)
-            if ctx.author is None:
-                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection("users").document(str(ctx.author.id)).get()
-            scoresaber = ref.get('scoresaber')
-            SS_id = scoresaber[25:]
-            argument = "topSong"
-        await ctx.send(embed=await songEmbed(ctx, argument, SS_id, scoresaber))
-        logging.info("Response: ScoreSaber TopSong embed\n----------")
+            await songEmbed(self, ctx, argument1, argument2, type="topSong")
+        logging.info("Finished\n----------")
 
     @scoresaber.command(aliases=["rss"])
-    async def recentsongs(self, ctx, argument1=None):
-        if argument1 is not None:
-            ctx.author = await userID(self, ctx, argument1)
-            if ctx.author is None:
-                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            logging.info(f"Argument given, now {ctx.author.name}")
+    async def recentsongs(self, ctx, argument1=1, argument2=None):
+        logging.info(f"Recieved >scoresaber recentSongs {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection("users").document(str(ctx.author.id)).get()
-            scoresaber = ref.get('scoresaber')
-            if scoresaber is None:
-                await ctx.send("Sorry Senpai, that user isn't in my database!")
-                return logging.info("scoresaber is None\n----------")
-            SS_id = scoresaber[25:]
-            argument = "recentSongs"
-        await ctx.send(embed=await songsEmbed(ctx, argument, SS_id, scoresaber))
-        logging.info("Response: ScoreSaber RecentSongs embed\n----------")
+            await songsEmbed(self, ctx, argument1, argument2, type="recentSongs")
+        logging.info("Response: ScoreSaber recentSongs embed\n----------")
 
     @scoresaber.command(aliases=["tss"])
-    async def topsongs(self, ctx, argument1=None):
-        if argument1 is not None:
-            ctx.author = await userID(self, ctx, argument1)
-            if ctx.author is None:
-                return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            logging.info(f"Argument given, now {ctx.author.name}")
+    async def topsongs(self, ctx, argument1=1, argument2=None):
+        logging.info(f"Recieved >scoresaber topSongs {ctx.author.name}")
         async with ctx.channel.typing():
-            ref = dab.collection("users").document(str(ctx.author.id)).get()
-            scoresaber = ref.get('scoresaber')
-            if scoresaber is None:
-                await ctx.send("Sorry Senpai, that user isn't in my database!")
-                return logging.info("scoresaber is None\n----------")
-            SS_id = scoresaber[25:]
-            argument = "topSongs"
-        await ctx.send(embed=await songsEmbed(ctx, argument, SS_id, scoresaber))
-        logging.info("Response: ScoreSaber TopSongs embed\n----------")
+            await songsEmbed(self, ctx, argument1, argument2, type="topSongs")
+        logging.info("Response: ScoreSaber topSongs embed\n----------")
 
     @scoresaber.command(aliases=["com"])
     async def compare(self, ctx, argument1=None, argument2=None):
         if argument1 is None:
             return await ctx.send("You need to mention someone for me to compare you against!")
         elif argument1 is not None and argument2 is not None:
-            argument1 = await userID(self, ctx, argument1)
+            argument1 = await userID(self, argument1)
             if argument1 is None:
                 return await ctx.send("Sorry Senpai, I can't find the first user qwq")
-            argument2 = await userID(self, ctx, argument2)
+            argument2 = await userID(self, argument2)
             if argument2 is None:
                 return await ctx.send("Sorry Senpai, I can't find the second user qwq")
         elif argument1 is not None and argument2 is None:
-            argument2 = await userID(self, ctx, argument1)
+            argument2 = await userID(self, argument1)
             argument1 = ctx.author
             if argument2 is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")

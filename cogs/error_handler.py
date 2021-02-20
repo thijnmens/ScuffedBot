@@ -12,8 +12,7 @@ class error_handler(commands.Cog):
         logging.info(f"on_command_error triggered")
         if isinstance(error, commands.BadArgument):
             logging.info("BadArgument handler ran\n----------")
-            # ngl I have no clue when this error is invoked but whatever
-            return await ctx.send("Bad argument")
+            return await ctx.send("B-Baka!! You've given a bad argument!!")
 
         elif isinstance(error, commands.CommandNotFound):
             logging.info("CommandNotFound handler ran\n----------")
