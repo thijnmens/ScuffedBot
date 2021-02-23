@@ -58,7 +58,7 @@ class economy(commands.Cog):
                 a = a + 1
         else:
             await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
-        logging.info('Response: Missing item to buy\n----------')
+            logging.info('Response: Missing item to buy\n----------')
     
     @commands.command(case_insensitive=True)
     async def inv(self, ctx):
