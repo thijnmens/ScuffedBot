@@ -1,4 +1,3 @@
-#import discord
 import logging
 from datetime import datetime
 from discord.ext import commands, tasks
