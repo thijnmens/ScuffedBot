@@ -56,6 +56,24 @@ class economy(commands.Cog):
                     else:
                         await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
                 a = a + 1
+        if argument == 'friend':
+            inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+            bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+            inv_len = len(inv)
+            a = 0
+            while a < inv_len:
+                item = str(inv[a]).split('~')
+                if item[0] == 'friend':
+                    if bal > 2750:
+                        count = int(item[1]) + 1
+                        inv[a] = f'friend~{count}'
+                        bal = bal - 2750
+                        dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
+                        await ctx.send(f'Friend has been added to your inv, you now have {count} friends')
+                        logging.info('Response: Friend has been bought\n----------')
+                    else:
+                        await ctx.send(f'I didnt know you where poor master OwO, you need at least 2750 coins, you only have {bal}')
+                a = a + 1
         else:
             await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
             logging.info('Response: Missing item to buy\n----------')
@@ -70,12 +88,12 @@ class economy(commands.Cog):
         inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
         inv_len = len(inv)
         a = 0
-        b = 1
+        print(inv)
+        print(inv_len)
         while a < inv_len:
             item = str(inv[a]).split('~')
-            embed.add_field(name=item[a], value=item[b], inline=False)
+            embed.add_field(name=item[0], value=item[1], inline=False)
             a = a + 1
-            b = b + 1
         embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: inv embed\n----------')
@@ -91,17 +109,21 @@ class economy(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def gib(self, ctx, argument=None, argument2=None):
         logging.info('Recieved: >gib')
-        if '@' in argument:
-                argument = argument.replace('<', '')
-                argument = argument.replace('@', '')
-                argument = argument.replace('!', '')
-                argument = argument.replace('>', '')
-        bal = dab.collection('users').document(argument).get().get('bal')
-        bal = bal + int(argument2)
-        dab.collection('users').document(str(ctx.author.id)).update({'bal': bal})
-        a = str(ctx.guild.get_member(int(argument))).split('#')
-        await ctx.send(f'Given {argument2} Coins to {a[0]}. their total is now {bal}')
-        logging.info('Response: inv embed\n----------')
+        if str(ctx.author.id) != '303017061637160961':
+            if '@' in argument:
+                    argument = argument.replace('<', '')
+                    argument = argument.replace('@', '')
+                    argument = argument.replace('!', '')
+                    argument = argument.replace('>', '')
+            bal = dab.collection('users').document(argument).get().get('bal')
+            bal = bal + int(argument2)
+            dab.collection('users').document(str(ctx.author.id)).update({'bal': bal})
+            a = str(ctx.guild.get_member(int(argument))).split('#')
+            await ctx.send(f'Given {argument2} Coins to {a[0]}. their total is now {bal}')
+            logging.info('Response: inv embed\n----------')
+        else:
+            await ctx.send(f'Fuck you james KEKW')
+            logging.info('Response: james is trying to cheat again...\n----------')
 
 def setup(bot):
     bot.add_cog(economy(bot))
