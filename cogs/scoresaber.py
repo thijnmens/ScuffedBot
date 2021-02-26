@@ -28,11 +28,11 @@ SS_id = None
 # Returns the ID for the user given
 async def userID(self, argument):
     if argument.isdigit():
-        return self.client.get_user(int(argument))
+        return self.bot.get_user(int(argument))
     else:
         ID = argument[3:]
         ID = ID[:-1]
-        return self.client.get_user(int(ID))
+        return self.bot.get_user(int(ID))
 
 # Makes the embed message for topSong and recentSong
 async def songEmbed(self, ctx, arg_page, arg_user, type):
@@ -229,8 +229,8 @@ async def songsEmbed(self, ctx, arg_page, arg_user, type):
 
 
 class scoresaber(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["ss"])
     async def scoresaber(self, ctx, argument1=None):
@@ -414,5 +414,5 @@ class scoresaber(commands.Cog):
         )
         await ctx.send(embed=embed)
 
-def setup(client):
-    client.add_cog(scoresaber(client))
+def setup(bot):
+    bot.add_cog(scoresaber(bot))

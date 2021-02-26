@@ -7,8 +7,8 @@ from firebase_admin import firestore
 dab = firestore.client()
 
 class items(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -32,7 +32,7 @@ class items(commands.Cog):
         if hasitem == True:
             try:
                 sent = await ctx.send('Who do you want to use the gun on?')
-                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                 user = str(msg.content)
                 if '@' in user:
                     user = user.replace('<', '')
@@ -53,5 +53,5 @@ class items(commands.Cog):
             await ctx.send('How are you going to use it if you don\'t even own it?')
             logging.info('Response: no gun in inv\n----------')
 
-def setup(client):
-    client.add_cog(items(client))
+def setup(bot):
+    bot.add_cog(items(bot))

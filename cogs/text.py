@@ -1,26 +1,25 @@
 import discord
 import logging
 from discord.ext import commands
-from discord.utils import get
 
 
 
 class text(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.Cog.listener('on_message')
     async def on_message(self, message):
-        if message.author == self.client.user:
+        if message.author == self.bot.user:
             return
 
     # ping
     @commands.command(case_insensitive=True)
     async def ping(self, ctx):
         logging.info('Recieved: >ping')
-        await ctx.send(f'uwu *notices your ping* <w< ``{round(self.client.latency * 1000)}ms``')
-        logging.info(f'Response: {round(self.client.latency * 1000)}ms\n----------')
-
+        await ctx.send(f'uwu *notices your ping* <w< ``{round(self.bot.latency * 1000)}ms``')
+        logging.info(f'Response: {round(self.bot.latency * 1000)}ms\n----------')
+    
     @commands.command(case_insensitive=True, aliases=["no"])  # Keep this out of the help embed ;)
     @commands.cooldown(1, 600, commands.BucketType.guild)
     async def nope(self, ctx):
@@ -40,5 +39,5 @@ class text(commands.Cog):
         logging.info(f'Response: embed----------')
 
 
-def setup(client):
-    client.add_cog(text(client))
+def setup(bot):
+    bot.add_cog(text(bot))

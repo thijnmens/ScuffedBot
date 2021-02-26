@@ -7,8 +7,8 @@ from random import randint
 dab = firestore.client()
 
 class work(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
     
     @commands.command(invoke_without_command=True, case_insensitive=True)
     @commands.cooldown(1, 3600, commands.BucketType.user)
@@ -61,5 +61,5 @@ class work(commands.Cog):
             await ctx.send('You already have a job senpai!')
             logging.info(f'Response: user {ctx.author.id} already has a job\n----------')
 
-def setup(client):
-    client.add_cog(work(client))
+def setup(bot):
+    bot.add_cog(work(bot))

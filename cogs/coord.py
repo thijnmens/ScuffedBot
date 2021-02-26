@@ -8,8 +8,8 @@ ignored_roles = ["810492978816090173"]
 
 
 class coord(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["coord","c"])
     @commands.has_role(coord_role_id)
@@ -22,7 +22,7 @@ class coord(commands.Cog):
         logging.info("coord mute ran")
         if ctx.author.voice is None:
             return await ctx.send("You aren't in a voice channel!")
-        voice = self.client.get_channel(ctx.author.voice.channel.id)
+        voice = self.bot.get_channel(ctx.author.voice.channel.id)
         logging.info(f"muting in {voice.name}")
         for x in voice.members:
             if x.id == ctx.author.id:
@@ -44,7 +44,7 @@ class coord(commands.Cog):
         logging.info("coord unmute ran")
         if ctx.author.voice is None:
             return await ctx.send("You aren't in a voice channel!")
-        voice = self.client.get_channel(ctx.author.voice.channel.id)
+        voice = self.bot.get_channel(ctx.author.voice.channel.id)
         logging.info(f"unmuting in {voice.name}")
         for x in voice.members:
             await ctx.guild.get_member(x.id).edit(mute=False, deafen=False)
@@ -58,7 +58,7 @@ class coord(commands.Cog):
         logging.info("coord move_in ran")
         if ctx.author.voice is None:
             return await ctx.send("You aren't in a voice channel!")
-        voice = self.client.get_channel(ctx.author.voice.channel.id)
+        voice = self.bot.get_channel(ctx.author.voice.channel.id)
         logging.info(f"Moving players in {voice.name}")
         for x in voice.members:
             if x.id == ctx.author.id:
@@ -67,7 +67,7 @@ class coord(commands.Cog):
             for x in ignored_roles:
                 if x in str(member.roles):
                     continue
-            await member.move_to(self.client.get_channel(lobby_vc_id))
+            await member.move_to(self.bot.get_channel(lobby_vc_id))
             logging.info(f"{x.name} moved")
         await ctx.message.delete()
         logging.info("Finished moving\n-------------")
@@ -90,11 +90,11 @@ class coord(commands.Cog):
                 continue
             logging.info(victim)
             try:
-                await victim.move_to(self.client.get_channel(ctx.author.voice.channel.id))
+                await victim.move_to(self.bot.get_channel(ctx.author.voice.channel.id))
             except Exception as e:
                 logging.info(f"moving of {victim.name} failed: {e}")
         await ctx.message.delete()
         logging.info("Finished moving\n-------------")
 
-def setup(client):
-    client.add_cog(coord(client))
+def setup(bot):
+    bot.add_cog(coord(bot))

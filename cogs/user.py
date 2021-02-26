@@ -10,9 +10,9 @@ dab = firestore.client()
 
 
 class user(commands.Cog):
-    def __init__(self, client):
-        self.client = client
-        self.client.valid_HMD = [
+    def __init__(self, bot):
+        self.bot = bot
+        self.bot.valid_HMD = [
             "CV1",
             "Rift S",
             "Quest",
@@ -28,13 +28,13 @@ class user(commands.Cog):
     async def user(self, ctx, argument=None):
         if argument is not None:
             if argument.isdigit():
-                ctx.author = self.client.get_user(int(argument))
+                ctx.author = self.bot.get_user(int(argument))
                 if ctx.author is None:
                     return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
             else:
                 ID = argument[3:]
                 ID = ID[:-1]
-                ctx.author = self.client.get_user(int(ID))
+                ctx.author = self.bot.get_user(int(ID))
         logging.info(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection("users").document(str(ctx.author.id)).get()
         username = ref.get("username")
@@ -130,7 +130,7 @@ class user(commands.Cog):
         elif argument is None:
             sent = await ctx.send('What is your scoresaber link?')
             try:
-                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
+                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                 scoresaber = msg.content
             except asyncio.TimeoutError:
                 await sent.delete()
@@ -189,7 +189,7 @@ class user(commands.Cog):
             col_ref.remove(str(member.id))
             dab.collection('users').document('collectionlist').update({'array': col_ref})
             dab.collection("users").document(str(member.id)).delete()
-            await self.client.get_channel(754625185306378271).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
+            await self.bot.get_channel(754625185306378271).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
             logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
         except Exception as e:
             logging.error(e)
@@ -290,7 +290,7 @@ class user(commands.Cog):
     @update.command()
     async def hmd(self, ctx, *, argument):
         logging.info(f'Recieved: >user update hmd {ctx.author.name}')
-        valid_HMD_low = [x.lower() for x in self.client.valid_HMD]
+        valid_HMD_low = [x.lower() for x in self.bot.valid_HMD]
         try:
             pos = valid_HMD_low.index(argument.lower()) 
         except:
@@ -298,9 +298,9 @@ class user(commands.Cog):
             return await ctx.send("BAKA!! That HMD isn't valid!\n``Use >help update to check the valid HMDs``")
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
-            'hmd': self.client.valid_HMD[pos]})
-        await ctx.send(f"I've updated Senpai's HMD to {self.client.valid_HMD[pos]}! >w<")
-        logging.info(f"{ctx.author.name} has updated their status to {self.client.valid_HMD[pos]}\n----------")
+            'hmd': self.bot.valid_HMD[pos]})
+        await ctx.send(f"I've updated Senpai's HMD to {self.bot.valid_HMD[pos]}! >w<")
+        logging.info(f"{ctx.author.name} has updated their status to {self.bot.valid_HMD[pos]}\n----------")
 
     @update.command()
     async def pfp(self, ctx, argument):
@@ -335,5 +335,5 @@ class user(commands.Cog):
         logging.info(f"{ctx.author.name} has updated their colour to {argument}\n----------")
 
 
-def setup(client):
-    client.add_cog(user(client))
+def setup(bot):
+    bot.add_cog(user(bot))

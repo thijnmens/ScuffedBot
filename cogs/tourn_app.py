@@ -11,8 +11,8 @@ mod_app_channel = (804322542906638386)
 
 
 class tourn_app(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["app"])
     async def application(self, ctx):
@@ -24,7 +24,7 @@ class tourn_app(commands.Cog):
         if str(ctx.author.id) not in col_ref:
             await ctx.author.send("What is your scoresaber link?")
             try:
-                msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
                 scoresaber = msg.content
             except asyncio.TimeoutError:
                 return await ctx.author.send("You didn't reply in time, please restart the process")
@@ -49,7 +49,7 @@ class tourn_app(commands.Cog):
             new = True
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+            msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
@@ -58,7 +58,7 @@ class tourn_app(commands.Cog):
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+            msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.isdigit():
                 cult_score = int(msg.content)
             else:
@@ -67,7 +67,7 @@ class tourn_app(commands.Cog):
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Can you post the link/links to your gameplay?")
         try:
-            msg = await self.client.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+            msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
             video_link = msg.content
         except asyncio.TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
@@ -124,7 +124,7 @@ class tourn_app(commands.Cog):
             inline=True
         )
         embed.set_thumbnail(url=ctx.author.avatar_url)
-        await self.client.get_channel(mod_app_channel).send(embed=embed)
+        await self.bot.get_channel(mod_app_channel).send(embed=embed)
         await ctx.author.send("Thank you! We'll ping you once we've determined your level")
         logging.info("application finished and sent to #applications\n---------")
 
@@ -135,7 +135,7 @@ class tourn_app(commands.Cog):
         if arg1 or arg2 is None:
             return await ctx.send("args 1 and/or 2 are invalid\n``>app id <application id> <1-7 or decline reason>")
         app_ref = dab.collection("applications").document(str(arg1))
-        app_user = self.client.get_user(app_ref.get("user_id"))
+        app_user = self.bot.get_user(app_ref.get("user_id"))
         if arg2 == "1" or arg2 == "2" or arg2 == "3" or arg2 == "4" or arg2 == "5" or arg2 == "6" or arg2 == "7":
            await ctx.send(f"You're about to give {app_user.name} level {arg2}. Confirm?")
 
@@ -143,5 +143,5 @@ class tourn_app(commands.Cog):
             await ctx.send(f"You're about to decline {app_user.name} with reason: ``{arg2}``. Confirm?")
 
 
-def setup(client):
-    client.add_cog(tourn_app(client))
+def setup(bot):
+    bot.add_cog(tourn_app(bot))

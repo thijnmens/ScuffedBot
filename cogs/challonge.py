@@ -11,9 +11,9 @@ from discord.utils import get
 challonge.set_credentials("ScuffedTourney", os.getenv("CHALLONGEKEY"))
 
 
-class challongeClient(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+class challongebot(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True,case_insensitive=True, aliases=["challenge", "ch"])
     @commands.cooldown(1, 60, commands.BucketType.channel)
@@ -92,5 +92,5 @@ class challongeClient(commands.Cog):
         logging.info("--------")
 
 
-def setup(client):
-    client.add_cog(challongeClient(client))
+def setup(bot):
+    bot.add_cog(challongebot(bot))

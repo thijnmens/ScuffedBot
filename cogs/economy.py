@@ -6,8 +6,8 @@ from firebase_admin import firestore
 dab = firestore.client()
 
 class economy(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["s"])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -103,5 +103,5 @@ class economy(commands.Cog):
         await ctx.send(f'Given {argument2} Coins to {a[0]}. their total is now {bal}')
         logging.info('Response: inv embed\n----------')
 
-def setup(client):
-    client.add_cog(economy(client))
+def setup(bot):
+    bot.add_cog(economy(bot))

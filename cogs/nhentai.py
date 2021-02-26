@@ -33,14 +33,14 @@ async def sauce_embed(sauce):
 
 
 class nhen(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["nh"])
     async def nhentai(self, ctx, *, argument=None):
         logging.info("nhentai ran")
         if not ctx.guild:
-            await self.client.get_channel(754632208257515541).send(f"{ctx.author.name} is being lewd in my DMs! <a:GabiEmbarrased:807384551646560286>")
+            await self.bot.get_channel(754632208257515541).send(f"{ctx.author.name} is being lewd in my DMs! <a:GabiEmbarrased:807384551646560286>")
         if ctx.guild and ctx.channel.is_nsfw() is False:
             logging.info("Ran outside of nsfw channel\n----------")
             return await ctx.send("P-Pervert! <a:LoliTriggered:754632379397570620>")
@@ -57,5 +57,5 @@ class nhen(commands.Cog):
             await ctx.send(embed=await sauce_embed(sauce))
             logging.info("Posted embed\n----------")
 
-def setup(client):
-    client.add_cog(nhen(client))
+def setup(bot):
+    bot.add_cog(nhen(bot))

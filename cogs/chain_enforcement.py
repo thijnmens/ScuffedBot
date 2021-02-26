@@ -18,8 +18,8 @@ async def mute(message, time):
 
 
 class chain_enforcement(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.Cog.listener('on_message')
     async def on_message(self, message):
@@ -36,7 +36,7 @@ class chain_enforcement(commands.Cog):
         chain_multi = dab.collection("users").document(str(message.author.id)).get().get("chain_multi")
         if message.content != current_chain_message:
             logging.info("chain_enforcement triggered")
-            channel = self.client.get_channel(chain_channel)
+            channel = self.bot.get_channel(chain_channel)
             time = float(float(current_chain_length) * 10.0 * chain_multi)
             await channel.send(f'The chain lasted {current_chain_length} messages. {message.author.name} has been muted for {time} seconds!\nThe new chain message is: {message.content}')
             dab.collection(str("chain_data")).document("chain_data").update({
@@ -49,5 +49,5 @@ class chain_enforcement(commands.Cog):
             dab.collection(str("chain_data")).document('chain_data').update({'length': int(current_chain_length + 1)})
         logging.info("chain_enforcement ran\n---------")
 
-def setup(client):
-    client.add_cog(chain_enforcement(client))
+def setup(bot):
+    bot.add_cog(chain_enforcement(bot))

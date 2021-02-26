@@ -4,8 +4,8 @@ from discord.ext import commands
 
 
 class helpClient(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["he"])
@@ -91,7 +91,7 @@ class helpClient(commands.Cog):
             inline=False
         )
         message = ""
-        for x in self.client.valid_HMD:
+        for x in self.bot.valid_HMD:
             message = message + x + ", "
         embed.add_field(
             name="HMD <kwarg>",
@@ -191,5 +191,5 @@ class helpClient(commands.Cog):
         await ctx.send(embed=embed)
 
 
-def setup(client):
-    client.add_cog(helpClient(client))
+def setup(bot):
+    bot.add_cog(helpClient(bot))

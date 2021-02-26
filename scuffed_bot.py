@@ -12,14 +12,13 @@ from utils import jskp
 
 cwd = os.getcwd()
 load_dotenv(f"{cwd}/config.env")
-
-
 intents = discord.Intents.default()
 intents.members = True
-client = commands.Bot(command_prefix=">",intents=intents,case_insensitive=True,allowed_mentions=discord.AllowedMentions(replied_user=False))
-client.remove_command('help')
+bot = commands.Bot(command_prefix=">",intents=intents,case_insensitive=True,allowed_mentions=discord.AllowedMentions(replied_user=False))
+bot.remove_command('help')
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-funniList = [
+
+status_list = [
     "Aso kinda cute 😳",
     "I'm wowking vewy hawd!! uwu",
     "Grinding PP",
@@ -69,7 +68,7 @@ initial_cogs = [
 
 for cog in initial_cogs:
     try:
-        client.load_extension(cog)
+        bot.load_extension(cog)
         logging.info(f"Successfully loaded {cog}")
     except Exception as e:
         logging.error(f"Failed to load cog {cog}: {e}")
@@ -77,16 +76,16 @@ for cog in initial_cogs:
 
 @tasks.loop(hours=1)
 async def status():
-    value = randint(0, len(funniList))
+    value = randint(0, len(status_list))
     value = value - 1
-    await client.change_presence(activity=discord.Game(name=funniList[value]))
-    logging.info(f"Status set to: {funniList[value]}")
+    await bot.change_presence(activity=discord.Game(name=status_list[value]))
+    logging.info(f"Status set to: {status_list[value]}")
 
 # Bot Startup
-@client.event
+@bot.event
 async def on_ready():
-    logging.info('Bot has successfully launched as {0.user}'.format(client))
+    logging.info('Bot has successfully launched as {0.user}'.format(bot))
     status.start()
 
 # Login to discord
-client.run(os.getenv("TOKEN"))
+bot.run(os.getenv("TOKEN"))
