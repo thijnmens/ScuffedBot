@@ -11,6 +11,7 @@ class database(commands.Cog):
         self.bot = bot
 
     @commands.command(case_insensitive=True)
+    @commands.has_permissions(administrator=True)
     async def db(self, ctx, argument0=None, argument1=None, argument2=None):
         if argument0 == 'add' and argument1 == 'inv':
             logging.info("recieved: >db add")
