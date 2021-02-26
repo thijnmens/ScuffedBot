@@ -35,16 +35,16 @@ status_list = [
 
 cred = credentials.Certificate({
     "type": "service_account",
-    "project_id": os.getenv("PROJECT_ID").replace('\\n', '\n'),
-    "private_key_id": os.getenv("PRIVATE_KEY_ID").replace('\\n', '\n'),
+    "project_id": "scuffed-bot",
+    "private_key_id": "0a9e4df141fc09de72b6d06bebf416adef1f2227",
     "private_key": os.getenv("PRIVATE_KEY").replace('\\n', '\n'),
-    "client_email": os.getenv("CLIENT_EMAIL").replace('\\n', '\n'),
-    "client_id": os.getenv("CLIENT_ID").replace('\\n', '\n'),
-    "auth_uri": os.getenv("AUTH_URI").replace('\\n', '\n'),
-    "token_uri": os.getenv("TOKEN_URI").replace('\\n', '\n'),
-    "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL").replace('\\n', '\n'),
-    "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL").replace('\\n', '\n')
-})
+    "client_email": "firebase-adminsdk-cudqh@scuffed-bot.iam.gserviceaccount.com",
+    "client_id": "116271581448704145426",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-cudqh%40scuffed-bot.iam.gserviceaccount.com"
+    })
 default_app = firebase_admin.initialize_app(cred)
 
 initial_cogs = [
