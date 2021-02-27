@@ -18,6 +18,7 @@ class economy(commands.Cog):
             description="Come and see, come and see! We have more then enough scams for you!",
             color=0xff0000)
         embed.add_field(name="<:PixelGun:806977728094928906> Gun", value='1000 Scuffed Coins\n ID: gun', inline=False)
+        embed.add_field(name="<:adult:815178865475321868> Friend", value='2750 Scuffed Coins\n ID: friend', inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
@@ -32,6 +33,20 @@ class economy(commands.Cog):
         embed.add_field(name="Cost", value='1000 Scuffed Coins', inline=False)
         embed.add_field(name="Usable", value='Yes', inline=False)
         embed.add_field(name="Consumable", value='Yes', inline=False)
+        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
+        await ctx.send(embed=embed)
+        logging.info('Response: shop embed\n----------')
+    
+    @shop.group(aliases=["friend"])
+    async def shop_friend(self, ctx):
+        embed = discord.Embed(
+            title="<:adult:815178865475321868> Friend",
+            description="At least you can buy them...",
+            color=0xff0000)
+        embed.add_field(name="Buyable", value='Yes', inline=False)
+        embed.add_field(name="Cost", value='2750 Scuffed Coins', inline=False)
+        embed.add_field(name="Usable", value='no', inline=False)
+        embed.add_field(name="Consumable", value='no', inline=False)
         embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
