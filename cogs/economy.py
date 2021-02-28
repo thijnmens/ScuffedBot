@@ -25,6 +25,7 @@ class economy(commands.Cog):
     
     @shop.group(aliases=["gun"])
     async def shop_gun(self, ctx):
+        logging.info('Recieved: >shop gun') 
         embed = discord.Embed(
             title="<:PixelGun:806977728094928906> Gun",
             description="Are we in texas or something?",
@@ -39,6 +40,7 @@ class economy(commands.Cog):
     
     @shop.group(aliases=["friend"])
     async def shop_friend(self, ctx):
+        logging.info('Recieved: >shop friend') 
         embed = discord.Embed(
             title="<:adult:815178865475321868> Friend",
             description="At least you can buy them...",
@@ -103,8 +105,6 @@ class economy(commands.Cog):
         inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
         inv_len = len(inv)
         a = 0
-        print(inv)
-        print(inv_len)
         while a < inv_len:
             item = str(inv[a]).split('~')
             embed.add_field(name=item[0], value=item[1], inline=False)
