@@ -47,7 +47,7 @@ class items(commands.Cog):
             if(str(user) == str(ctx.author.id)):
                 await ctx.send('WAIT SENPAI, DON\'T DO IT!')
             else:
-                bala = int(dab.collection('users').document(str(user)).get().get('bal'))
+                bala = int(dab.collection('users').document(str(ctx.author.id)).get().get('bal'))
                 balb = int(dab.collection('users').document(str(user)).get().get('bal'))
                 rand = randint(1, 10)
                 a = str(ctx.guild.get_member(int(ctx.author.id))).split('#')
