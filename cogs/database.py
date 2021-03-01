@@ -36,7 +36,7 @@ class database(commands.Cog):
             while (count <= amount):
                 try:
                     ID = ref[count]
-                    inv = dab.collection('users').document(str(ID)).set({f'{argument1}': argument2})
+                    inv = dab.collection('users').document(str(ID)).update({f'{argument1}': argument2})
                 except Exception as e:
                     logging.error(e)
                 count = count + 1
