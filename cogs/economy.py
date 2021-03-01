@@ -117,7 +117,8 @@ class economy(commands.Cog):
     async def bal(self, ctx):
         logging.info('Recieved: >bal')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
-        await ctx.send(f'You have {bal} Scuffed Coins')
+        bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
+        await ctx.send(f'You have {bal} Scuffed Coins in your wallet and {bank} Coins in your bank')
         logging.info(f'Response: {ctx.author} has a bal of {bal} \n----------')
     
     @commands.command(case_insensitive=True)

@@ -148,7 +148,8 @@ class user(commands.Cog):
             'chain_multi': 0,
             'username': ctx.author.name,
             'scoresaber': scoresaber,
-            'bal': 666,
+            'bal': 0,
+            'bank': 666,
             'inv': ['gun~0', 'friend~0']
         })
         try:
