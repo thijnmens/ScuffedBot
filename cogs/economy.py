@@ -63,7 +63,7 @@ class economy(commands.Cog):
             while a < inv_len:
                 item = str(inv[a]).split('~')
                 if item[0] == 'gun':
-                    if bal > 1000:
+                    if bal >= 1000:
                         count = int(item[1]) + 1
                         inv[a] = f'gun~{count}'
                         bal = bal - 1000
@@ -81,7 +81,7 @@ class economy(commands.Cog):
             while a < inv_len:
                 item = str(inv[a]).split('~')
                 if item[0] == 'friend':
-                    if bal > 2750:
+                    if bal >= 2750:
                         count = int(item[1]) + 1
                         inv[a] = f'friend~{count}'
                         bal = bal - 2750
