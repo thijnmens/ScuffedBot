@@ -283,7 +283,7 @@ class user(commands.Cog):
             logging.warning("Birthday legitimacy triggered, date and/or month invalid")
             return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
         elif storer[2]:
-            if int(storer[2]) > 9999:
+            if int(len(storer[2])) > 4 or int(len(storer[2])) <= 3:
                 logging.warning("Birthday legitmacy triggered, year invalid")
                 return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate year, or don't include one``")
         doc_ref = dab.collection("users").document(str(ctx.author.id))
