@@ -73,7 +73,7 @@ class economy(commands.Cog):
                     else:
                         await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
                 a = a + 1
-        if argument == 'friend':
+        elif argument == 'friend':
             inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
             bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
             inv_len = len(inv)

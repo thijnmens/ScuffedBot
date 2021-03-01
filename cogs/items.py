@@ -68,6 +68,7 @@ class items(commands.Cog):
                     balb = balb + money
                     dab.collection('users').document(str(ctx.author.id)).update({'bal': bala})
                     dab.collection('users').document(str(user)).update({'bal': balb})
+                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv})
                     await ctx.send(f'{a[0]} tried to kill {b[0]} with a gun, but they missed and {a[0]} was arrested\n{b[0]} earned {money} coins and {a[0]} lost their gun')
                     logging.info(f'Response: {ctx.author.id} tried to kill {user}\n----------')
                 else:
@@ -76,7 +77,6 @@ class items(commands.Cog):
                     balb = balb - money
                     dab.collection('users').document(str(ctx.author.id)).update({'bal': bala})
                     dab.collection('users').document(str(user)).update({'bal': balb})
-                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv})
                     await ctx.send(f'{a[0]} killed {b[0]} using a gun\n{a[0]} found {money} coins in their wallet')
                     logging.info(f'Response: {ctx.author.id} killed {user}\n----------')
         else:

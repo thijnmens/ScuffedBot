@@ -1,5 +1,4 @@
-import math
-import logging
+import math, logging, datetime
 from discord.ext import commands
 
 
@@ -28,7 +27,8 @@ class error_handler(commands.Cog):
 
         elif isinstance(error, commands.CommandOnCooldown):
             logging.info("CommandOnCooldown handler ran\n----------")
-            return await ctx.send(f"S-Senpai, I'm cooling down! O//w//O\nplease wait {math.ceil(error.retry_after)} seconds uwu")
+            date = str(datetime.timedelta(seconds=math.ceil(error.retry_after))).split(':')
+            return await ctx.send(f"S-Senpai, I'm cooling down! O//w//O\nplease wait {date[0]} hours, {date[1]} minutes and {date[2]} seconds uwu")
 
         elif isinstance(error, commands.MissingRequiredArgument):
             logging.info("MissingRequiredArgument handler ran\n----------")
