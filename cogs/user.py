@@ -282,15 +282,16 @@ class user(commands.Cog):
         if(storer[1] > 12 or storer[1] < 1 or storer[0] > 31 or storer[0] < 1):
             logging.warning("Birthday legitimacy triggered, date and/or month invalid")
             return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
-        elif storer[2]:
+        try: 
             if int(len(storer[2])) > 4 or int(len(storer[2])) <= 3:
                 logging.warning("Birthday legitmacy triggered, year invalid")
                 return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate year, or don't include one``")
-        doc_ref = dab.collection("users").document(str(ctx.author.id))
-        doc_ref.update({
-            'birthday': argument})
-        await ctx.send(f"I've updated Senpai's birthday to {argument}! >w<")
-        logging.info(f"{ctx.author.name} has updated their birthday to {argument}\n----------")
+        except IndexError:
+            doc_ref = dab.collection("users").document(str(ctx.author.id))
+            doc_ref.update({
+                'birthday': argument})
+            await ctx.send(f"I've updated Senpai's birthday to {argument}! >w<")
+            logging.info(f"{ctx.author.name} has updated their birthday to {argument}\n----------")
 
     @update.command()
     async def hmd(self, ctx, *, argument):
