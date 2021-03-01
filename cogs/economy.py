@@ -120,6 +120,50 @@ class economy(commands.Cog):
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         await ctx.send(f'You have {bal} Scuffed Coins in your wallet and {bank} Coins in your bank')
         logging.info(f'Response: {ctx.author} has a bal of {bal} \n----------')
+
+    @commands.command(case_insensitive=True, aliases=["dep"])
+    async def deposit(self, ctx, argument=None):
+        logging.info('Recieved: >deposit')
+        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+        bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
+        if argument =='all':
+            bank = bank + bal
+            bal = 0
+            dab.collection('users').document(str(ctx.author.id)).update({'bal': bal, 'bank': bank})
+            await ctx.send(f'Wallet: {bal}\nBank: {bank}')
+            logging.info(f'Response: {ctx.author} transferred all to bank \n----------')
+        else:
+            if int(argument) > bal:
+                await ctx.send(f'You don\'t have enough money in your wallet to do that!')
+                logging.info(f'Response: {ctx.author} did not have enough money\n----------')
+            else:
+                bank = bank + int(argument)
+                bal = bal - int(argument)
+                dab.collection('users').document(str(ctx.author.id)).update({'bal': bal, 'bank': bank})
+                await ctx.send(f'Wallet: {bal}\nBank: {bank}')
+                logging.info(f'Response: {ctx.author} transferred {argument} to bank \n----------')
+    
+    @commands.command(case_insensitive=True, aliases=["with"])
+    async def withdraw(self, ctx, argument=None):
+        logging.info('Recieved: >withdraw')
+        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+        bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
+        if argument =='all':
+            bal = bal + bank
+            bank = 0
+            dab.collection('users').document(str(ctx.author.id)).update({'bal': bal, 'bank': bank})
+            await ctx.send(f'Wallet: {bal}\nBank: {bank}')
+            logging.info(f'Response: {ctx.author} transferred all to bal \n----------')
+        else:
+            if int(argument) > bank:
+                await ctx.send(f'You don\'t have enough money in your bank to do that!')
+                logging.info(f'Response: {ctx.author} did not have enough money\n----------')
+            else:
+                bal = bal + int(argument)
+                bank = bank - int(argument)
+                dab.collection('users').document(str(ctx.author.id)).update({'bal': bal, 'bank': bank})
+                await ctx.send(f'Wallet: {bal}\nBank: {bank}')
+                logging.info(f'Response: {ctx.author} transferred {argument} to wallet \n----------')
     
     @commands.command(case_insensitive=True)
     @commands.has_permissions(administrator=True)
