@@ -77,6 +77,7 @@ for cog in initial_cogs:
 
 @tasks.loop(hours=1)
 async def status():
+    await bot.wait_until_ready()
     value = randint(0, len(status_list))
     value = value - 1
     await bot.change_presence(activity=discord.Game(name=status_list[value]))
