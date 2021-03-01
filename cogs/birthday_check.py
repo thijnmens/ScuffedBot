@@ -38,14 +38,14 @@ class birthday_check(commands.Cog):
                     birthdayfinal = birthdaysplit[0] + '-' + birthdaysplit[1]
                 except Exception:
                     birthdayfinal = '32/13'
-                a = dab.collection("users").document(str(ID)).get().get('a')
+                a = dab.collection("users").document(str(ID)).get().get('wished')
                 if(birthdayfinal == current_time):
                     if(a == False):
                         await self.bot.get_channel(793049781554642954).send(f'<a:HyperTada:796323264888307731> Happy birthday <@!{ID}>! <a:HyperTada:796323264888307731>')
                         logging.info(f'Wished {ID} a happy birthday')
-                        dab.collection("users").document(str(ID)).update({'a': True})
+                        dab.collection("users").document(str(ID)).update({'wished': True})
                 elif birthdayfinal != current_time and a == True:
-                    dab.collection("users").document(str(ID)).update({'a': False})
+                    dab.collection("users").document(str(ID)).update({'wished': False})
                     logging.info(f'Set {ID} a to False')
             except Exception as e:
                 logging.error(e)

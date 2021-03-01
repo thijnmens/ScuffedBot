@@ -144,7 +144,7 @@ class user(commands.Cog):
             scoresaber = scoresaber.split("&", 1)[0]
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.set({
-            'a': False,
+            'wished': False,
             'chain_multi': 0,
             'username': ctx.author.name,
             'scoresaber': scoresaber,
