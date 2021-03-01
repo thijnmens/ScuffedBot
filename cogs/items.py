@@ -12,14 +12,13 @@ class items(commands.Cog):
         self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True)
-    @commands.cooldown(1, 600, commands.BucketType.user)
     async def use(self, ctx, argument=None):
         logging.info('Recieved: >use')
         await ctx.send('What do you want to use senpai?')
         logging.info('Response: missing arguments\n----------')
     
     @use.group(aliases=["gun"])
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 600, commands.BucketType.user)
     async def use_gun(self, ctx):
         logging.info('Recieved: >use gun')
         inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
@@ -49,11 +48,18 @@ class items(commands.Cog):
             else:
                 bala = int(dab.collection('users').document(str(ctx.author.id)).get().get('bal'))
                 balb = int(dab.collection('users').document(str(user)).get().get('bal'))
+                inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
                 rand = randint(1, 10)
                 a = str(ctx.guild.get_member(int(ctx.author.id))).split('#')
                 b = str(ctx.guild.get_member(int(user))).split('#')
+                inv_len = len(inv)
+                c = 0
+                while c < inv_len:
+                    item = str(inv[c]).split('~')
+                    if item[0] == 'friend' and int(item[1]) > 0:
+                        rand = 11
+                    c = c + 1
                 if rand <= 3:
-                    inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
                     money = randint(0, (round(bala/2, 0)))
                     inv_len = len(inv)
                     c = 0
@@ -70,6 +76,23 @@ class items(commands.Cog):
                     dab.collection('users').document(str(user)).update({'bal': balb})
                     dab.collection('users').document(str(ctx.author.id)).update({'inv': inv})
                     await ctx.send(f'{a[0]} tried to kill {b[0]} with a gun, but they missed and {a[0]} was arrested\n{b[0]} earned {money} coins and {a[0]} lost their gun')
+                    logging.info(f'Response: {ctx.author.id} tried to kill {user}\n----------')
+                elif rand == 11:
+                    money = randint(0, (round(bala/2, 0)))
+                    inv_len = len(inv)
+                    c = 0
+                    while c < inv_len:
+                        item = str(inv[c]).split('~')
+                        if item[0] == 'friend':
+                            count = int(item[1]) - 1
+                            inv[c] = f'friend~{count}'
+                        c = c + 1
+                    bala = bala - money
+                    balb = balb + money
+                    dab.collection('users').document(str(ctx.author.id)).update({'bal': bala})
+                    dab.collection('users').document(str(user)).update({'bal': balb})
+                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv})
+                    await ctx.send(f'{a[0]} tried to kill {b[0]} with a gun, but their friend stopped them and handed them over to the police\n{b[0]} earned {money} coins and {a[0]} lost their gun')
                     logging.info(f'Response: {ctx.author.id} tried to kill {user}\n----------')
                 else:
                     money = randint(0, (round(balb/2, 0)))
