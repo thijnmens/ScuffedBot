@@ -279,9 +279,13 @@ class user(commands.Cog):
         storer = argument.split('/')
         storer[0] = int(storer[0])
         storer[1] = int(storer[1])
-        if(storer[1] > 12 or storer[1] < 1 or storer[0] > 31 or storer[0] < 1 or storer[3] and storer[3] > 9999):
-            logging.warning("Birthday legitimacy triggered")
+        if(storer[1] > 12 or storer[1] < 1 or storer[0] > 31 or storer[0] < 1):
+            logging.warning("Birthday legitimacy triggered, date and/or month invalid")
             return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
+        elif storer[2]:
+            if int(storer[2]) > 9999:
+                logging.warning("Birthday legitmacy triggered, year invalid")
+                return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate year, or don't include one``")
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'birthday': argument})
@@ -306,6 +310,9 @@ class user(commands.Cog):
     @update.command()
     async def pfp(self, ctx, argument):
         logging.info(f"Recieved: >user update pfp {ctx.author.name}")
+        if argument[:4] != "http":
+            logging.warning(f"Argument is not a link ({argument})")
+            return await ctx.send("Baka! You can only use links for your profile picture!")
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'pfp': argument})
