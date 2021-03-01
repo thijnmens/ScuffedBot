@@ -279,7 +279,7 @@ class user(commands.Cog):
         storer = argument.split('/')
         storer[0] = int(storer[0])
         storer[1] = int(storer[1])
-        if(storer[1] > 12 or storer[1] < 1 or storer[0] > 31 or storer[0] < 1):
+        if(storer[1] > 12 or storer[1] < 1 or storer[0] > 31 or storer[0] < 1 or storer[3] and storer[3] > 9999):
             logging.warning("Birthday legitimacy triggered")
             return await ctx.send("B-Baka!! that date doesn't make any sense!\n``Please use a legitimate date``")
         doc_ref = dab.collection("users").document(str(ctx.author.id))
