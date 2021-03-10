@@ -43,10 +43,10 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
         logging.info("ctx.author is None")
         return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
     ref = dab.collection("users").document(str(ctx.author.id)).get()
-    scoresaber = ref.get('scoresaber')
-    if scoresaber is None:
+    if ref.exists is False:
         await ctx.send("Sorry Senpai, that user isn't in my database!")
         return logging.info("scoresaber is None")
+    scoresaber = ref.get('scoresaber')
     SS_id = scoresaber[25:]
     page = (arg_page / 8)
     if page.is_integer() is False:
@@ -156,10 +156,10 @@ async def songsEmbed(self, ctx, arg_page, arg_user, type):
         logging.info("ctx.author is None")
         return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
     ref = dab.collection("users").document(str(ctx.author.id)).get()
-    scoresaber = ref.get('scoresaber')
-    if scoresaber is None:
+    if ref.exists is False:
         await ctx.send("Sorry Senpai, that user isn't in my database!")
         return logging.info("scoresaber is None\n----------")
+    scoresaber = ref.get('scoresaber')
     SS_id = scoresaber[25:]
     if type == "recentSongs":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/recent/{arg_page}")
@@ -242,10 +242,10 @@ class scoresaber(commands.Cog):
             logging.info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
-            scoresaber = ref.get('scoresaber')
-            if scoresaber is None:
+            if ref.exists is False:
                 await ctx.send("Sorry Senpai, that user isn't in my database!")
                 return logging.info("scoresaber is None\n----------")
+            scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
             logging.info(URL)
@@ -344,11 +344,11 @@ class scoresaber(commands.Cog):
         async with ctx.channel.typing():
             user1 = dab.collection("users").document(str(argument1.id)).get()
             user2 = dab.collection("users").document(str(argument2.id)).get()
-            scoresaber1 = user1.get('scoresaber')
-            scoresaber2 = user2.get('scoresaber')
-            if scoresaber1 is None or scoresaber2 is None:
+            if user1.exists is False or user2.exists is False:
                 await ctx.send("Sorry Senpai, that user isn't in my database!")
                 return logging.info("scoresaber is None\n----------")
+            scoresaber1 = user1.get('scoresaber')
+            scoresaber2 = user2.get('scoresaber')
             SS_id1 = scoresaber1[25:]
             SS_id2 = scoresaber2[25:]
         URL1 = (f"https://new.scoresaber.com/api/player/{SS_id1}/full")

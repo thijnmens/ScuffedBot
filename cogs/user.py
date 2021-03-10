@@ -37,13 +37,13 @@ class user(commands.Cog):
                 ctx.author = self.bot.get_user(int(ID))
         logging.info(f'Recieved: >user {ctx.author.name}')
         ref = dab.collection("users").document(str(ctx.author.id)).get()
-        username = ref.get("username")
-        if username is None:
+        if ref.exists is False:
             logging.info(f"User not found")
             if argument is None:
                 return await ctx.send("You're not in my database, Senpai! qwq\nYou should use ``>user add`` <w<")
             elif argument is not None:
                 return await ctx.send("That person isn't in my database qwq")
+        username = ref.get("username")
         scoresaber = ref.get("scoresaber")
         try:
             steam = ref.get("steam")
