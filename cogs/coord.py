@@ -11,7 +11,12 @@ class coord(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(case_insensitive=True, aliases=["m"], help="Mutes users in your vc. alias = m")
+    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["coord","c"])
+    @commands.has_any_role(*coord_roles_ids)
+    async def coordinator(self, ctx):
+        await ctx.send("Hi coordinator-kun ^w^")
+    
+    @coordinator.command(case_insensitive=True, aliases=["m"], help="Mutes users in your vc. alias = m")
     @commands.has_any_role(*coord_roles_ids)
     async def mute(self, ctx):
         logging.info("coord mute ran")
@@ -34,7 +39,7 @@ class coord(commands.Cog):
         await ctx.message.delete()
         logging.info("Finished muting\n-------------")
 
-    @commands.command(case_insensitive=True, aliases=["um"])
+    @coordinator.command(case_insensitive=True, aliases=["um"])
     @commands.has_any_role(*coord_roles_ids)
     async def unmute(self, ctx):
         logging.info("coord unmute ran")
@@ -50,7 +55,7 @@ class coord(commands.Cog):
         await ctx.message.delete()
         logging.info("Finished unmuting\n-------------")
     
-    @commands.command(case_insensitive=True, aliases=["mout"])
+    @coordinator.command(case_insensitive=True, aliases=["mout"])
     @commands.has_any_role(*coord_roles_ids)
     async def move_out(self, ctx):
         logging.info("coord move_in ran")
@@ -73,7 +78,7 @@ class coord(commands.Cog):
         await ctx.message.delete()
         logging.info("Finished moving\n-------------")
 
-    @commands.command(case_insensitive=True, aliases=["min"])
+    @coordinator.command(case_insensitive=True, aliases=["min"])
     @commands.has_any_role(*coord_roles_ids)
     async def move_in(self, ctx, *, argument):
         logging.info("coord move_in ran")
