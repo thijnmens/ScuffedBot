@@ -45,26 +45,32 @@ class user(commands.Cog):
                 return await ctx.send("That person isn't in my database qwq")
         username = ref.get("username")
         scoresaber = ref.get("scoresaber")
+        links_Message = f"[Scoresaber]({scoresaber}) "
         try:
             steam = ref.get("steam")
+            links_Message = links_Message + f"| [Steam]({steam}) "
         except BaseException:
-            steam = None
+            True
         try:
             twitch = ref.get("twitch")
+            links_Message = links_Message + f"| [Twitch]({twitch}) "
         except BaseException:
-            twitch = None
+            True
         try:
             youtube = ref.get("youtube")
+            links_Message = links_Message + f"| [Youtube]({youtube}) "
         except BaseException:
-            youtube = None
+            True
         try:
             twitter = ref.get("twitter")
+            links_Message = links_Message + f"| [Twitter]({twitter}) "
         except BaseException:
-            twitter = None
+            True
         try:
             reddit = ref.get("reddit")
+            links_Message = links_Message + f"| [Reddit]({reddit}) "
         except BaseException:
-            reddit = None
+            True
         try:
             hmd = ref.get("hmd")
         except BaseException:
@@ -83,17 +89,6 @@ class user(commands.Cog):
             status = None
         # try:
         #   this on for size, Mister
-        links_Message = f"[Scoresaber]({scoresaber}) "
-        if steam is not None:
-            links_Message = links_Message + f"| [Steam]({steam}) "
-        if twitch is not None:
-            links_Message = links_Message + f"| [Twitch]({twitch}) "
-        if youtube is not None:
-            links_Message = links_Message + f"| [Youtube]({youtube}) "
-        if twitter is not None:
-            links_Message = links_Message + f"| [Twitter]({twitter}) "
-        if reddit is not None:
-            links_Message = links_Message + f"| [Reddit]({reddit}) "
         try:
             colourRaw = ref.get("colour")
             colour = await commands.ColourConverter().convert(ctx, colourRaw)
