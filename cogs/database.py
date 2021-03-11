@@ -1,8 +1,6 @@
 import logging
 from discord.ext import commands
-from discord.utils import get
 from firebase_admin import firestore
-from random import randint
 
 dab = firestore.client()
 

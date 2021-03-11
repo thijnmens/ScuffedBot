@@ -12,7 +12,7 @@ class items(commands.Cog):
         self.bot = bot
 
     @commands.group(invoke_without_command=True, case_insensitive=True)
-    async def use(self, ctx, argument=None):
+    async def use(self, ctx):
         logging.info('Recieved use')
         await ctx.send('What do you want to use senpai?')
         logging.info('Response: missing arguments\n----------')
@@ -36,10 +36,8 @@ class items(commands.Cog):
                 msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.channel == ctx.channel)
                 user = str(msg.content)
                 if '@' in user:
-                    user = user.replace('<', '')
-                    user = user.replace('@', '')
-                    user = user.replace('!', '')
-                    user = user.replace('>', '')
+                    user = user[3:]
+                    user = user[:-1]
             except asyncio.TimeoutError:
                 await sent.delete()
                 return await ctx.send("You didn't reply in time, please restart the process")

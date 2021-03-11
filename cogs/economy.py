@@ -1,6 +1,5 @@
 import discord, logging
 from discord.ext import commands
-from discord.utils import get
 from firebase_admin import firestore
 
 dab = firestore.client()
@@ -19,11 +18,10 @@ class economy(commands.Cog):
             color=0xff0000)
         embed.add_field(name="<:PixelGun:806977728094928906> Gun", value='1000 Scuffed Coins\n ID: gun', inline=False)
         embed.add_field(name="<:adult:815178865475321868> Friend", value='2750 Scuffed Coins\n ID: friend', inline=False)
-        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
     
-    @shop.group(aliases=["gun"])
+    @shop.command(case_insensitive=True, aliases=["gun"])
     async def shop_gun(self, ctx):
         logging.info('Recieved shop gun') 
         embed = discord.Embed(
@@ -34,11 +32,10 @@ class economy(commands.Cog):
         embed.add_field(name="Cost", value='1000 Scuffed Coins', inline=False)
         embed.add_field(name="Usable", value='Yes', inline=False)
         embed.add_field(name="Consumable", value='Yes', inline=False)
-        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
     
-    @shop.group(aliases=["friend"])
+    @shop.command(case_insensitive=True, aliases=["friend"])
     async def shop_friend(self, ctx):
         logging.info('Recieved shop friend') 
         embed = discord.Embed(
@@ -49,54 +46,56 @@ class economy(commands.Cog):
         embed.add_field(name="Cost", value='2750 Scuffed Coins', inline=False)
         embed.add_field(name="Usable", value='no', inline=False)
         embed.add_field(name="Consumable", value='no', inline=False)
-        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: shop embed\n----------')
     
-    @shop.group()
+    @shop.group(invoke_without_command=True, case_insensitive=True)
     async def buy(self, ctx, argument=None):
-        if argument == 'gun':
-            inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
-            bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
-            inv_len = len(inv)
-            a = 0
-            while a < inv_len:
-                item = str(inv[a]).split('~')
-                if item[0] == 'gun':
-                    if bal >= 1000:
-                        count = int(item[1]) + 1
-                        inv[a] = f'gun~{count}'
-                        bal = bal - 1000
-                        dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
-                        await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
-                        logging.info('Response: Gun has been bought\n----------')
-                    else:
-                        await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
-                a = a + 1
-        elif argument == 'friend':
-            inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
-            bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
-            inv_len = len(inv)
-            a = 0
-            while a < inv_len:
-                item = str(inv[a]).split('~')
-                if item[0] == 'friend':
-                    if bal >= 2750:
-                        count = int(item[1]) + 1
-                        inv[a] = f'friend~{count}'
-                        bal = bal - 2750
-                        dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
-                        await ctx.send(f'Friend has been added to your inv, you now have {count} friends')
-                        logging.info('Response: Friend has been bought\n----------')
-                    else:
-                        await ctx.send(f'I didnt know you where poor master OwO, you need at least 2750 coins, you only have {bal}')
-                a = a + 1
-        else:
-            await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
-            logging.info('Response: Missing item to buy\n----------')
+        await ctx.send('Even i don\'t get what you are trying to buy master OwO?')
+        logging.info('Response: Missing item to buy\n----------')
+
+    @buy.command(case_insensitive=True, aliases=["gun"])
+    async def buy_gun(self, ctx):
+        inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+        inv_len = len(inv)
+        a = 0
+        while a < inv_len:
+            item = str(inv[a]).split('~')
+            if item[0] == 'gun':
+                if bal >= 1000:
+                    count = int(item[1]) + 1
+                    inv[a] = f'gun~{count}'
+                    bal = bal - 1000
+                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
+                    await ctx.send(f'Gun has been added to your inv, you now own {count} guns')
+                    logging.info('Response: Gun has been bought\n----------')
+                else:
+                    await ctx.send(f'I didnt know you where poor master OwO, you need at least 1000 coins, you only have {bal}')
+            a = a + 1
+        
+    @buy.command(case_insensitive=True, aliases=["friend"])
+    async def buy_friend(self, ctx):
+        inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
+        bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
+        inv_len = len(inv)
+        a = 0
+        while a < inv_len:
+            item = str(inv[a]).split('~')
+            if item[0] == 'friend':
+                if bal >= 2750:
+                    count = int(item[1]) + 1
+                    inv[a] = f'friend~{count}'
+                    bal = bal - 2750
+                    dab.collection('users').document(str(ctx.author.id)).update({'inv': inv, 'bal': bal})
+                    await ctx.send(f'Friend has been added to your inv, you now have {count} friends')
+                    logging.info('Response: Friend has been bought\n----------')
+                else:
+                    await ctx.send(f'I didnt know you where poor master OwO, you need at least 2750 coins, you only have {bal}')
+            a = a + 1
     
-    @commands.command(case_insensitive=True)
-    async def inv(self, ctx):
+    @commands.command(case_insensitive=True, aliases=["inv"])
+    async def inventory(self, ctx):
         logging.info('Recieved inv')
         embed = discord.Embed(
             title=f"Inventory of {ctx.author}",
@@ -122,7 +121,7 @@ class economy(commands.Cog):
         logging.info(f'Response: {ctx.author} has a bal of {bal} \n----------')
 
     @commands.command(case_insensitive=True, aliases=["dep"])
-    async def deposit(self, ctx, argument=None):
+    async def deposit(self, ctx, argument):
         logging.info('Recieved deposit')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
@@ -144,7 +143,7 @@ class economy(commands.Cog):
                 logging.info(f'Response: {ctx.author} transferred {argument} to bank \n----------')
     
     @commands.command(case_insensitive=True, aliases=["with"])
-    async def withdraw(self, ctx, argument=None):
+    async def withdraw(self, ctx, argument):
         logging.info('Recieved withdraw')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
@@ -167,22 +166,20 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True)
     @commands.has_permissions(administrator=True)
-    async def gib(self, ctx, argument=None, argument2=None):
+    async def gib(self, ctx, argument, argument2: int):
         logging.info('Recieved gib')
         if str(ctx.author.id) != '303017061637160961':
             if '@' in argument:
-                    argument = argument.replace('<', '')
-                    argument = argument.replace('@', '')
-                    argument = argument.replace('!', '')
-                    argument = argument.replace('>', '')
+                argument = argument[3:]
+                argument = argument[:-1]
             bal = dab.collection('users').document(argument).get().get('bal')
             bal = bal + int(argument2)
-            dab.collection('users').document(str(ctx.author.id)).update({'bal': bal})
-            a = str(ctx.guild.get_member(int(argument))).split('#')
-            await ctx.send(f'Given {argument2} Coins to {a[0]}. their total is now {bal}')
+            dab.collection('users').document(argument).update({'bal': bal})
+            a = ctx.guild.get_member(int(argument))
+            await ctx.send(f'Given {argument2} Coins to {a.name}. their total is now {bal}')
             logging.info('Response: inv embed\n----------')
         else:
-            await ctx.send(f'Fuck you james KEKW')
+            await ctx.send(f'Fuck you james <:KEK:819309467208122388>')
             logging.info('Response: james is trying to cheat again...\n----------')
 
 def setup(bot):
