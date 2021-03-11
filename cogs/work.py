@@ -13,7 +13,7 @@ class work(commands.Cog):
     @commands.command(invoke_without_command=True, case_insensitive=True)
     @commands.cooldown(1, 3600, commands.BucketType.user)
     async def work(self, ctx):
-        logging.info('Recieved: >work')
+        logging.info('Recieved work')
         try:
             job = dab.collection('users').document(str(ctx.author.id)).get().get('job')
         except:
@@ -32,7 +32,7 @@ class work(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True)
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def job(self, ctx):
-        logging.info('Recieved: >job')
+        logging.info('Recieved job')
         try:
             job = dab.collection('users').document(str(ctx.author.id)).get().get('job')
         except:
@@ -48,7 +48,7 @@ class work(commands.Cog):
     @job.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def get(self, ctx):
-        logging.info('Recieved: >job get')
+        logging.info('Recieved job get')
         try:
             job = dab.collection('users').document(str(ctx.author.id)).get().get('job')
         except:

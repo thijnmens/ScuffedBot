@@ -16,7 +16,7 @@ class text(commands.Cog):
     # ping
     @commands.command(case_insensitive=True)
     async def ping(self, ctx):
-        logging.info('Recieved: >ping')
+        logging.info('Recieved ping')
         await ctx.send(f'uwu *notices your ping* <w< ``{round(self.bot.latency * 1000)}ms``')
         logging.info(f'Response: {round(self.bot.latency * 1000)}ms\n----------')
     
@@ -29,7 +29,7 @@ class text(commands.Cog):
 
     @commands.command(case_insensitive=True)
     async def links(self, ctx):
-        logging.info('Recieved: >links')
+        logging.info('Recieved links')
         embed = discord.Embed(
             title="Important Scuffed Links",
             description="[Discord](https://discord.gg/4bF8JAGeB3) | [Twitch](https://www.twitch.tv/scuffedtourneys) | [Challonge](https://challonge.com/users/scuffedtourney/tournaments) | [Scuffed Bot Repo](https://github.com/thijnmens/ScuffedBot)\n[BeatKhana!](https://beatkhana.com/) (since we're there sometimes)",

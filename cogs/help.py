@@ -10,7 +10,7 @@ class helpClient(commands.Cog):
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["he"])
     async def help(self, ctx):
-        logging.info('Recieved: >help ')
+        logging.info('Recieved help ')
         embed = discord.Embed(
             title="Help",
             description="``<text> is a mandatory argument while [text] is an optional argument``",
@@ -77,7 +77,7 @@ class helpClient(commands.Cog):
     async def update(self, ctx):
         embed = discord.Embed(
             title="Help User Update",
-            description="These are the valid fields for >user update <field> <kwarg>",
+            description="These are the valid fields for >user update <field> <kwarg>\nAny of these can be removed with ``user remove <field>``",
             color=0xff0000
         )
         embed.add_field(

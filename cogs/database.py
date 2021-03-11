@@ -13,7 +13,7 @@ class database(commands.Cog):
     @commands.command(case_insensitive=True)
     @commands.has_permissions(administrator=True)
     async def db(self, ctx, argument0=None, argument1=None, argument2=None):
-        logging.info("recieved: >db add")
+        logging.info("Recieved db add")
         if argument0 == 'add' and argument1 == 'inv':
             ref = dab.collection('users').document('collectionlist').get().get('array')
             amount = len(ref) - 1

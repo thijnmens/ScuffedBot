@@ -13,14 +13,14 @@ class items(commands.Cog):
 
     @commands.group(invoke_without_command=True, case_insensitive=True)
     async def use(self, ctx, argument=None):
-        logging.info('Recieved: >use')
+        logging.info('Recieved use')
         await ctx.send('What do you want to use senpai?')
         logging.info('Response: missing arguments\n----------')
     
     @use.group(aliases=["gun"])
     @commands.cooldown(1, 600, commands.BucketType.user)
     async def use_gun(self, ctx):
-        logging.info('Recieved: >use gun')
+        logging.info('Recieved use gun')
         inv = dab.collection('users').document(str(ctx.author.id)).get().get('inv')
         inv_len = len(inv)
         a = 0

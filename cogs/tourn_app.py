@@ -16,7 +16,7 @@ class tourn_app(commands.Cog):
 
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["app"])
     async def application(self, ctx):
-        logging.info(f'Recieved: >application: {ctx.author.name}')
+        logging.info(f'Recieved application: {ctx.author.name}')
         await ctx.message.delete()
         await ctx.send("Check your DMs, Senpai! >w<", delete_after=10)
         new = False

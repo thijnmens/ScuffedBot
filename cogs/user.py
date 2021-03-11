@@ -35,7 +35,7 @@ class user(commands.Cog):
                 ID = argument[3:]
                 ID = ID[:-1]
                 ctx.author = self.bot.get_user(int(ID))
-        logging.info(f'Recieved: >user {ctx.author.name}')
+        logging.info(f'Recieved user {ctx.author.name}')
         ref = dab.collection("users").document(str(ctx.author.id)).get()
         if ref.exists is False:
             logging.info(f"User not found")
@@ -93,11 +93,10 @@ class user(commands.Cog):
             colourRaw = ref.get("colour")
             colour = await commands.ColourConverter().convert(ctx, colourRaw)
             embed = discord.Embed(title=username, colour=colour)
-        except Exception as e:
+        except BaseException:
             embed = discord.Embed(
                 title=username,
                 colour=discord.Colour.random())
-            logging.warning(f"Funny colour exception: {e}")
         embed.add_field(name="Links", value=links_Message, inline=False)
         if hmd is not None:
             embed.add_field(name="HMD", value=hmd, inline=True)
@@ -113,9 +112,9 @@ class user(commands.Cog):
         logging.info('Response: user embed\n----------')
 
     # User Add
-    @user.command()
+    @user.command(case_insensitive=True)
     async def add(self, ctx, argument=None):
-        logging.info(f'Recieved: >user add {ctx.author.name}')
+        logging.info(f'Recieved user add {ctx.author.name}')
         if ctx.guild is None:
             logging.info("ctx.guild is None\n----------")
             return await ctx.send("Please only use this command within the Scuffed Tourneys server! >w<")
@@ -157,9 +156,22 @@ class user(commands.Cog):
         await ctx.author.add_roles(registered_role)
         await ctx.send(f'{ctx.author.name} has sucessfully been added to the database!\nUse ``>user update`` to add optional customisation')
         logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database\n----------')
+    
+    @commands.Cog.listener("on_member_remove")
+    async def on_member_remove(self, member):
+        logging.info(f"{member.name} ({member.id}) has left the server")
+        try:
+            col_ref = dab.collection('users').document('collectionlist').get().get('array')
+            col_ref.remove(str(member.id))
+            dab.collection('users').document('collectionlist').update({'array': col_ref})
+            dab.collection("users").document(str(member.id)).delete()
+            await self.bot.get_channel(754625185306378271).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
+            logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
+        except Exception as e:
+            logging.error(e)
 
     # User Remove
-    @user.command()
+    @user.group(invoke_without_command=True, case_insensitive=True)
     async def remove(self, ctx):
         logging.info(f"User remove ran by {ctx.author.name}")
         if ctx.guild is None:
@@ -176,38 +188,135 @@ class user(commands.Cog):
             logging.info(f"Response: {ctx.author.id} has been successfully removed to the database\n----------")
         except Exception as e:
             logging.error(e+"\n----------")
-    
-    @commands.Cog.listener("on_member_remove")
-    async def on_member_remove(self, member):
-        logging.info(f"{member.name} ({member.id}) has left the server")
-        try:
-            col_ref = dab.collection('users').document('collectionlist').get().get('array')
-            col_ref.remove(str(member.id))
-            dab.collection('users').document('collectionlist').update({'array': col_ref})
-            dab.collection("users").document(str(member.id)).delete()
-            await self.bot.get_channel(754625185306378271).send(f"{member.name} ({member.id}) has left the server and been successfully removed from the database")
-            logging.info(f"Response: {member.id} has been successfully removed to the database\n----------")
-        except Exception as e:
-            logging.error(e)
 
+    @remove.command(case_insensitive=True, aliases=["username"])
+    async def remove_username(self, ctx):
+        logging.info(f"Recieved: user remove username {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "username": ctx.author.name
+        })
+        await ctx.send("I've removed Senpai's username >w<")
+        logging.info(f"{ctx.author.name} has removed their username")
+
+    @remove.command(case_insensitive=True, aliases=["steam"])
+    async def remove_steam(self, ctx):
+        logging.info(f"Recieved: user remove Steam {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "steam": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's Steam >w<")
+        logging.info(f"{ctx.author.name} has removed their Steam")
+
+    @remove.command(case_insensitive=True, aliases=["twitch"])
+    async def remove_twitch(self, ctx):
+        logging.info(f"Recieved: user remove Twitch {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "twitch": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's Twitch >w<")
+        logging.info(f"{ctx.author.name} has removed their Twitch")
+
+    @remove.command(case_insensitive=True, aliases=["youtube"])
+    async def remove_youtube(self, ctx):
+        logging.info(f"Recieved: user remove Youtube {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "youtube": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's Youtube >w<")
+        logging.info(f"{ctx.author.name} has removed their Youtube")
+
+    @remove.command(case_insensitive=True, aliases=["twitter"])
+    async def remove_twitter(self, ctx):
+        logging.info(f"Recieved: user remove Twitter {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "twitter": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's Twitter >w<")
+        logging.info(f"{ctx.author.name} has removed their Twitter")
+
+    @remove.command(case_insensitive=True, aliases=["reddit"])
+    async def remove_reddit(self, ctx):
+        logging.info(f"Recieved: user remove Reddit {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "reddit": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's Reddit >w<")
+        logging.info(f"{ctx.author.name} has removed their Reddit")
+
+    @remove.command(case_insensitive=True, aliases=["birthday"])
+    async def remove_birthday(self, ctx):
+        logging.info(f"Recieved: user remove birthday {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "birthday": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's Birthday >w<")
+        logging.info(f"{ctx.author.name} has removed their Birthday")
+
+    @remove.command(case_insensitive=True, aliases=["hmd"])
+    async def remove_hmd(self, ctx):
+        logging.info(f"Recieved: user remove HMD {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "hmd": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's HMD >w<")
+        logging.info(f"{ctx.author.name} has removed their HMD")
+
+    @remove.command(case_insensitive=True, aliases=["pfp"])
+    async def remove_pfp(self, ctx):
+        logging.info(f"Recieved: user remove pfp {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "pfp": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's pfp >w<")
+        logging.info(f"{ctx.author.name} has removed their pfp")
+
+    @remove.command(case_insensitive=True, aliases=["status"])
+    async def remove_status(self, ctx):
+        logging.info(f"Recieved: user remove status {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "status": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's status >w<")
+        logging.info(f"{ctx.author.name} has removed their status")
+
+    @remove.command(case_insensitive=True, aliases=["colour", "color"])
+    async def remove_colour(self, ctx):
+        logging.info(f"Recieved: user remove colour {ctx.author.name}")
+        doc_ref = dab.collection("users").document(str(ctx.author.id))
+        doc_ref.update({
+            "colour": firestore.DELETE_FIELD
+        })
+        await ctx.send("I've removed Senpai's colour >w<")
+        logging.info(f"{ctx.author.name} has removed their colour")
+    
     # User update
     @user.group(invoke_without_command=True, case_insensitive=True)
     async def update(self, ctx):
-        logging.info(f"Recieved: >user update")
+        logging.info(f"Recieved user update")
         await ctx.send("B-Baka!! You need to tell me what you want to update!!\nUse ``>help update`` to check the valid arguments")
         logging.info("no sub command given\n---------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def username(self, ctx, *, argument):
-        logging.info(f'Recieved: >user update username {ctx.author.name}')
+        logging.info(f'Recieved user update username {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({'username': argument})
         await ctx.send(f"I've updated Senpai's username to {argument}! >w<")
         logging.info(f"{ctx.author.name} has updated their username to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def scoresaber(self, ctx, argument):
-        logging.info(f'Recieved: >user update scoresaber {ctx.author.name}')
+        logging.info(f'Recieved user update scoresaber {ctx.author.name}')
         if argument.isdigit():
             argument = "https://scoresaber.com/u/"+argument
         else:
@@ -219,54 +328,54 @@ class user(commands.Cog):
         await ctx.send("I've updated your Scoresaber, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their scoresaber to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def steam(self, ctx, argument):
-        logging.info(f'Recieved: >user update steam {ctx.author.name}')
+        logging.info(f'Recieved user update steam {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'steam': argument})
         await ctx.send("I've updated your Steam, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their steam to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def twitch(self, ctx, argument):
-        logging.info(f'Recieved: >user update twitch {ctx.author.name}')
+        logging.info(f'Recieved user update twitch {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'twitch': argument})
         await ctx.send("I've updated your Twitch, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their twitch to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def youtube(self, ctx, argument):
-        logging.info(f'Recieved: >user update youtube {ctx.author.name}')
+        logging.info(f'Recieved user update youtube {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'youtube': argument})
         await ctx.send("I've updated your Youtube, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their youtube to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def twitter(self, ctx, argument):
-        logging.info(f'Recieved: >user update twitter {ctx.author.name}')
+        logging.info(f'Recieved user update twitter {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'twitter': argument})
         await ctx.send("I've updated your Twitter, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their twitter to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def reddit(self, ctx, argument):
-        logging.info(f'Recieved: >user update reddit {ctx.author.name}')
+        logging.info(f'Recieved user update reddit {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'reddit': argument})
         await ctx.send("I've updated your Reddit, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their reddit to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def birthday(self, ctx, argument):
-        logging.info(f'Recieved: >user update birthday {ctx.author.name}')
+        logging.info(f'Recieved user update birthday {ctx.author.name}')
         if ((bool(re.search(r"\d/", argument)))) is False:
             logging.warning("Birthday input validation triggered")
             await ctx.send("Oopsie, looks like you did a woopsie! uwu\n``Don't use characters expect for numbers and /``")
@@ -290,9 +399,9 @@ class user(commands.Cog):
         await ctx.send(f"I've updated Senpai's birthday to {argument}! >w<")
         logging.info(f"{ctx.author.name} has updated their birthday to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def hmd(self, ctx, *, argument):
-        logging.info(f'Recieved: >user update hmd {ctx.author.name}')
+        logging.info(f'Recieved user update hmd {ctx.author.name}')
         valid_HMD_low = [x.lower() for x in self.bot.valid_HMD]
         try:
             pos = valid_HMD_low.index(argument.lower()) 
@@ -305,9 +414,9 @@ class user(commands.Cog):
         await ctx.send(f"I've updated Senpai's HMD to {self.bot.valid_HMD[pos]}! >w<")
         logging.info(f"{ctx.author.name} has updated their status to {self.bot.valid_HMD[pos]}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def pfp(self, ctx, argument):
-        logging.info(f"Recieved: >user update pfp {ctx.author.name}")
+        logging.info(f"Recieved user update pfp {ctx.author.name}")
         if argument[:4] != "http":
             logging.warning(f"Argument is not a link ({argument})")
             return await ctx.send("Baka! You can only use links for your profile picture!")
@@ -317,9 +426,9 @@ class user(commands.Cog):
         await ctx.send("I've updated your pfp, Senpai! >w<")
         logging.info(f"{ctx.author.name} has updated their pfp to {argument}\n----------")
 
-    @update.command()
+    @update.command(case_insensitive=True)
     async def status(self, ctx, *, argument):
-        logging.info(f'Recieved: >user update status {ctx.author.name}')
+        logging.info(f'Recieved user update status {ctx.author.name}')
         doc_ref = dab.collection("users").document(str(ctx.author.id))
         doc_ref.update({
             'status': argument})
@@ -328,7 +437,7 @@ class user(commands.Cog):
 
     @update.command(aliases=["color"])  # Americans ew
     async def colour(self, ctx, argument):
-        logging.info(f"Recieved: >user update colour {ctx.author.name}")
+        logging.info(f"Recieved user update colour {ctx.author.name}")
         try:
             await commands.ColourConverter().convert(ctx, argument)
         except Exception as e:

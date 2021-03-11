@@ -12,7 +12,7 @@ class economy(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["s"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def shop(self, ctx):
-        logging.info('Recieved: >shop') 
+        logging.info('Recieved shop') 
         embed = discord.Embed(
             title="Shop",
             description="Come and see, come and see! We have more then enough scams for you!",
@@ -25,7 +25,7 @@ class economy(commands.Cog):
     
     @shop.group(aliases=["gun"])
     async def shop_gun(self, ctx):
-        logging.info('Recieved: >shop gun') 
+        logging.info('Recieved shop gun') 
         embed = discord.Embed(
             title="<:PixelGun:806977728094928906> Gun",
             description="Are we in texas or something?",
@@ -40,7 +40,7 @@ class economy(commands.Cog):
     
     @shop.group(aliases=["friend"])
     async def shop_friend(self, ctx):
-        logging.info('Recieved: >shop friend') 
+        logging.info('Recieved shop friend') 
         embed = discord.Embed(
             title="<:adult:815178865475321868> Friend",
             description="At least you can buy them...",
@@ -97,7 +97,7 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True)
     async def inv(self, ctx):
-        logging.info('Recieved: >inv')
+        logging.info('Recieved inv')
         embed = discord.Embed(
             title=f"Inventory of {ctx.author}",
             description="Look at all those great items!",
@@ -115,7 +115,7 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True)
     async def bal(self, ctx):
-        logging.info('Recieved: >bal')
+        logging.info('Recieved bal')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         await ctx.send(f'You have {bal} Scuffed Coins in your wallet and {bank} Coins in your bank')
@@ -123,7 +123,7 @@ class economy(commands.Cog):
 
     @commands.command(case_insensitive=True, aliases=["dep"])
     async def deposit(self, ctx, argument=None):
-        logging.info('Recieved: >deposit')
+        logging.info('Recieved deposit')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         if argument =='all':
@@ -145,7 +145,7 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True, aliases=["with"])
     async def withdraw(self, ctx, argument=None):
-        logging.info('Recieved: >withdraw')
+        logging.info('Recieved withdraw')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         if argument =='all':
@@ -168,7 +168,7 @@ class economy(commands.Cog):
     @commands.command(case_insensitive=True)
     @commands.has_permissions(administrator=True)
     async def gib(self, ctx, argument=None, argument2=None):
-        logging.info('Recieved: >gib')
+        logging.info('Recieved gib')
         if str(ctx.author.id) != '303017061637160961':
             if '@' in argument:
                     argument = argument.replace('<', '')
