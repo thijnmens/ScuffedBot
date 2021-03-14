@@ -115,9 +115,9 @@ class tourn_app(commands.Cog):
             level = 2
         elif total_score >= 450001  and total_score <= 700000:
             level = 3
-        elif total_score >= 700001  and total_score <= 1000000:
+        elif total_score >= 700001  and total_score <= 1100000:
             level = 4
-        elif total_score >= 1000001  and total_score <= 1200000:
+        elif total_score >= 1100001  and total_score <= 1200000:
             level = 5
         elif total_score >= 1200001:
             level = "6 or 7"
