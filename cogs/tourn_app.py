@@ -24,7 +24,7 @@ class tourn_app(commands.Cog):
         if str(ctx.author.id) not in col_ref:
             await ctx.author.send("What is your scoresaber link?")
             try:
-                msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+                msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
                 scoresaber = msg.content
             except asyncio.TimeoutError:
                 return await ctx.author.send("You didn't reply in time, please restart the process")
@@ -49,26 +49,52 @@ class tourn_app(commands.Cog):
             new = True
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
-            msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+            msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.isdigit():
                 love_score = int(msg.content)
             else:
                 return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
         except asyncio.TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
+        await ctx.author.send("Did you fail on ``Who's got Your Love - Stonebank``?\nPlease respond with __Yes__ or __No__\n**Respond with __Yes__ if you're playing on an older version then 1.13.2**")
+        try:
+            msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
+            if msg.content.lower() == "no" or msg.content.lower() == "n":
+                love_score = int(love_score / 2)
+            elif msg.content.lower() == "yes" or msg.content.lower() == "y":
+                True
+            else:
+                return await ctx.author.send("That's not a valid response!\nPlease restart the process")
+        except asyncio.TimeoutError:
+            return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
-            msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
+            msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.isdigit():
                 cult_score = int(msg.content)
             else:
                 return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
         except asyncio.TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
-        await ctx.author.send("Can you post the link/links to your gameplay?")
+        await ctx.author.send("Did you fail on ``Himitsu Cult``?\nPlease respond with __Yes__ or __No__\n**Respond with __Yes__ if you're playing on an older version then 1.13.2**")
         try:
-            msg = await self.bot.wait_for('message', timeout=30, check=lambda message: message.author == ctx.author and message.guild is None)
-            video_link = msg.content
+            msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
+            if msg.content.lower() == "no" or msg.content.lower() == "n":
+                love_score = int(love_score / 2)
+            elif msg.content.lower() == "yes" or msg.content.lower() == "y":
+                True
+            else:
+                return await ctx.author.send("That's not a valid response!\nPlease restart the process")
+        except asyncio.TimeoutError:
+            return await ctx.author.send("You didn't reply in time, please restart the process")
+        await ctx.author.send("Can you post the link/links to your gameplay?\n\nIf you attach a video, make sure it's only one!")
+        try:
+            msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
+            print(msg.attachments)
+            if msg.attachments:
+                video_link = getattr(msg.attachments[0], "url")
+            else:
+                video_link = msg.content
         except asyncio.TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
         apps_count = (dab.collection("applications").document("count").get().get("val") + 1)
@@ -102,15 +128,15 @@ class tourn_app(commands.Cog):
         )
         if new is True:
             embed.add_field(
-                name=ctx.author.name,
-                value=f"{ctx.author.id}\n[ScoreSaber]({scoresaber})",
+                name=ctx.author.name (ctx.author.id),
+                value=f"[ScoreSaber]({scoresaber})",
                 inline=True
             )
         else:
             scoresaber = dab.collection('users').document(str(ctx.author.id)).get().get('scoresaber')
             embed.add_field(
-                name=ctx.author.name,
-                value=f"{ctx.author.id}\n[ScoreSaber]({scoresaber})",
+                name=ctx.author.name (ctx.author.id),
+                value=f"[ScoreSaber]({scoresaber})",
                 inline=True
             )
         embed.add_field(
