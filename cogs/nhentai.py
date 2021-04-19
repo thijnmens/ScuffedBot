@@ -10,7 +10,6 @@ nhentai = NHentai()
 
 
 async def sauce_embed(sauce):
-    print(sauce)
     Tags = ""
     for x in getattr(sauce, "tags"):
         Tags = Tags + x + ", "
