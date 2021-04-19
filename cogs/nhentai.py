@@ -11,21 +11,21 @@ nhentai = NHentai()
 
 async def sauce_embed(sauce):
     print(sauce)
-    Tags = "Tags: "
+    Tags = ""
     for x in getattr(sauce, "tags"):
         Tags = Tags + x + ", "
-    Artist = "Artist: "
-    for y in getattr(sauce, "artists"):
-        Artist = Artist + y + ", "
-    Parodies = "Parodies: "
-    for z in getattr(sauce, "parodies"):
-        Parodies = Parodies + z + ", "
-    sec_title = "Alternative Title: "
-    for a in getattr(sauce, "secondary_title"):
-        sec_title = sec_title + a 
-    characters = "Characters: "
-    for b in getattr(sauce, "characters"):
-        characters = characters + b + ", "
+    Artist = ""
+    for x in getattr(sauce, "artists"):
+        Artist = Artist + x + ", "
+    Parodies = ""
+    for x in getattr(sauce, "parodies"):
+        Parodies = Parodies + x + ", "
+    sec_title = "**Alternative Title:** "
+    for x in getattr(sauce, "secondary_title"):
+        sec_title = sec_title + x
+    characters = ""
+    for x in getattr(sauce, "characters"):
+        characters = characters + x + ", "
     if "english" in getattr(sauce, "languages"):
         lang = "🇬🇧"
     elif "japanese" in getattr(sauce, "languages"):
@@ -38,7 +38,7 @@ async def sauce_embed(sauce):
         title=f"{lang} "+getattr(sauce,"title"),
         url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
         description=sec_title,
-        colour=0x1f13ee,
+        colour=0xec2753,
     )
     embed.add_field(
         name="Tags",
@@ -46,14 +46,14 @@ async def sauce_embed(sauce):
         inline=False
     )
     embed.add_field(
-        name="Artist",
+        name="Artists",
         value=Artist,
-        inline=False
+        inline=True
     )
     embed.add_field(
         name="Parodies",
         value=Parodies,
-        inline=False
+        inline=True
     )
     embed.add_field(
         name="Characters",
