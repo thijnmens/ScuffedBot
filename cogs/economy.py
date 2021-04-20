@@ -204,7 +204,14 @@ class economy(commands.Cog):
                         try:
                             victimMsg = await self.bot.wait_for('message', timeout=1, check=lambda message: message.author.id == victimID and message.channel == ctx.channel)
                             if victimMsg.content.lower() == 'police' or victimMsg.content.lower() == 'stop':
-                                await ctx.send('Heist stopped by victim')
+                                for HeistMemberID in HeistMembers:
+                                    inv = dab.collection('users').document(str(HeistMemberID)).get().get('inv')
+                                    newinv = []
+                                    for item in inv:
+                                        newinv.append(str(item.split('~')[0]) + '~0')
+                                    dab.collection('users').document(str(HeistMemberID)).update({'inv': newinv})
+                                await ctx.send(f'The heist was a utter failure! Your team got sent to prison and they lost every item in their inventory, better luck next time!')
+                                break
                         except Exception:
                             if datetime.datetime.now() > endloop:
                                 if len(HeistMembers) <= 3:
