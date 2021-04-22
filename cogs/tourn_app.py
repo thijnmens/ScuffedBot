@@ -128,14 +128,14 @@ class tourn_app(commands.Cog):
         )
         if new is True:
             embed.add_field(
-                name=ctx.author.name (ctx.author.id),
+                name=f"{ctx.author.name} ({ctx.author.id})",
                 value=f"[ScoreSaber]({scoresaber})",
                 inline=True
             )
         else:
             scoresaber = dab.collection('users').document(str(ctx.author.id)).get().get('scoresaber')
             embed.add_field(
-                name=ctx.author.name (ctx.author.id),
+                name=f"{ctx.author.name} ({ctx.author.id})",
                 value=f"[ScoreSaber]({scoresaber})",
                 inline=True
             )
