@@ -20,7 +20,7 @@ class Coord(commands.Cog):
         await ctx.send("Hi coordinator-kun ^w^")
     
     
-    @commands.command(aliases=["m"], help="Mutes users in your vc.")
+    @coordinator.command(aliases=["m"], help="Mutes users in your vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def mute(self, ctx):
         logging.info("mute ran")
@@ -48,7 +48,7 @@ class Coord(commands.Cog):
         logging.info("Finished muting\n-------------")
 
 
-    @commands.command(aliases=["um"], help="Unmutes users in your vc.")
+    @coordinator.command(aliases=["um"], help="Unmutes users in your vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def unmute(self, ctx):
         logging.info("Unmute ran")
@@ -65,7 +65,7 @@ class Coord(commands.Cog):
         logging.info("Finished unmuting\n-------------")
     
 
-    @commands.command(aliases=["out"], help="Moves users to the lobby vc.")
+    @coordinator.command(aliases=["out"], help="Moves users to the lobby vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def move_out(self, ctx):
         logging.info("Move_in ran")
@@ -93,7 +93,7 @@ class Coord(commands.Cog):
         logging.info("Finished moving\n-------------")
 
 
-    @commands.command(aliases=["in"], help="Moves mentioned users to your vc.")
+    @coordinator.command(aliases=["in"], help="Moves mentioned users to your vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def move_in(self, ctx, *, argument):
         logging.info("Move_in ran")
@@ -108,7 +108,7 @@ class Coord(commands.Cog):
         logging.info("Finished moving\n-------------")
 
 
-    @commands.command(help="Flips a coin")
+    @coordinator.command(help="Flips a coin")
     @commands.has_any_role(*coord_roles_ids)
     async def coin(self, ctx):
         logging.info("Coin ran")
@@ -119,7 +119,7 @@ class Coord(commands.Cog):
         logging.info("Coin ended\n-------------")
 
 
-    @commands.command(help="Picks a random user in your vc")
+    @coordinator.command(help="Picks a random user in your vc")
     @commands.has_any_role(*coord_roles_ids)
     async def pick(self, ctx):
         logging.info("Pick ran")
