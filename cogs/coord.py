@@ -1,7 +1,6 @@
 import logging
 from discord.ext import commands
-from random import getrandbits
-from random import choice
+from random import getrandbits, choice, randint
 
 
 lobby_vc_id = int(764546987441258506) # tourney time vc
@@ -121,8 +120,8 @@ class Coord(commands.Cog):
 
     @coordinator.command(help="Picks a random user in your vc")
     @commands.has_any_role(*coord_roles_ids)
-    async def pick(self, ctx):
-        logging.info("Pick ran")
+    async def pick_user(self, ctx):
+        logging.info("pick_use invoked")
         if ctx.author.voice is None:
             return await ctx.send("You aren't in a voice channel!")
         voice = self.bot.get_channel(ctx.author.voice.channel.id)
@@ -145,7 +144,14 @@ class Coord(commands.Cog):
                 valid_users.append(member.name)
                 logging.info(f"{x.name} valid")
         await ctx.send(choice(valid_users))
-        logging.info("Picking finished\n-------------")
+        logging.info("pick_user concluded\n-------------")
+
+    @coordinator.command(aliases=["pick_num","p_n"], help="Picks a random number inbetween 1 and the given argument")
+    @commands.has_any_role(*coord_roles_ids)
+    async def pick_number (self, ctx, value: int):
+        logging.info(f"pick_number invoked in {ctx.guild.name}")
+        await ctx.send(randint(1,value))
+        logging.info("pick_number concluded\n-------------")
 
 
 def setup(bot):
