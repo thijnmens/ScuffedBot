@@ -1,9 +1,11 @@
-import discord
-import logging
-import asyncio
-from discord.ext import commands
-from discord.utils import get
+from logging import info as logging_info, error as logging_error
+from asyncio import TimeoutError
+
+from discord import Embed, Colour
 from firebase_admin import firestore
+
+from discord.ext import commands
+
 
 dab = firestore.client()
 app_channel = (754631426263220244)
@@ -14,9 +16,8 @@ class tourn_app(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["app"])
+    @commands.group(invoke_without_command=True, aliases=["app"])
     async def application(self, ctx):
-        logging.info(f'Recieved application: {ctx.author.name}')
         await ctx.message.delete()
         await ctx.send("Check your DMs, Senpai! >w<", delete_after=10)
         new = False
@@ -26,7 +27,7 @@ class tourn_app(commands.Cog):
             try:
                 msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
                 scoresaber = msg.content
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 return await ctx.author.send("You didn't reply in time, please restart the process")
             scoresaber = scoresaber.split("?", 1)[0]
             scoresaber = scoresaber.split("&", 1)[0]
@@ -42,10 +43,10 @@ class tourn_app(commands.Cog):
                 col_ref.sort()
                 dab.collection('users').document('collectionlist').update({'array': col_ref})
             except Exception as e:
-                return logging.error(e+"\n----------")
+                return logging_error(e+"\n----------")
             registered_role = await commands.RoleConverter().convert(ctx, "803577101906739270")
             await ctx.author.add_roles(registered_role)
-            logging.info(f'Response: {ctx.author.name} has sucessfully been added to the database')
+            logging_info(f'Response: {ctx.author.name} has sucessfully been added to the database')
             new = True
         await ctx.author.send("What score did you get on ``Who's got Your Love - Stonebank``?")
         try:
@@ -54,7 +55,7 @@ class tourn_app(commands.Cog):
                 love_score = int(msg.content)
             else:
                 return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Did you fail on ``Who's got Your Love - Stonebank``?\nPlease respond with __Yes__ or __No__\n**Respond with __Yes__ if you're playing on an older version than 1.13.2**")
         try:
@@ -65,7 +66,7 @@ class tourn_app(commands.Cog):
                 True
             else:
                 return await ctx.author.send("That's not a valid response!\nPlease restart the process")
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("What score did you get on ``Himitsu Cult``?")
         try:
@@ -74,18 +75,16 @@ class tourn_app(commands.Cog):
                 cult_score = int(msg.content)
             else:
                 return await ctx.author.send("Only include numbers in your scores!\nPlease restart the process")
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Did you fail on ``Himitsu Cult``?\nPlease respond with __Yes__ or __No__\n**Respond with __Yes__ if you're playing on an older version than 1.13.2**")
         try:
             msg = await self.bot.wait_for('message', timeout=60, check=lambda message: message.author == ctx.author and message.guild is None)
             if msg.content.lower() == "no" or msg.content.lower() == "n":
                 love_score = int(love_score / 2)
-            elif msg.content.lower() == "yes" or msg.content.lower() == "y":
-                True
-            else:
+            elif not msg.content.lower() == "yes" or msg.content.lower() == "y":
                 return await ctx.author.send("That's not a valid response!\nPlease restart the process")
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
         await ctx.author.send("Can you post the link/links to your gameplay?\n\nIf you attach a video, make sure it's only one!")
         try:
@@ -95,7 +94,7 @@ class tourn_app(commands.Cog):
                 video_link = getattr(msg.attachments[0], "url")
             else:
                 video_link = msg.content
-        except asyncio.TimeoutError:
+        except TimeoutError:
             return await ctx.author.send("You didn't reply in time, please restart the process")
         apps_count = (dab.collection("applications").document("count").get().get("val") + 1)
         dab.collection("applications").document("count").update({'val': apps_count})
@@ -121,9 +120,9 @@ class tourn_app(commands.Cog):
             level = 5
         elif total_score >= 1200001:
             level = "6 or 7"
-        embed = discord.Embed(
+        embed = Embed(
             title=f"Application ID: ``{apps_count}``",
-            colour=discord.Colour.green(),
+            colour=Colour.green(),
             timestamp=ctx.message.created_at
         )
         if new is True:
@@ -152,7 +151,6 @@ class tourn_app(commands.Cog):
         embed.set_thumbnail(url=ctx.author.avatar_url)
         await self.bot.get_channel(mod_app_channel).send(embed=embed)
         await ctx.author.send("Thank you! We'll ping you once we've determined your level")
-        logging.info("application finished and sent to #applications\n---------")
 
     @application.command()
     async def id(self, ctx, arg1=None, *, arg2=None):
@@ -163,8 +161,7 @@ class tourn_app(commands.Cog):
         app_ref = dab.collection("applications").document(str(arg1))
         app_user = self.bot.get_user(app_ref.get("user_id"))
         if arg2 == "1" or arg2 == "2" or arg2 == "3" or arg2 == "4" or arg2 == "5" or arg2 == "6" or arg2 == "7":
-           await ctx.send(f"You're about to give {app_user.name} level {arg2}. Confirm?")
-
+            await ctx.send(f"You're about to give {app_user.name} level {arg2}. Confirm?")
         else:
             await ctx.send(f"You're about to decline {app_user.name} with reason: ``{arg2}``. Confirm?")
 

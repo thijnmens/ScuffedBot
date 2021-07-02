@@ -7,15 +7,17 @@
 # URL = (f"https://new.scoresaber.com/api/players/pages") - #Get Global
 # Ranking Pages
 
-
-import discord
-import requests
-import json
-import logging
+from logging import info as logging_info
+from requests import get
+from json import loads
 from random import randint
-from discord.ext import commands
-from discord.utils import get
+
 from firebase_admin import firestore
+from discord import Embed
+
+from discord.ext import commands
+
+
 
 
 dab = firestore.client()
@@ -38,14 +40,14 @@ async def userID(self, argument):
 async def songEmbed(self, ctx, arg_page, arg_user, type):
     if arg_user is not None:
         ctx.author = await userID(self, arg_user)
-        logging.info(f"Argument given, now {ctx.author.name}")
+        logging_info(f"Argument given, now {ctx.author.name}")
     if ctx.author is None:
-        logging.info("ctx.author is None")
+        logging_info("ctx.author is None")
         return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
     ref = dab.collection("users").document(str(ctx.author.id)).get()
     if ref.exists is False:
         await ctx.send("Sorry Senpai, that user isn't in my database!")
-        return logging.info("scoresaber is None")
+        return logging_info("scoresaber is None")
     scoresaber = ref.get('scoresaber')
     SS_id = scoresaber[25:]
     page = (arg_page / 8)
@@ -58,24 +60,24 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
     elif type == "topSong":
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{page}")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-    logging.info(URL+"\n"+URL1)
+    logging_info(URL+"\n"+URL1)
     try: 
-        json_data = json.loads(requests.get(URL, headers=header).text)
+        json_data = loads(get(URL, headers=header).text)
     except:
-        logging.info(f"scoresaber api returned nothing, probably getting hammered lol")
+        logging_info(f"scoresaber api returned nothing, probably getting hammered lol")
         return await ctx.send("Sorry Senpai, ScoreSaber-chan is busy right now!\nTry again later ^w^")
     if "error" in json_data:
-        logging.info(f"scoresaber api returned an error\n{json_data}")
+        logging_info(f"scoresaber api returned an error\n{json_data}")
         return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
     songsList = json_data["scores"]
-    json_data = json.loads(requests.get(URL1, headers=header).text)
+    json_data = loads(get(URL1, headers=header).text)
     playerInfo = json_data["playerInfo"]
     if page > 1:
         while arg_page >= 8:
             arg_page = (arg_page - 8)
     Song = songsList[(arg_page - 1)]
     URL2 = (f"https://beatsaver.com/api/maps/by-hash/"+Song["songHash"])
-    json_data = json.loads(requests.get(URL2, headers=header).text)
+    json_data = loads(get(URL2, headers=header).text)
     songBSLink = (f"https://beatsaver.com/beatmap/"+json_data["key"])
     if Song["maxScore"] == 0:
         songAcc = f"ScoreSaber API being fucky wucky,\nso you get {randint(0, 100)}"
@@ -97,7 +99,7 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
         title = Song["songName"]
     else:
         title = Song["songName"]+" - "+Song["songSubName"]
-    message = discord.Embed(
+    message = Embed(
         title=title,
         url=songBSLink,
         description="**"+Song["songAuthorName"]+" - "+Song["levelAuthorName"]+f"** {difficulty}",
@@ -145,20 +147,19 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
     message.add_field(name="Time Set 🕕🕘", value=(Song["timeSet"])[:10], inline=False)
     message.set_image(url="https://new.scoresaber.com/api/static/covers/" + Song["songHash"] + ".png")
     await ctx.send(embed=message)
-    logging.info("embed message sent")
 
 
 async def songsEmbed(self, ctx, arg_page, arg_user, type):
     if arg_user is not None:
         ctx.author = await userID(self, arg_user)
-        logging.info(f"Argument given, now {ctx.author.name}")
+        logging_info(f"Argument given, now {ctx.author.name}")
     if ctx.author is None:
-        logging.info("ctx.author is None")
+        logging_info("ctx.author is None")
         return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
     ref = dab.collection("users").document(str(ctx.author.id)).get()
     if ref.exists is False:
         await ctx.send("Sorry Senpai, that user isn't in my database!")
-        return logging.info("scoresaber is None\n----------")
+        return logging_info("scoresaber is None\n----------")
     scoresaber = ref.get('scoresaber')
     SS_id = scoresaber[25:]
     if type == "recentSongs":
@@ -168,17 +169,17 @@ async def songsEmbed(self, ctx, arg_page, arg_user, type):
         URL = (f"https://new.scoresaber.com/api/player/{SS_id}/scores/top/{arg_page}")
         requestType = ("Top Songs")
     URL1 = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-    logging.info(URL+"\n"+URL1)
-    response = requests.get(URL, headers=header)
-    json_data = json.loads(response.text)
+    logging_info(URL+"\n"+URL1)
+    response = get(URL, headers=header)
+    json_data = loads(response.text)
     if "error" in json_data:
-        message = discord.Embed(
+        message = Embed(
             title="Uh Oh, the codie wodie did an oopsie woopsie! uwu",
             description="Check if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>",
             colour=0xff0000)
         return message
     songsList = json_data["scores"]
-    json_data = json.loads(requests.get(URL1, headers=header).text)
+    json_data = loads(get(URL1, headers=header).text)
     playerInfo = json_data["playerInfo"]
     songsMessage = ""
     count = 0
@@ -217,7 +218,7 @@ async def songsEmbed(self, ctx, arg_page, arg_user, type):
             f"```Song: {songTitle}, "+Song["songAuthorName"]+" - "+Song["levelAuthorName"]+f" ({difficulty})\nRank: #"+str(Song["rank"])+f"\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nWeighted PP: {songWeightedPP}\nTime Set: "+(Song["timeSet"])[:10]+"```")
         songsMessage = songsMessage + songMessage
         count = count + 1
-    message = discord.Embed(
+    message = Embed(
         title=playerInfo["playerName"]+f"'s {requestType}",
         url=scoresaber,
         description=songsMessage,
@@ -225,37 +226,35 @@ async def songsEmbed(self, ctx, arg_page, arg_user, type):
         timestamp=ctx.message.created_at
     )
     await ctx.send(embed=message)
-    logging.info("embed message sent")
 
 
 class scoresaber(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["ss"])
+    @commands.group(invoke_without_command=True, aliases=["ss"])
     async def scoresaber(self, ctx, argument1=None):
-        logging.info(f"Recieved >scoresaber {ctx.author.name}")
         if argument1 is not None:
             ctx.author = await userID(self, argument1)
             if ctx.author is None:
                 return await ctx.send("Sorry Senpai, I can't find anyone with that ID qwq")
-            logging.info(f"Argument given, now {ctx.author.name}")
+            logging_info(f"Argument given, now {ctx.author.name}")
         async with ctx.channel.typing():
             ref = dab.collection("users").document(str(ctx.author.id)).get()
             if ref.exists is False:
                 await ctx.send("Sorry Senpai, that user isn't in my database!")
-                return logging.info("scoresaber is None\n----------")
+                return logging_info("scoresaber is None\n----------")
             scoresaber = ref.get('scoresaber')
             SS_id = scoresaber[25:]
             URL = (f"https://new.scoresaber.com/api/player/{SS_id}/full")
-            logging.info(URL)
-            response = requests.get(URL, headers=header)
-            json_data = json.loads(response.text)
+            logging_info(URL)
+            response = get(URL, headers=header)
+            json_data = loads(response.text)
             if "error" in json_data:
                 return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
             playerInfo = json_data["playerInfo"]
             scoreStats = json_data["scoreStats"]
-            embed = discord.Embed(
+            embed = Embed(
                 title=playerInfo["playerName"]+"'s ScoreSaber Stats <:WidePeepoHappy1:757948845362511992><:WidePeepoHappy2:757948845404585984><:WidePeepoHappy3:757948845400522812><:WidePeepoHappy4:757948845463306310>",
                 url=scoresaber,
                 colour=0xffdc1b,
@@ -295,35 +294,26 @@ class scoresaber(commands.Cog):
                 url="https://new.scoresaber.com" + playerInfo["avatar"]
             )
         await ctx.send(embed=embed)
-        logging.info("Response: ScoreSaber UserData embed\n----------")
 
     @scoresaber.command(aliases=["rs"])
     async def recentsong(self, ctx, argument1=1, argument2=None):
-        logging.info(f"Recieved >scoresaber recentsong {ctx.author.name}")
         async with ctx.channel.typing():
             await songEmbed(self, ctx, argument1, argument2, type="recentSong")
-        logging.info("Finished\n----------")
 
     @scoresaber.command(aliases=["ts"])
     async def topsong(self, ctx, argument1=1, argument2=None):
-        logging.info(f"Recieved >scoresaber topsong {ctx.author.name}")
         async with ctx.channel.typing():
             await songEmbed(self, ctx, argument1, argument2, type="topSong")
-        logging.info("Finished\n----------")
 
     @scoresaber.command(aliases=["rss"])
     async def recentsongs(self, ctx, argument1=1, argument2=None):
-        logging.info(f"Recieved >scoresaber recentSongs {ctx.author.name}")
         async with ctx.channel.typing():
             await songsEmbed(self, ctx, argument1, argument2, type="recentSongs")
-        logging.info("Response: ScoreSaber recentSongs embed\n----------")
 
     @scoresaber.command(aliases=["tss"])
     async def topsongs(self, ctx, argument1=1, argument2=None):
-        logging.info(f"Recieved >scoresaber topSongs {ctx.author.name}")
         async with ctx.channel.typing():
             await songsEmbed(self, ctx, argument1, argument2, type="topSongs")
-        logging.info("Response: ScoreSaber topSongs embed\n----------")
 
     @scoresaber.command(aliases=["com"])
     async def compare(self, ctx, argument1=None, argument2=None):
@@ -346,18 +336,18 @@ class scoresaber(commands.Cog):
             user2 = dab.collection("users").document(str(argument2.id)).get()
             if user1.exists is False or user2.exists is False:
                 await ctx.send("Sorry Senpai, that user isn't in my database!")
-                return logging.info("scoresaber is None\n----------")
+                return logging_info("scoresaber is None\n----------")
             scoresaber1 = user1.get('scoresaber')
             scoresaber2 = user2.get('scoresaber')
             SS_id1 = scoresaber1[25:]
             SS_id2 = scoresaber2[25:]
         URL1 = (f"https://new.scoresaber.com/api/player/{SS_id1}/full")
         URL2 = (f"https://new.scoresaber.com/api/player/{SS_id2}/full")
-        logging.info(f"{URL1}\n{URL2}")
-        response1 = requests.get(URL1, headers=header)
-        response2 = requests.get(URL2, headers=header)
-        json_data1 = json.loads(response1.text)
-        json_data2 = json.loads(response2.text)
+        logging_info(f"{URL1}\n{URL2}")
+        response1 = get(URL1, headers=header)
+        response2 = get(URL2, headers=header)
+        json_data1 = loads(response1.text)
+        json_data2 = loads(response2.text)
         if "error" in json_data1 or "error" in json_data2:
             return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if both user's ScoreSaber links are valid <:AYAYASmile:789578607688417310>")
         playerInfo1 = json_data1["playerInfo"]
@@ -406,7 +396,7 @@ class scoresaber(commands.Cog):
         elif val1 > val2:
             val2 = f"__{val2}__"
         message = message + f"{val1} -  🧑‍🌾 **Ranked Play Count**  🧑‍🌾 - {val2}\n"
-        embed = discord.Embed(
+        embed = Embed(
             title=playerInfo1["playerName"]+" 🆚 "+playerInfo2["playerName"],
             description=message,
             colour=0xffdc1b,

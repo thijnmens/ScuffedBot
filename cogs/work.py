@@ -1,7 +1,9 @@
-import logging
-from discord.ext import commands
-from firebase_admin import firestore
+from logging import info as logging_info
 from random import randint
+
+from firebase_admin import firestore
+
+from discord.ext import commands
 
 dab = firestore.client()
 
@@ -9,10 +11,9 @@ class work(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @commands.command(invoke_without_command=True, case_insensitive=True)
+    @commands.command(invoke_without_command=True, )
     @commands.cooldown(1, 3600, commands.BucketType.user)
     async def work(self, ctx):
-        logging.info('Recieved work')
         try:
             job = dab.collection('users').document(str(ctx.author.id)).get().get('job')
         except:
@@ -23,15 +24,13 @@ class work(commands.Cog):
             bal = bal + pro
             dab.collection('users').document(str(ctx.author.id)).update({'bal': bal})
             await ctx.send(f'WOW! You made a whole {pro} coins!')
-            logging.info(f'Response: user {ctx.author.id} has earned {pro}, their total is {bal}\n----------')
+            logging_info(f'Response: user {ctx.author.id} has earned {pro}, their total is {bal}\n----------')
         else:
             await ctx.send('You should get a job first senpai! try >job get')
-            logging.info('Response: no job\n----------')
     
-    @commands.group(invoke_without_command=True, case_insensitive=True)
+    @commands.group(invoke_without_command=True, )
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def job(self, ctx):
-        logging.info('Recieved job')
         try:
             job = dab.collection('users').document(str(ctx.author.id)).get().get('job')
         except:
@@ -39,15 +38,13 @@ class work(commands.Cog):
         if job is True:
             jtype = dab.collection('users').document(str(ctx.author.id)).get().get('jtype')
             await ctx.send(f'You are currently working as a {jtype}! I\'m so proud of you senpai UwU')
-            logging.info(f'Response: job is {jtype}\n----------')
+            logging_info(f'Response: job is {jtype}\n----------')
         else:
             await ctx.send('You should get a job first senpai!')
-            logging.info('Response: no job\n----------')
         
     @job.command()
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def get(self, ctx):
-        logging.info('Recieved job get')
         try:
             job = dab.collection('users').document(str(ctx.author.id)).get().get('job')
         except:
@@ -55,10 +52,9 @@ class work(commands.Cog):
         if job is False:
             dab.collection('users').document(str(ctx.author.id)).update({'job': True})
             await ctx.send('You found a job!?! Really! i\'m so proud of you UwU')
-            logging.info(f'Response: user {ctx.author.id} now has a job\n----------')
         else:
             await ctx.send('You already have a job senpai!')
-            logging.info(f'Response: user {ctx.author.id} already has a job\n----------')
+
 
 def setup(bot):
     bot.add_cog(work(bot))

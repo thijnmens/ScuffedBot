@@ -1,9 +1,12 @@
 # https://pypi.org/project/NHentai-API/
 
-import discord
-import logging
+from logging import info as logging_info
+
+from discord import Embed
+
 from discord.ext import commands
-from NHentai import NHentai
+from NHentai.nhentai import NHentai
+
 
 nhentai = NHentai()
 
@@ -40,7 +43,7 @@ async def sauce_embed(sauce):
         lang = "🇨🇳"
     else: 
         lang = "❔"
-    embed = discord.Embed(
+    embed = Embed(
         title=f"{lang} "+getattr(sauce,"title"),
         url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
         description=sec_title,
@@ -78,21 +81,18 @@ class NHentaiCog(commands.Cog):
         self.bot = bot
 
     @commands.is_nsfw()
-    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["nh"])
+    @commands.group(invoke_without_command=True, aliases=["nh"])
     async def nhentai(self, ctx, *, argument=None):
-        logging.info(f"nhentai ran in {ctx.guild.name}")
         if argument is None:
             sauce = nhentai.get_random()
-            logging.info(sauce)
+            logging_info(sauce)
             await ctx.send(embed=await sauce_embed(sauce))
-            logging.info("Posted embed\n----------")
         elif argument.isdigit():
             sauce = nhentai._get_doujin(id=argument)
-            logging.info(sauce)
+            logging_info(sauce)
             if sauce is None:
                 return await ctx.send("S-Sorry, I can't find that id qwq")
             await ctx.send(embed=await sauce_embed(sauce))
-            logging.info("Posted embed\n----------")
 
 def setup(bot):
     bot.add_cog(NHentaiCog(bot))

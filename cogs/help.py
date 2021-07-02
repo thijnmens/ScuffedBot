@@ -1,5 +1,5 @@
-import discord
-import logging
+from discord import Embed
+
 from discord.ext import commands
 
 
@@ -8,10 +8,9 @@ class helpClient(commands.Cog):
         self.bot = bot
 
 
-    @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["he"])
+    @commands.group(invoke_without_command=True, aliases=["he"])
     async def help(self, ctx):
-        logging.info('Recieved help ')
-        embed = discord.Embed(
+        embed = Embed(
             title="Help",
             description="``<text> is a mandatory argument while [text] is an optional argument``",
             color=0xff0000
@@ -43,11 +42,10 @@ class helpClient(commands.Cog):
             inline=False
         )
         await ctx.send(embed=embed)
-        logging.info('Response: help embed\n----------')
 
     @help.command(aliases=["u"])
     async def user(self, ctx):
-        embed = discord.Embed(
+        embed = Embed(
             title="Help User",
             description="These are the valid arguments for >user",
             color=0xff0000)
@@ -75,7 +73,7 @@ class helpClient(commands.Cog):
     
     @help.command(aliases=["up"])
     async def update(self, ctx):
-        embed = discord.Embed(
+        embed = Embed(
             title="Help User Update",
             description="These are the valid fields for >user update <field> <kwarg>\nAny of these can be removed with ``user remove <field>``",
             color=0xff0000
@@ -122,7 +120,7 @@ class helpClient(commands.Cog):
 
     @help.command(aliases=["ss"])
     async def scoresaber(self, ctx):
-        embed = discord.Embed(
+        embed = Embed(
             title="Help ScoreSaber",
             description="These are the valid arguments for >ScoreSaber\n~~certainly not a bad ripoff of bs bot~~",
             color=0xff0000
@@ -161,7 +159,7 @@ class helpClient(commands.Cog):
 
     @help.command()
     async def neko(self, ctx):
-        embed = discord.Embed(
+        embed = Embed(
             title="Help Neko",
             description="These are the valid arguments for >neko",
             colour=0xff0000

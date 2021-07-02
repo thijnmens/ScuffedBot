@@ -1,22 +1,22 @@
 # I can assure you, this cog is vital for the performance and useability of Scuffed Bot
 #https://www.nekos.life/api/v2/endpoints
 
+from io import BytesIO
+from aiohttp import ClientSession
+from json import loads
+from logging import info as logging_info
 
-import discord
-import io
-import aiohttp
-import json
-import logging
+from discord import File
+
 from discord.ext import commands
 
 async def image(self, link):
-    logging.info(f"image function ran with {link}")
-    async with aiohttp.ClientSession() as session:
+    async with ClientSession() as session:
         async with session.get(link) as resp:
-            json_data = json.loads(await resp.text())
-            logging.info(json_data["url"])
+            json_data = loads(await resp.text())
+            logging_info(json_data["url"])
             async with session.get(json_data["url"]) as resp:
-                return io.BytesIO(await resp.read())
+                return BytesIO(await resp.read())
 
 
 class Neko(commands.Cog):
@@ -24,35 +24,27 @@ class Neko(commands.Cog):
         self.bot = bot
 
     @commands.cooldown(1, 5, commands.BucketType.user)
-    @commands.group(invoke_without_command=True, case_insensitive=True)
+    @commands.group(invoke_without_command=True, )
     async def neko(self, ctx):
-        logging.info("neko ran")
         async with ctx.channel.typing():
-            await ctx.reply(file=discord.File(await image(self, "https://nekos.life/api/v2/img/neko"), "neko.png"))
-        logging.info("attachment sent")
+            await ctx.reply(file=File(await image(self, "https://nekos.life/api/v2/img/neko"), "neko.png"))
         
     @neko.command()
     async def gif(self, ctx):
-        logging.info("neko gif ran")
         async with ctx.channel.typing():
-            await ctx.reply(file=discord.File(await image(self, "https://nekos.life/api/v2/img/ngif"), "neko.gif"))
-        logging.info("attachment sent")
+            await ctx.reply(file=File(await image(self, "https://nekos.life/api/v2/img/ngif"), "neko.gif"))
 
-    @neko.group(invoke_without_command=True, case_insensitive=True)
+    @neko.group(invoke_without_command=True, )
     @commands.is_nsfw()
     async def lewd(self, ctx):
-        logging.info("neko lewd ran")
         async with ctx.channel.typing():
-            await ctx.reply(file=discord.File(await image(self, "https://nekos.life/api/v2/img/lewd"), "neko.png"))
-        logging.info("attachment sent")
+            await ctx.reply(file=File(await image(self, "https://nekos.life/api/v2/img/lewd"), "neko.png"))
 
     @lewd.command(aliases=["gif"])
     @commands.is_nsfw()
     async def lewd_gif(self, ctx):
-        logging.info("neko lewd gif ran")
         async with ctx.channel.typing():
-            await ctx.reply(file=discord.File(await image(self, "https://nekos.life/api/v2/img/nsfw_neko_gif"), "neko.gif"))
-        logging.info("attachment sent")
+            await ctx.reply(file=File(await image(self, "https://nekos.life/api/v2/img/nsfw_neko_gif"), "neko.gif"))
 
 
 def setup(bot):
