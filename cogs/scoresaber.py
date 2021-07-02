@@ -252,7 +252,7 @@ class scoresaber(commands.Cog):
             response = requests.get(URL, headers=header)
             json_data = json.loads(response.text)
             if "error" in json_data:
-                return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
+                return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if your ScoreSaber link is valid <:AYAYASmile:789578607688417310>")
             playerInfo = json_data["playerInfo"]
             scoreStats = json_data["scoreStats"]
             embed = discord.Embed(
@@ -359,7 +359,7 @@ class scoresaber(commands.Cog):
         json_data1 = json.loads(response1.text)
         json_data2 = json.loads(response2.text)
         if "error" in json_data1 or "error" in json_data2:
-            return await ctx.send("Uh Oh, the codie wodie did an oopsie! uwu\nCheck if both user's ScoreSaber links are valid <:AYAYASmile:789578607688417310>")
+            return await ctx.send("Uh Oh, the codie wodie did an oopsie woopsie! uwu\nCheck if both user's ScoreSaber links are valid <:AYAYASmile:789578607688417310>")
         playerInfo1 = json_data1["playerInfo"]
         scoreStats1 = json_data1["scoreStats"]
         playerInfo2 = json_data2["playerInfo"]

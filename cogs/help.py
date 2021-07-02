@@ -166,8 +166,7 @@ class helpClient(commands.Cog):
             description="These are the valid arguments for >neko",
             colour=0xff0000
         )
-        #embed.set_thumbnail(url="https://i.imgur.com/7Whb3qK.png")
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/754643335511015505/810691863610523668/unknown.png")
+        embed.set_thumbnail(url="https://i.imgur.com/7Whb3qK.png")
         embed.add_field(
             name=">neko",
             value="Posts an image of a neko",
