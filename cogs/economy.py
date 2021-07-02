@@ -14,7 +14,7 @@ class economy(commands.Cog):
         logging.info('Recieved >shop') 
         embed = discord.Embed(
             title="Shop",
-            description="Come and see, come and see! We have more than enough scams for you!",
+            description="Come and see, come and see! We have more then enough scams for you!",
             color=0xff0000)
         embed.add_field(name="<:PixelGun:806977728094928906> Gun", value='1000 Scuffed Coins\n ID: gun', inline=False)
         embed.add_field(name="<:adult:815178865475321868> Friend", value='2750 Scuffed Coins\n ID: friend', inline=False)
@@ -108,7 +108,7 @@ class economy(commands.Cog):
             item = str(inv[a]).split('~')
             embed.add_field(name=item[0], value=item[1], inline=False)
             a = a + 1
-        embed.set_footer(text="this code was ruined by ThiJNmEnS, carried by Sirspam and spelling mistakes corrected by notmyname")
+        embed.set_footer(text="this code was ruined by ThiJNmEnS and carried by Sirspam")
         await ctx.send(embed=embed)
         logging.info('Response: inv embed\n----------')
     

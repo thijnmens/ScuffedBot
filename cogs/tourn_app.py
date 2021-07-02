@@ -163,7 +163,8 @@ class tourn_app(commands.Cog):
         app_ref = dab.collection("applications").document(str(arg1))
         app_user = self.bot.get_user(app_ref.get("user_id"))
         if arg2 == "1" or arg2 == "2" or arg2 == "3" or arg2 == "4" or arg2 == "5" or arg2 == "6" or arg2 == "7":
-            await ctx.send(f"You're about to give {app_user.name} level {arg2}. Confirm?")
+           await ctx.send(f"You're about to give {app_user.name} level {arg2}. Confirm?")
+
         else:
             await ctx.send(f"You're about to decline {app_user.name} with reason: ``{arg2}``. Confirm?")
 
