@@ -3,7 +3,7 @@ import os
 import logging
 import firebase_admin
 from dotenv import load_dotenv
-from random import randint, getrandbits, choice
+from random import randint
 from discord.ext import commands, tasks
 from firebase_admin import credentials
 from utils import jskp
@@ -30,15 +30,6 @@ status_list = [
     "Scuffing your mum",
     "My sister is a dumbass",
     "Shiny Happy Days"
-]
-
-watch_list = [
-    "hentai",
-    "Nekopara",
-    "Taichi return?",
-    "thijn cum multiple times during every turney",
-    "notmyname stream hentai",
-    "Aso be cute 😳"
 ]
 
 cred = credentials.Certificate({
@@ -84,16 +75,12 @@ for cog in initial_cogs:
 
 
 @tasks.loop(hours=1)
-async def status(self):
-    await self.bot.wait_until_ready()
-    if getrandbits(1) == 1:
-        value = choice(status_list)
-        await self.bot.change_presence(activity=discord.Game(name=value))
-        logging.info(f"Status set to: playing {value}")
-    else:
-        value = choice(watch_list)
-        await self.bot.change_presence(activity=discord.Activity(name=value, type=discord.ActivityType.watching))
-        logging.info(f"Status set to: watching {value}")
+async def status():
+    await bot.wait_until_ready()
+    value = randint(0, len(status_list))
+    value = value - 1
+    await bot.change_presence(activity=discord.Game(name=status_list[value]))
+    logging.info(f"Status set to: {status_list[value]}")
 
 # Bot Startup
 @bot.event

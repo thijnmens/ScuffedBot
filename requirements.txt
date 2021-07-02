@@ -9,4 +9,3 @@ pychal==1.10.0
 NHentai-API==0.0.16
 jishaku==2.0.0
 python-dotenv==0.18.0
-git+https://github.com/Rapptz/discord-ext-menus

@@ -54,7 +54,7 @@ class work(commands.Cog):
             job = False
         if job is False:
             dab.collection('users').document(str(ctx.author.id)).update({'job': True})
-            await ctx.send('You found a job!?! Really! i\'m so proud of you UwU') #sex time
+            await ctx.send('You found a job!?! Really! i\'m so proud of you UwU')
             logging.info(f'Response: user {ctx.author.id} now has a job\n----------')
         else:
             await ctx.send('You already have a job senpai!')
