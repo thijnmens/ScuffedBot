@@ -89,6 +89,7 @@ class user(commands.Cog):
             status = None
         # try:
         #   this on for size, Mister
+        #hilarious
         try:
             colourRaw = ref.get("colour")
             colour = await commands.ColourConverter().convert(ctx, "0x"+colourRaw)

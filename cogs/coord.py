@@ -48,7 +48,7 @@ class Coord(commands.Cog):
         logging.info("Finished muting\n-------------")
 
 
-    @commands.command(aliases=["um"], help="Unmutes users in your vc.")
+    @commands.command(aliases=["um"], help="Unmutes users in your vc.") #haha cum funny
     @commands.has_any_role(*coord_roles_ids)
     async def unmute(self, ctx):
         logging.info("Unmute ran")

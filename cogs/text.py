@@ -27,6 +27,14 @@ class text(commands.Cog):
         await ctx.send("Join the NOPE clan <:GunChamp:796047943966523432>\nhttps://discord.gg/xH7AGnGXkf")
         logging.info("Response: Certainly not a link to the NOPE discord----------")
 
+    @commands.command(case_insensitive=True) 
+    @commands.cooldown(1, 600, commands.BucketType.guild)
+    async def dg(self, ctx):
+        logging.info("Recieved >dg")
+        await ctx.send("Join the Disability Gang <:AYAYA:754632377715654677>\nhttps://discord.gg/XxKkQdRpCD") #thijn post the videos else the ayaya gets it
+        logging.info("Response: Certainly not a link to the DG discord----------")
+
+
     @commands.command(case_insensitive=True)
     async def links(self, ctx):
         logging.info('Recieved links')
