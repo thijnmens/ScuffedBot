@@ -1,7 +1,6 @@
 import logging
 from discord.ext import commands
-from random import getrandbits
-from random import choice
+from random import getrandbits, choice, randint
 
 
 lobby_vc_id = int(764546987441258506) # tourney time vc
@@ -20,7 +19,7 @@ class Coord(commands.Cog):
         await ctx.send("Hi coordinator-kun ^w^")
     
     
-    @commands.command(aliases=["m"], help="Mutes users in your vc.")
+    @coordinator.command(aliases=["m"], help="Mutes users in your vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def mute(self, ctx):
         logging.info("mute ran")
@@ -48,7 +47,8 @@ class Coord(commands.Cog):
         logging.info("Finished muting\n-------------")
 
 
-    @commands.command(aliases=["um"], help="Unmutes users in your vc.") #haha cum funny
+
+    @coordinator.command(aliases=["um"], help="Unmutes users in your vc.") #haha cum funny
     @commands.has_any_role(*coord_roles_ids)
     async def unmute(self, ctx):
         logging.info("Unmute ran")
@@ -65,7 +65,7 @@ class Coord(commands.Cog):
         logging.info("Finished unmuting\n-------------")
     
 
-    @commands.command(aliases=["out"], help="Moves users to the lobby vc.")
+    @coordinator.command(aliases=["out"], help="Moves users to the lobby vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def move_out(self, ctx):
         logging.info("Move_in ran")
@@ -93,7 +93,7 @@ class Coord(commands.Cog):
         logging.info("Finished moving\n-------------")
 
 
-    @commands.command(aliases=["in"], help="Moves mentioned users to your vc.")
+    @coordinator.command(aliases=["in"], help="Moves mentioned users to your vc.")
     @commands.has_any_role(*coord_roles_ids)
     async def move_in(self, ctx, *, argument):
         logging.info("Move_in ran")
@@ -108,7 +108,7 @@ class Coord(commands.Cog):
         logging.info("Finished moving\n-------------")
 
 
-    @commands.command(help="Flips a coin")
+    @coordinator.command(help="Flips a coin")
     @commands.has_any_role(*coord_roles_ids)
     async def coin(self, ctx):
         logging.info("Coin ran")
@@ -119,10 +119,10 @@ class Coord(commands.Cog):
         logging.info("Coin ended\n-------------")
 
 
-    @commands.command(help="Picks a random user in your vc")
+    @coordinator.command(help="Picks a random user in your vc")
     @commands.has_any_role(*coord_roles_ids)
-    async def pick(self, ctx):
-        logging.info("Pick ran")
+    async def pick_user(self, ctx):
+        logging.info("pick_use invoked")
         if ctx.author.voice is None:
             return await ctx.send("You aren't in a voice channel!")
         voice = self.bot.get_channel(ctx.author.voice.channel.id)
@@ -145,7 +145,14 @@ class Coord(commands.Cog):
                 valid_users.append(member.name)
                 logging.info(f"{x.name} valid")
         await ctx.send(choice(valid_users))
-        logging.info("Picking finished\n-------------")
+        logging.info("pick_user concluded\n-------------")
+
+    @coordinator.command(aliases=["pick_num","p_n"], help="Picks a random number inbetween 1 and the given argument")
+    @commands.has_any_role(*coord_roles_ids)
+    async def pick_number (self, ctx, value: int):
+        logging.info(f"pick_number invoked in {ctx.guild.name}")
+        await ctx.send(randint(1,value))
+        logging.info("pick_number concluded\n-------------")
 
 
 def setup(bot):

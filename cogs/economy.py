@@ -1,4 +1,4 @@
-import discord, logging
+import discord, logging, random, datetime
 from discord.ext import commands
 from firebase_admin import firestore
 
@@ -11,7 +11,7 @@ class economy(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["s"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def shop(self, ctx):
-        logging.info('Recieved shop') 
+        logging.info('Recieved >shop') 
         embed = discord.Embed(
             title="Shop",
             description="Come and see, come and see! We have more than enough scams for you!",
@@ -23,7 +23,7 @@ class economy(commands.Cog):
     
     @shop.command(case_insensitive=True, aliases=["gun"])
     async def shop_gun(self, ctx):
-        logging.info('Recieved shop gun') 
+        logging.info('Recieved >shop gun') 
         embed = discord.Embed(
             title="<:PixelGun:806977728094928906> Gun",
             description="Are we in texas or something?",
@@ -37,7 +37,7 @@ class economy(commands.Cog):
     
     @shop.command(case_insensitive=True, aliases=["friend"])
     async def shop_friend(self, ctx):
-        logging.info('Recieved shop friend') 
+        logging.info('Recieved >shop friend') 
         embed = discord.Embed(
             title="<:adult:815178865475321868> Friend",
             description="At least you can buy them...",
@@ -96,7 +96,7 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True, aliases=["inv"])
     async def inventory(self, ctx):
-        logging.info('Recieved inv')
+        logging.info('Recieved >inv')
         embed = discord.Embed(
             title=f"Inventory of {ctx.author}",
             description="Look at all those great items!",
@@ -114,7 +114,7 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True)
     async def bal(self, ctx):
-        logging.info('Recieved bal')
+        logging.info('Recieved >bal')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         await ctx.send(f'You have {bal} Scuffed Coins in your wallet and {bank} Coins in your bank')
@@ -122,7 +122,7 @@ class economy(commands.Cog):
 
     @commands.command(case_insensitive=True, aliases=["dep"])
     async def deposit(self, ctx, argument):
-        logging.info('Recieved deposit')
+        logging.info('Recieved >deposit')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         if argument =='all':
@@ -144,7 +144,7 @@ class economy(commands.Cog):
     
     @commands.command(case_insensitive=True, aliases=["with"])
     async def withdraw(self, ctx, argument):
-        logging.info('Recieved withdraw')
+        logging.info('Recieved >withdraw')
         bal = dab.collection('users').document(str(ctx.author.id)).get().get('bal')
         bank = dab.collection('users').document(str(ctx.author.id)).get().get('bank')
         if argument =='all':
@@ -167,7 +167,7 @@ class economy(commands.Cog):
     @commands.command(case_insensitive=True)
     @commands.has_permissions(administrator=True)
     async def gib(self, ctx, argument, argument2: int):
-        logging.info('Recieved gib')
+        logging.info('Recieved >gib')
         if str(ctx.author.id) != '303017061637160961':
             if '@' in argument:
                 argument = argument[3:]
@@ -181,6 +181,96 @@ class economy(commands.Cog):
         else:
             await ctx.send(f'Fuck you james <:KEK:819309467208122388>')
             logging.info('Response: james is trying to cheat again...\n----------')
-
+    
+    @commands.command(case_insensitive=True)
+    @commands.cooldown(1, 43200, commands.BucketType.user)
+    async def heist(self, ctx, argument):
+        logging.info(f'Recieved heist {argument}')
+        HeistMembers = []
+        if (argument.startswith('<@') == True and argument.endswith('>') == True):
+            victimID = int(str(argument.split('!')[1]).split('>')[0])
+            await ctx.send(f'Good luck robbing {str(ctx.guild.get_member(victimID))} Senpai! Others can do `join` to join the heist btw :)\nType `start` to start the heist!')
+            HeistMembers.append(ctx.author.id)
+            while True:
+                msg = await self.bot.wait_for('message', check=lambda message: message.channel == ctx.channel)
+                if msg.content.lower() == 'start':
+                    finish = random.randint(1,5)
+                    await ctx.send(f'Starting the heist on {str(ctx.guild.get_member(victimID))} with {len(HeistMembers)} people, good luck! UwU\nEstimated time till finish: {finish} Minutes')
+                    endloop = datetime.datetime.now() + datetime.timedelta(minutes=finish)
+                    victimMsg = ''
+                    user = await self.bot.fetch_user(victimID)
+                    await discord.DMChannel.send(user, f'{ctx.author} Is trying to rob your bank! Go to the Scuffed Tourneys server and quickly stop them by typing either `police` or `stop` in the channel where the heist was started!')
+                    while True:
+                        try:
+                            victimMsg = await self.bot.wait_for('message', timeout=1, check=lambda message: message.author.id == victimID and message.channel == ctx.channel)
+                            if victimMsg.content.lower() == 'police' or victimMsg.content.lower() == 'stop':
+                                for HeistMemberID in HeistMembers:
+                                    inv = dab.collection('users').document(str(HeistMemberID)).get().get('inv')
+                                    newinv = []
+                                    for item in inv:
+                                        newinv.append(str(item.split('~')[0]) + '~0')
+                                    dab.collection('users').document(str(HeistMemberID)).update({'inv': newinv})
+                                await ctx.send(f'The heist was a utter failure! Your team got sent to prison and they lost every item in their inventory, better luck next time!')
+                                break
+                        except Exception:
+                            if datetime.datetime.now() > endloop:
+                                if len(HeistMembers) <= 3:
+                                    chance = random.randint(0, 100)
+                                elif len(HeistMembers) <= 5:
+                                    chance = random.randint(0, 75)
+                                elif len(HeistMembers) <= 7:
+                                    chance = random.randint(0, 50)
+                                elif len(HeistMembers) > 7:
+                                    chance = random.randint(0, 25)
+                                if chance <= 20:
+                                    #Sucess
+                                    bal = dab.collection('users').document(str(victimID)).get().get('bank')
+                                    stolen = random.randint(bal / 2, bal)
+                                    newbank = bal - stolen
+                                    dab.collection('users').document(str(victimID)).update({'bank': newbank})
+                                    stolenPerMember = int(stolen / len(HeistMembers))
+                                    for HeistMemberID in HeistMembers:
+                                        bal = dab.collection('users').document(str(HeistMemberID)).get().get('bal')
+                                        newbal = bal + stolenPerMember
+                                        dab.collection('users').document(str(HeistMemberID)).update({'bal': newbal})
+                                    await ctx.send(f'The heist was sucessfull! Your team stole {stolen} coins and this was evenly distributed among {len(HeistMembers)} crewmembers ({stolenPerMember} Coins Each)')
+                                else:
+                                    #Failure
+                                    for HeistMemberID in HeistMembers:
+                                        inv = dab.collection('users').document(str(HeistMemberID)).get().get('inv')
+                                        newinv = []
+                                        for item in inv:
+                                            newinv.append(str(item.split('~')[0]) + '~0')
+                                        dab.collection('users').document(str(HeistMemberID)).update({'inv': newinv})
+                                    await ctx.send(f'The heist was a utter failure! Your team got sent to prison and they lost every item in their inventory, better luck next time!')
+                                break
+                            else:
+                                continue
+                        break
+                    break
+                elif msg.content.lower() == 'stop':
+                    await ctx.send('Stopped the heist')
+                    #heist.reset_cooldown(ctx)
+                    break
+                elif msg.content.lower() == 'list':
+                    memberstring = 'Members:\n'
+                    for member in HeistMembers:
+                        memberstring = memberstring + str(ctx.guild.get_member(member)).split('#')[0] + '\n'
+                    await ctx.send(memberstring)   
+                elif msg.content.lower() == 'join':
+                    exists = msg.author.id in HeistMembers
+                    if (exists == True):
+                        await ctx.send(f'You are already part of this heist Senpai')   
+                    else:
+                        HeistMembers.append(msg.author.id)
+        elif (argument.lower() == 'help'):
+            await ctx.send('*<Insert help embed here>*')
+            #commands.command.reset_cooldown(ctx)
+        else:
+            logging.info("MissingRequiredArgument handler ran\n----------")
+            await ctx.send(f"You didn't give a required argument, B-Baka!")
+            #commands.reset_cooldown(ctx)
+        print('----------')
+            
 def setup(bot):
     bot.add_cog(economy(bot))

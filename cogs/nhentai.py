@@ -1,4 +1,3 @@
-# I made a bot for a bunch of horny retards
 # https://pypi.org/project/NHentai-API/
 
 import discord
@@ -10,9 +9,29 @@ nhentai = NHentai()
 
 
 async def sauce_embed(sauce):
-    desc = "Tags: "
+    tags = str()
     for x in getattr(sauce, "tags"):
-        desc = desc + x + ", "
+        tags = tags + x + ", "
+    if tags == str():
+        tags = "None"
+    artist = str()
+    for x in getattr(sauce, "artists"):
+        artist = artist + x + ", "
+    if artist == str():
+        artist = "None"
+    parodies = str()
+    for x in getattr(sauce, "parodies"):
+        parodies = parodies + x + ", "
+    if artist == str():
+        artist = "None"
+    sec_title = "**Alternative Title:** "
+    for x in getattr(sauce, "secondary_title"):
+        sec_title = sec_title + x
+    characters = str()
+    for x in getattr(sauce, "characters"):
+        characters = characters + x + ", "
+    if artist == str():
+        artist = "None"
     if "english" in getattr(sauce, "languages"):
         lang = "🇬🇧"
     elif "japanese" in getattr(sauce, "languages"):
@@ -24,27 +43,45 @@ async def sauce_embed(sauce):
     embed = discord.Embed(
         title=f"{lang} "+getattr(sauce,"title"),
         url="https://nhentai.net/g/"+getattr(sauce,"id")+"/",
-        description=desc,
+        description=sec_title,
         colour=0xec2753,
     )
+    embed.add_field(
+        name="Tags",
+        value=tags,
+        inline=False
+    )
+    embed.add_field(
+        name="Artists",
+        value=artist,
+        inline=True
+    )
+    if parodies:
+        embed.add_field(
+            name="Parodies",
+            value=parodies,
+            inline=True
+        )
+    if characters:
+        embed.add_field(
+            name="Characters",
+            value=characters,
+            inline=False
+        )
     embed.set_footer(text=str(getattr(sauce,"total_pages"))+" total pages")
     embed.set_image(url=(getattr(sauce,"images"))[0])
     return embed
 
 
-class nhen(commands.Cog):
+class NHentaiCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.is_nsfw()
     @commands.group(invoke_without_command=True, case_insensitive=True, aliases=["nh"])
     async def nhentai(self, ctx, *, argument=None):
-        logging.info("nhentai ran")
-        if not ctx.guild:
-            await self.bot.get_channel(754632208257515541).send(f"{ctx.author.name} is being lewd in my DMs! <a:GabiEmbarrased:807384551646560286>")
-        if ctx.guild and ctx.channel.is_nsfw() is False:
-            logging.info("Ran outside of nsfw channel\n----------")
-            return await ctx.send("P-Pervert! <a:LoliTriggered:754632379397570620>")
-        elif argument is None:
+        logging.info(f"nhentai ran in {ctx.guild.name}")
+        if argument is None:
             sauce = nhentai.get_random()
             logging.info(sauce)
             await ctx.send(embed=await sauce_embed(sauce))
@@ -58,4 +95,4 @@ class nhen(commands.Cog):
             logging.info("Posted embed\n----------")
 
 def setup(bot):
-    bot.add_cog(nhen(bot))
+    bot.add_cog(NHentaiCog(bot))
