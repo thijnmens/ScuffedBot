@@ -94,5 +94,20 @@ class NHentaiCog(commands.Cog):
                 return await ctx.send("S-Sorry, I can't find that id qwq")
             await ctx.send(embed=await sauce_embed(sauce))
 
+    @nhentai.command()
+    @commands.is_nsfw()
+    async def search(self, ctx, argument=None, val=0):
+        if argument is None:
+            logging_info("nothing provided lmao")
+            return await ctx.send("S-Sorry, but I can't search for nothing qwq")
+        if argument.isalpha():
+            SearchPage = nhentai.search(query=argument, sort='popular', page=1)
+            Doujin = getattr(SearchPage, "doujins")
+            logging_info(Doujin)
+            if not Doujin:
+                logging_info("nothing found lmao what a dumbass")
+                return await ctx.send("S-Sorry, I can't find anything qwq")
+            await ctx.send(embed=await sauce_embed(nhentai.get_doujin(id=getattr(Doujin[int(val)], "id"))))
+
 def setup(bot):
     bot.add_cog(NHentaiCog(bot))
