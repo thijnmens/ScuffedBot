@@ -88,7 +88,7 @@ class NHentaiCog(commands.Cog):
             logging_info(sauce)
             await ctx.send(embed=await sauce_embed(sauce))
         elif argument.isdigit():
-            sauce = nhentai._get_doujin(id=argument)
+            sauce = nhentai.get_doujin(id=argument)
             logging_info(sauce)
             if sauce is None:
                 return await ctx.send("S-Sorry, I can't find that id qwq")
