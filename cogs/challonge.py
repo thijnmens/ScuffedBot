@@ -1,28 +1,30 @@
-import discord
-import os
-import challonge
-import logging
+from logging import info as logging_info, error as logging_error
+from os import getenv
+
+from discord import Embed
+from challonge import set_credentials
+
+from challonge.tournaments import index as tournaments_index, show
+from challonge.participants import index as participants_index
 from discord.ext import commands
-from discord.utils import get
 
 # https://api.challonge.com/v1
 # https://github.com/ZEDGR/pychallonge
 
-challonge.set_credentials("ScuffedTourney", os.getenv("CHALLONGEKEY"))
+set_credentials("ScuffedTourney", getenv("CHALLONGEKEY"))
 
 
 class challongebot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(invoke_without_command=True,case_insensitive=True, aliases=["challenge", "ch"])
+    @commands.group(invoke_without_command=True, aliases=["challenge", "ch"])
     @commands.cooldown(1, 60, commands.BucketType.channel)
     async def challonge(self, ctx):
-        logging.info("recieved challonge")
         try:
             async with ctx.channel.typing():
                 messages = ""
-                tournaments = challonge.tournaments.index()
+                tournaments = tournaments_index()
                 count = (len(tournaments) - 4)
                 par_count = 0
                 #for x in (tournaments):
@@ -32,7 +34,7 @@ class challongebot(commands.Cog):
                         message = ("{} - ID: {}\nStatus: Tourney currently {}\n".format(
                             tournament["name"], tournament["id"], tournament["state"]))
                     else:
-                        participants = challonge.participants.index(
+                        participants = participants_index(
                             tournament["id"])
                         for x in participants:
                             participant = participants[par_count]
@@ -55,41 +57,38 @@ class challongebot(commands.Cog):
                             )
                     messages = "\n" + message + messages
                     count = count + 1
-                embed = discord.Embed(
+                embed = Embed(
                     title="Scuffed Tournaments",
                     url="https://challonge.com/users/scuffedtourney/tournaments",
                     description=messages,
                     colour=0xff7324,
                     timestamp=ctx.message.created_at)
             await ctx.send(embed=embed)
-            logging.info("responded with embed")
+            logging_info("responded with embed")
         except Exception as e:
-            logging.error(f"Uh Oh it did a fucky\n{e}")
+            logging_error(f"Uh Oh it did a fucky\n{e}")
             await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w< \n<https://challonge.com/users/scuffedtourney/tournaments>")
-        logging.info("--------")
 
     @challonge.command()
     async def id(self, ctx, argument1=None):
-        logging.info("recieved challonge id")
         if argument1 is None:
             await ctx.send("B-Baka!! You need to give a tournament ID!\n``Use >challonge to check the tournament IDs``")
-            logging.info("No argument given")
+            logging_info("No argument given")
             return
         try:
-            tournament = challonge.tournaments.show(argument1)
+            tournament = show(argument1)
         except Exception as e:
-            logging.error(f"challonge id did a fucky when getting tournament\n{e}")
+            logging_error(f"challonge id did a fucky when getting tournament\n{e}")
             await ctx.send("I'm sorry, S-Senpai. I messed up your command qwq. Here's the challonge link instead >w< \n<https://challonge.com/users/scuffedtourney/tournaments>")
         async with ctx.channel.typing():
 
-            embed = discord.Embed(
+            embed = Embed(
                 title=tournament["name"],
                 url=tournament["full_challonge_url"],
                 colour=0xff7324,
                 timestamp=ctx.message.created_at
             )
         await ctx.send(embed=embed)
-        logging.info("--------")
 
 
 def setup(bot):
