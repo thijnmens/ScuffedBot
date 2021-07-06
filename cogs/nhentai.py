@@ -96,7 +96,8 @@ class NHentaiCog(commands.Cog):
 
     @nhentai.command()
     @commands.is_nsfw()
-    async def search(self, ctx, argument=None, val=0):
+    async def search(self, ctx, argument=None, val=1):
+        val = val - 1
         if argument is None:
             logging_info("nothing provided lmao")
             return await ctx.send("S-Sorry, but I can't search for nothing qwq")
