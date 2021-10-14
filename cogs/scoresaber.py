@@ -76,9 +76,9 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
         while arg_page >= 8:
             arg_page = (arg_page - 8)
     Song = songsList[(arg_page - 1)]
-    URL2 = (f"https://beatsaver.com/api/maps/by-hash/"+Song["songHash"])
+    URL2 = (f"https://api.beatsaver.com/maps/hash/"+Song["songHash"])
     json_data = loads(get(URL2, headers=header).text)
-    songBSLink = (f"https://beatsaver.com/beatmap/"+json_data["key"])
+    songBSLink = (f"https://beatsaver.com/maps/"+json_data["id"])
     if Song["maxScore"] == 0:
         songAcc = f"ScoreSaber API being fucky wucky,\nso you get {randint(0, 100)}"
     else:
@@ -94,7 +94,7 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
     elif Song["difficulty"] == 1:
         difficulty = "<:Easy1:794899950713438239><:Easy2:794899950655111186>"
     else:
-        difficulty = "Please ping Sirspam thanks uwu"
+        difficulty = "Please ping Sirspam or notmyname thanks uwu"
     if Song["songSubName"] == '':
         title = Song["songName"]
     else:
@@ -145,7 +145,7 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
             inline=False
     )
     message.add_field(name="Time Set 🕕🕘", value=(Song["timeSet"])[:10], inline=False)
-    message.set_image(url="https://new.scoresaber.com/api/static/covers/" + Song["songHash"] + ".png")
+    message.set_image(url="https://eu.cdn.beatsaver.com/" + Song["songHash"] + ".jpg")
     await ctx.send(embed=message)
 
 
@@ -213,7 +213,7 @@ async def songsEmbed(self, ctx, arg_page, arg_user, type):
         elif Song["difficulty"] == 1:
             difficulty = "Easy"
         else:
-            difficulty = "Please ping Sirspam thanks uwu"
+            difficulty = "Please ping Sirspam or notmyname thanks uwu"
         songMessage = (
             f"```Song: {songTitle}, "+Song["songAuthorName"]+" - "+Song["levelAuthorName"]+f" ({difficulty})\nRank: #"+str(Song["rank"])+f"\nAcc: {songAcc}%\nScore: {songScore}\nPP: {songPP}\nWeighted PP: {songWeightedPP}\nTime Set: "+(Song["timeSet"])[:10]+"```")
         songsMessage = songsMessage + songMessage
