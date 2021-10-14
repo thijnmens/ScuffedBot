@@ -145,7 +145,7 @@ async def songEmbed(self, ctx, arg_page, arg_user, type):
             inline=False
     )
     message.add_field(name="Time Set 🕕🕘", value=(Song["timeSet"])[:10], inline=False)
-    message.set_image(url=f"https://eu.cdn.beatsaver.com/{Song['songHash']}.jpg")
+    message.set_image(url=f"https://eu.cdn.beatsaver.com/{Song['songHash'].lower()}.jpg")
     await ctx.send(embed=message)
 
 
